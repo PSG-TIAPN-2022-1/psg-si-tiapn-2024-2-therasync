@@ -1,0 +1,115 @@
+.lembretes_container{
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    background-color: #a3c2da;
+    min-height: 100vh;
+}
+.div_user{
+    text-align: center;
+    margin-top: 30px;
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+.consultasDia, .Lembretes h3{
+   margin-top: 50px;
+   padding-left: 20px;
+}
+.lembretes_atuais{
+    margin-top: 25px;
+    padding-left: 20px;
+ }
+.Lembretes{
+    margin-top: 50px;
+    margin-left: 1px;
+    margin-right: 10px;
+}
+.dado_consulta{
+    padding-top: 15px;
+}
+.div_addLembrete {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .input_lembrete {
+    flex: 1;
+    padding: 10px;
+    margin-left: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .input_lembrete:focus {
+    border-color: #c20bfa;
+  }
+  
+  .button_add {
+    background-color: #b505ea;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .button_add:hover {
+    background-color: #0056b3;
+  }
+  
+  .button_add:active {
+    background-color: #004494;
+  }
+
+
+  /**/
+
+  .closeIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5; /* Cor de fundo inicial */
+    border-radius: 50%; /* Faz o ícone parecer um botão circular */
+    width: 40px; /* Tamanho do botão */
+    height: 40px; /* Tamanho do botão */
+    transition: background-color 0.3s, transform 0.2s; /* Suaviza a transição do hover */
+    cursor: pointer;
+    margin: 20px;
+  }
+  
+  .closeIcon:hover {
+    background-color: #5f5f5f; 
+  }
+
+  @media (max-width:750px) {
+    .lembretes_container{
+      width: 100vw;
+    }
+    .consultasDia{
+      text-align: center;
+    }
+    .Lembretes{
+      text-align: center;
+      padding-bottom: 100px;
+    }
+    .consultasDia h3,.Lembretes h3{
+      font-size: 30px;
+    }
+    .closeIcon{
+      display: none;
+    }
+    .input_lembrete {
+      max-width: 300px;
+      display: block;
+      margin: auto;
+    }
+
+  }
