@@ -119,7 +119,7 @@ A modelagem TO-BE, alinhada aos objetivos estratégicos do projeto, apresenta um
 
 ## AS IS: 
 
-<img src="Modelagem/AS-IS TheraSync.png"> <br>
+<img src="docs/Modelagem/AS-IS TheraSync.png"> <br>
 
 <ol type="1">
    <li>O contato com o paciente é feito a partir do WhatsApp ou Instagram.</li>
@@ -132,7 +132,7 @@ A modelagem TO-BE, alinhada aos objetivos estratégicos do projeto, apresenta um
    </li>
 </ol>
 
-<img src="Modelagem/AS-IS Custos.png"> <br>
+<img src="docs/Modelagem/AS-IS Custos.png"> <br>
 
 <ol type="1">
    <li>Acessa uma planilha no Office 365</li>
@@ -143,7 +143,7 @@ A modelagem TO-BE, alinhada aos objetivos estratégicos do projeto, apresenta um
 
 ### Uso TheraSync
 
-<img src="Modelagem/FlowTheraSync.png"> <br>
+<img src="docs/Modelagem/FlowTheraSync.png"> <br>
 
 <ol type="1">
    <li>Cliente acessar a plataforma via login.</li>
@@ -159,7 +159,7 @@ A modelagem TO-BE, alinhada aos objetivos estratégicos do projeto, apresenta um
 
 ### Flow para consultas 
 
-<img src="Modelagem/Flow Consulta.png">  <br>
+<img src="docs/Modelagem/Flow Consulta.png">  <br>
 
 <ol type="1">
    <li>Paciente acessa o web site.</li>
@@ -179,7 +179,7 @@ A modelagem TO-BE, alinhada aos objetivos estratégicos do projeto, apresenta um
 
 ### Consulta
 
-<img src="Modelagem/Subprocessos Consulta.png">  <br>
+<img src="docs/Modelagem/Subprocessos Consulta.png">  <br>
 
 <ol type="1">
    <li>Realiza a consulta o cliente pelo Google Meets</li>
@@ -188,7 +188,7 @@ A modelagem TO-BE, alinhada aos objetivos estratégicos do projeto, apresenta um
 
 #### Entrevista
 
-<img src="Modelagem/Flow Entrevista.png">  <br>
+<img src="docs/Modelagem/Flow Entrevista.png">  <br>
 <ol type="1">
    <li>Entrevista o cliente pelo Google Meets</li>
    <li>Monta o relatório</li>
@@ -229,11 +229,11 @@ A modelagem TO-BE, alinhada aos objetivos estratégicos do projeto, apresenta um
 
 ### Modelo Conceitual
 
-<img src="ModelosBanco/TheraSyncMER.drawio.png">
+<img src="docs/ModelosBanco/TheraSyncMER.drawio.png">
 
 ### Modelo Lógico
 
-<img src="ModelosBanco/TheraSyncRelacional.drawio.png">
+<img src="docs/ModelosBanco/TheraSyncRelacional.drawio.png">
 
 ### Modelo Fisico
 
