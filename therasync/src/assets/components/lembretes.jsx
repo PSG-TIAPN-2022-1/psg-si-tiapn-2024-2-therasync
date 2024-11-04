@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/lembretes.css';
 import { IoMdAdd } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";

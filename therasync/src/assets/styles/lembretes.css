@@ -92,6 +92,7 @@
   @media (max-width:750px) {
     .lembretes_container{
       width: 100vw;
+      display: block;
     }
     .consultasDia{
       text-align: center;
