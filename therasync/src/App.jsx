@@ -6,6 +6,7 @@ import Dashboard from './assets/pages/dashboard';
 import Configurações from './assets/pages/configurações';
 import Agenda from './assets/pages/agenda';
 import Clientes from './assets/pages/clientes';
+import PagLembretes from './assets/pages/pagLembretes';
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
 
       <div className="main-content"> {/* Área para o conteúdo das rotas */}
           <Routes>
-            <Route path="/lembretes" element={<Lembretes />} />
+            <Route path="/pagLembretes" element={<PagLembretes></PagLembretes>} />
             <Route path="/clientes" element={<Clientes />} />
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/dashboard" element={<Dashboard />} />

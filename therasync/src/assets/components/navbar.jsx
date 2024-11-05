@@ -84,7 +84,7 @@ export default function Navbar() {
             </li>
 
             <li id='icon_lembretes'>
-                <Link to="/lembretes" className='li_icon'>
+                <Link to="/pagLembretes" className='li_icon'>
                     <MdOutlineViewAgenda style={{ color: 'white', fontSize: '30px' }}/>
                 </Link>
             </li>

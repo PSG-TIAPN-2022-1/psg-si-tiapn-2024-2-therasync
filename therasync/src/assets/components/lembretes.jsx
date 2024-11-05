@@ -65,7 +65,7 @@ function Lembretes() {
       </div>
         {isVisible && (
           <div className="render_lembretes">
-                      <div className="div_user">
+          <div className="div_user">
               <p>Olá, {nome}</p>
               <p>{saudacao}!</p>
           </div>
