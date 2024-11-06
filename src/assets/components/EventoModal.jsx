@@ -1,10 +1,9 @@
 import React, {useState} from "react";
-import {Modal, Button, Form, Collapse, ModalTitle} from 'react-bootstrap';
+import {Modal, Button, Form} from 'react-bootstrap';
 
 const EventoModal = ({evento, onClose, onDelete, onUpdate}) => {
 
     const [eventoEditado, setEventoEditado] = useState({...evento});
-    const [collapsed, setCollapsed] = useState(true);
 
     const handleInputChange = (e) =>{
         const {name, value} = e.target;
@@ -46,7 +45,7 @@ const EventoModal = ({evento, onClose, onDelete, onUpdate}) => {
     return(
     <Modal show={true} onHide={onClose}>
         <Modal.Header>
-            <ModalTitle>{eventoEditado.title}</ModalTitle>
+            <Modal.Title>{eventoEditado.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Form>
@@ -61,7 +60,6 @@ const EventoModal = ({evento, onClose, onDelete, onUpdate}) => {
                     <Form.Control as="textarea" rows={4} name='desc' value={eventoEditado.desc} onChange={handleInputChange}/>
                 </Form.Group>
 
-                <Collapse in={!collapsed}>
 
                     <Form.Group controlId="formStart">
                         <Form.Label>Início</Form.Label>
@@ -73,15 +71,11 @@ const EventoModal = ({evento, onClose, onDelete, onUpdate}) => {
                         <Form.Control type="datetime-local" name='end' value={adjustDate(eventoEditado.end)} onChange={handleEndDateChange}/>
                     </Form.Group>
 
-                </Collapse>
-
             </Form>
         </Modal.Body>
         
         <Modal.Footer className="justify-content-between"> 
-            <Button variant="secondary" onClick={() => setCollapsed(!collapsed)}>
-                {!collapsed ? 'Ocultar Detalhes' : 'Mostrar'}
-            </Button>
+    
             <Button variant="danger" onClick={handleDelete}>
                 Apagar
             </Button>
