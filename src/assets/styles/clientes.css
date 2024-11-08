@@ -1,41 +1,42 @@
-.container{
+.clientes_container{
     border: 3px solid blue;
     position: fixed;
     top: 50px;
     left: 100px;
     right: 100px;
-    z-index: -10000;
+    z-index: 0;
+    pointer-events: auto; 
 }
-#titulo_container{
+#clientes_titulo_container{
     font-size: 5vh;
     margin-left: 200px;
     color: rgb(60, 60, 60);
 }
 
   /* Estilo da tabela */
-  .container table {
+  .clientes_container table {
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
   }
   
-  .container th, td {
+  .clientes_container th, td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
   
-  .container th {
+  .clientes_container th {
     background-color: #3498db;
     color: white;
   }
 
-  .container tbody tr:hover {
+  .clientes_container tbody tr:hover {
     background-color: #eaf2f8; /* Cor de fundo ao passar o mouse */
   }
 
   /* Estilo do botão "Mais" */
-  .container .btn-more {
+  .clientes_container .btn-more {
     background-color: #3498db;
     color: white;
     border: none;
@@ -48,14 +49,19 @@
     background-color: #a1c8e2;
   }
 
+.clientes_options{
+  height: 300px;
+}
+
+
 /* Responsividade para telas menores */
   @media (max-width: 760px) {
-    .container{
+    .clientes_container{
         top:0%;
         left: 0%;
         right: 0%;
     }
-    #titulo_container{
+    #clientes_titulo_container{
         font-size: 4vh;
         margin-left: 50px;
         margin-top: 20px;
@@ -63,7 +69,7 @@
     .table-container {
       overflow-x: auto; /* Habilita o scroll horizontal */
     }
-    .container table {
+    .clientes_container table {
       width: 100%;
       min-width: 600px; /* Define uma largura mínima para não distorcer a tabela */
     }
