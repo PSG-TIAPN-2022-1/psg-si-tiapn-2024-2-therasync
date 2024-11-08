@@ -38,6 +38,18 @@ app.get('/api/consultas', async (req, resp) => {
   }
 });
 
+app.get('/api/pacientes', async (req, resp) => {
+  try {
+    const pacientes = await sequelize.query('select nome, TIMESTAMPDIFF(YEAR, idade, CURDATE()) as idadeCalculada, ultimaConsulta, statusPaciente FROM `paciente`', {
+      type: QueryTypes.SELECT,
+    });
+    resp.json(pacientes);
+  } catch (error) {
+    console.error('Erro ao buscar pacientes:', error);
+    resp.status(500).json({ error: 'Erro ao buscar pacientes' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });

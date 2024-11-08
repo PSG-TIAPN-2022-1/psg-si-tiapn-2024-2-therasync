@@ -3,7 +3,7 @@ import '../styles/clientes.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown,Button,Modal } from 'react-bootstrap';
 import ModalCliente from '../components/ModalCliente';
-
+import ListagemPacientes from '../components/listagemPacientes.jsx';
 
 
 const Clientes = () => {
@@ -30,40 +30,9 @@ const Clientes = () => {
       </div>
 
       <div className="tabela_clientes">
-      <table>
-        <thead>
-          <tr>
-            <th>Status</th>
-            <th>Nome</th>
-            <th>Idade</th>
-            <th>Última Consulta</th>
-            <th>Próxima Consulta</th>
-            <th>sdf</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Ativo</td>
-            <td>Maria Silva</td>
-            <td>35</td>
-            <td>10/10/2024</td>
-            <td>10/12/2024</td>
-            <td>
-              <>
-                <Button variant="primary" onClick={() => setModalShow(true)}>
-                  Mais
-                </Button>
+      
+      <ListagemPacientes></ListagemPacientes>
 
-                <ModalCliente         
-                show={modalShow}
-                onHide={() => setModalShow(false)}>
-
-                </ModalCliente>
-              </>
-            </td>
-          </tr>
-        </tbody>
-      </table>
       </div>
     </div>
   )
