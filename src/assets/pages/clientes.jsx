@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/clientes.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Dropdown,Button,Modal } from 'react-bootstrap';
+import { Dropdown,Button } from 'react-bootstrap';
 import ModalCliente from '../components/ModalCliente';
-import ListagemPacientes from '../components/listagemPacientes.jsx';
+
 
 
 const Clientes = () => {
 
-  const [modalShow, setModalShow] = React.useState(false);
+  const [clientes, setClientes] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [clienteSelecionado, setClienteSelecionado] = useState(null);
+
+  // Função para buscar dados dos clientes na API
+  useEffect(() => {
+    const fetchClientes = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/pacientes'); // Verifique a URL aqui
+        
+        // Verifique se a resposta é um JSON válido
+        if (!response.ok) {
+          throw new Error(`Erro na resposta da API: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        setClientes(data);
+      } catch (error) {
+        console.error("Erro ao buscar clientes:", error);
+      }
+    };
+    fetchClientes();
+  }, []);
+
+  // Função para formatar datas
+  const formatarData = (data) => {
+    if (!data || data === "0000-00-00") return "—";
+    const dataObj = new Date(data);
+    return dataObj.toLocaleDateString();
+  };
+
+  // Função para abrir o modal com os dados do cliente selecionado
+  const handleShowModal = (cliente) => {
+    setClienteSelecionado(cliente);
+    setModalShow(true);
+  };
 
   return (
     /*Tudo correspondente a pagina deve estar dentro de container para melhor renderização do conteúdo da pagina */
@@ -20,7 +55,6 @@ const Clientes = () => {
           <Dropdown.Toggle variant="primary" id="dropdown-basic">
             Selecionar Opção
           </Dropdown.Toggle>
-
           <Dropdown.Menu>
             <Dropdown.Item href="#/action-1">Opção 1</Dropdown.Item>
             <Dropdown.Item href="#/action-2">Opção 2</Dropdown.Item>
@@ -30,10 +64,46 @@ const Clientes = () => {
       </div>
 
       <div className="tabela_clientes">
-      
-      <ListagemPacientes></ListagemPacientes>
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Nome</th>
+              <th>Idade</th>
+              <th>Última Consulta</th>
+              <th>Próxima Consulta</th>
+              <th>Informações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {clientes.map((cliente, index) => (
+              <tr key={index}>
+                <td>{cliente.statusPaciente === 1 ? "Ativo" : "Inativo"}</td>
+                <td>{cliente.nome}</td>
+                <td>{cliente.idadeCalculada || "—"}</td>
+                <td>{formatarData(cliente.ultimaConsulta)}</td>
+                <td>{cliente.proximaConsulta || "—"}</td>
+                <td>
+                  <Button variant="primary" onClick={() => handleShowModal(cliente)}>
+                    Mais
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
       </div>
+
+      {clienteSelecionado && (
+        <ModalCliente
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          cliente={clienteSelecionado}
+        />
+      )}
+
+
     </div>
   )
 }

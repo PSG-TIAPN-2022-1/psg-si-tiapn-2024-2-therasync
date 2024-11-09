@@ -2,6 +2,9 @@ import React from 'react';
 import { Button,Modal } from 'react-bootstrap';
 
 export default function ModalCliente(props) {
+
+const cliente = props;
+
   return (
 
         <Modal
@@ -12,16 +15,21 @@ export default function ModalCliente(props) {
         >
             <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-                Modal heading
+                {cliente.nome}
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <h4>Centered Modal</h4>
-            <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                consectetur ac, vestibulum at eros.
-            </p>
+            <h4>Informações do Cliente</h4>
+            <p><strong>CPF:</strong> {cliente.cpf}</p>
+            <p><strong>Email:</strong> {cliente.email}</p>
+            <p><strong>Idade:</strong> {cliente.idade}</p>
+            <p><strong>Sobre:</strong> {cliente.sobre}</p>
+            <p><strong>Naturalidade:</strong> {cliente.naturalidade}</p>
+            <p><strong>Frequência de Pagamento:</strong> {cliente.frequenciaPagamento}</p>
+            {cliente.idade < 18 
+                ? <><strong>Nome do Responsável:</strong> {cliente.nomeResponsavel}</> 
+                : <p></p>
+            }
             </Modal.Body>
             <Modal.Footer>
             <Button onClick={props.onHide}>Close</Button>
