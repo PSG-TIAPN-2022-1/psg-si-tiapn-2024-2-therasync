@@ -2,7 +2,7 @@ import {DataTypes} from 'sequelize';
 import sequelize from '../db.js';
 const Paciente = sequelize.define('paciente', {
     cpf:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(11),
         allowNull: false,
         primaryKey: true
     },
