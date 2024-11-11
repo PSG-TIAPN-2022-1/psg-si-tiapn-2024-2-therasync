@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import {Sequelize} from 'sequelize';
 import {QueryTypes} from 'sequelize';
+import { PiAlarmThin } from 'react-icons/pi';
 
 const app = express();
 const PORT = 3000;
@@ -40,13 +41,26 @@ app.get('/api/consultas', async (req, resp) => {
 
 app.get('/api/pacientes', async (req, resp) => {
   try {
-    const pacientes = await sequelize.query('select nome, TIMESTAMPDIFF(YEAR, idade, CURDATE()) as idadeCalculada, ultimaConsulta, statusPaciente FROM `paciente`', {
+    const pacientes = await sequelize.query('select * FROM `paciente`', {
       type: QueryTypes.SELECT,
     });
     resp.json(pacientes);
   } catch (error) {
     console.error('Erro ao buscar pacientes:', error);
     resp.status(500).json({ error: 'Erro ao buscar pacientes' });
+  }
+});
+
+app.get('/api/financasCreditos', async (req, resp) => {
+  try {
+    const credito = await sequelize.query(' select * from `financasEntradas`', {
+      type: QueryTypes.SELECT,
+    });
+    resp.json(credito);
+  }
+  catch (error) {
+    alert('erro ao buscar as finanças', error);
+    resp.status(500).json({ error: 'Erro ao buscar financas' });
   }
 });
 

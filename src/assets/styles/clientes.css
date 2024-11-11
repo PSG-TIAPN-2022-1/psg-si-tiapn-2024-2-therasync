@@ -1,16 +1,19 @@
 .clientes_container{
-    border: 3px solid blue;
+    border: 3px solid pink;
     position: fixed;
     top: 50px;
     left: 100px;
     right: 100px;
     z-index: 0;
     pointer-events: auto; 
+    width: 70%;
+    margin: 0 auto;
 }
 #clientes_titulo_container{
     font-size: 5vh;
     margin-left: 200px;
     color: rgb(60, 60, 60);
+    text-align: center;
 }
 
   /* Estilo da tabela */
@@ -18,6 +21,7 @@
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
+    margin: 0 auto;
   }
   
   .clientes_container th, td {
@@ -53,6 +57,26 @@
   height: 300px;
 }
 
+.thStatus{
+  width: 1%;
+}
+
+.thNome{
+  width: 1%;
+}
+
+.thIdade{
+  width: 1%;
+}
+
+.thConsulta{
+  width: 1%;
+}
+
+.tdInformacoes{
+  width: 1%;
+}
+
 
 /* Responsividade para telas menores */
   @media (max-width: 760px) {
@@ -60,6 +84,9 @@
         top:0%;
         left: 0%;
         right: 0%;
+        width: 100%;
+        margin: 0 auto;
+
     }
     #clientes_titulo_container{
         font-size: 4vh;
@@ -73,4 +100,25 @@
       width: 100%;
       min-width: 600px; /* Define uma largura mínima para não distorcer a tabela */
     }
+
+    .thStatus{
+      width: 15%;
+    }
+    
+    .thNome{
+      width: 5%;
+    }
+    
+    .thIdade{
+      width: 10px;
+    }
+    
+    .thConsulta{
+      width: 18%;
+    }
+    
+    .tdInformacoes{
+      width: 2%;
+    }
+    
   }

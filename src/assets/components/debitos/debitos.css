@@ -1,0 +1,14 @@
+.debitos{
+    background-color: beige;
+    width: 10%;
+    padding: 15px;
+}
+
+.cardTitle{
+    font-weight: bold;
+    text-align: center;
+}
+
+.textDebitos{
+    text-align: center;
+}
