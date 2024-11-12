@@ -38,7 +38,7 @@ export default function ModalCliente(props) {
       </Modal.Header>
       <Modal.Body>
         <h4>Informações do Cliente</h4>
-        <p><strong>CPF:</strong> {cliente?.cpf || '—'} <input placeholder='{cliente?.cpf}'></input></p>
+        <p><strong>CPF:</strong> {cliente?.cpf || '—'} </p>
         
         <p><strong>Email:</strong> {cliente?.email || '—'}</p>
         <p><strong>Idade:</strong> {idade || '—'}</p>

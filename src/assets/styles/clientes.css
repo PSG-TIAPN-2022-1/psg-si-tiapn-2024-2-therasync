@@ -1,19 +1,16 @@
 .clientes_container{
-    border: 3px solid pink;
-    position: fixed;
-    top: 50px;
-    left: 100px;
-    right: 100px;
-    z-index: 0;
-    pointer-events: auto; 
-    width: 70%;
-    margin: 0 auto;
+  background-color: transparent;
+  position: fixed;
+  top: 50px;
+  left: 300px;
+  right: 100px;
+  z-index: 0;
+  height: fit-content;
 }
 #clientes_titulo_container{
-    font-size: 5vh;
-    margin-left: 200px;
-    color: rgb(60, 60, 60);
-    text-align: center;
+  font-size: 5vh;
+  margin-left: 100px;
+  color: rgb(60, 60, 60);
 }
 
   /* Estilo da tabela */
@@ -31,6 +28,7 @@
   }
   
   .clientes_container th {
+    text-align: center;
     background-color: #3498db;
     color: white;
   }
@@ -77,6 +75,54 @@
   width: 1%;
 }
 
+.thEditar{
+  width: 1%;
+}
+/*options constainer*/
+
+.options_container {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 10px;
+}
+
+/*search*/
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-icon {
+  font-size: 20px;
+  color: #888;
+  margin-right: 8px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 16px;
+  width: 100%;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+button {
+  width: 100%; /* Garante que ocupem todo o espaço da coluna */
+  font-size: 16px;
+}
+
 
 /* Responsividade para telas menores */
   @media (max-width: 760px) {
@@ -119,6 +165,11 @@
     
     .tdInformacoes{
       width: 2%;
+    }
+
+    .options_container {
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
     
   }
