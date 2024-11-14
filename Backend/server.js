@@ -7,7 +7,7 @@ import { PiAlarmThin } from 'react-icons/pi';
 const app = express();
 const PORT = 3000;
 
-const sequelize = new Sequelize('therasync', 'root', '', {
+const sequelize = new Sequelize('therasync2', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306
@@ -57,6 +57,19 @@ app.get('/api/financasCreditos', async (req, resp) => {
       type: QueryTypes.SELECT,
     });
     resp.json(credito);
+  }
+  catch (error) {
+    alert('erro ao buscar as finanças', error);
+    resp.status(500).json({ error: 'Erro ao buscar financas' });
+  }
+});
+
+app.get('/api/financasDebitos', async (req, resp) => {
+  try {
+    const debitos = await sequelize.query(' select * from `financassaidas`', {
+      type: QueryTypes.SELECT,
+    });
+    resp.json(debitos);
   }
   catch (error) {
     alert('erro ao buscar as finanças', error);

@@ -18,9 +18,18 @@ references:{
     key: 'cpf'
 },
 allowNull: false
+},
+observacoesConsultas: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+
+},
+dataConsulta: {
+    type: DataTypes.DATE,
+    allowNull: false
 }
 },
-{tableName: 'cliente',
+{tableName: 'consulta',
     timestamps: false
 }
 

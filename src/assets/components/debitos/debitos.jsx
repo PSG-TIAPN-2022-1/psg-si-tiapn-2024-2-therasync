@@ -1,4 +1,3 @@
-// debitos.jsx
 import React, { useEffect, useState } from 'react';
 import './debitos.css';
 
@@ -7,7 +6,7 @@ const Debitos = ({ mes, ano, dadosAtualizados }) => {
 
   const fetchDebitos = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/financasCreditos');
+      const response = await fetch('http://localhost:3000/api/financasDebitos');
       if (!response.ok) {
         throw new Error('Erro ao buscar os dados');
       }
@@ -15,14 +14,14 @@ const Debitos = ({ mes, ano, dadosAtualizados }) => {
       const data = await response.json();
       const total = data
         .filter(item => {
-          const dataEntrada = new Date(item.dataEntrada);
+          const dataDebito = new Date(item.dataDebito); // Corrigido para dataDebito
           return (
-            dataEntrada.getMonth() === mes &&
-            dataEntrada.getFullYear() === ano &&
-            item.valor > 0
+            dataDebito.getMonth() === mes &&
+            dataDebito.getFullYear() === ano &&
+            parseFloat(item.valor) > 0
           );
         })
-        .reduce((acc, item) => acc + Math.abs(item.valor), 0);
+        .reduce((acc, item) => acc + parseFloat(item.valor), 0);
 
       setTotalDebitos(total);
     } catch (error) {
@@ -42,4 +41,4 @@ const Debitos = ({ mes, ano, dadosAtualizados }) => {
   );
 };
 
-export default Debitos; // Certifique-se de exportar o componente corretamente
+export default Debitos;
