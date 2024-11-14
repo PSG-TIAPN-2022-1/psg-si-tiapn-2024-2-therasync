@@ -1,4 +1,4 @@
-.container{
+.dash_container{
     background-color: aqua;
     position: fixed;
     top: 50px;
@@ -7,12 +7,7 @@
     z-index: 0;
     height: fit-content;
 }
-.container2{
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0 auto;
-}
-#titulo_container{
+#dash_titulo_container{
     font-size: 5vh;
     margin-left: 200px;
     color: rgb(60, 60, 60);
@@ -57,6 +52,37 @@
   
   /**/
   .MetricasTotais{
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    background-color: blueviolet;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 400px;
+    align-items: center;
+    justify-items: center;
+    margin: 0 auto;
+  }
+
+/*containers adicção*/
+  .Add_Container{
+    text-align: center;
+  }
+  .Add_Container button{
+    width: 100px;
+    margin: 10px;
+  }
+
+  @media (max-width: 760px) {
+    .dash_container{
+        top:0%;
+        left: 0%;
+        right: 0%;
+        width: 100%;
+        margin: 0 auto;
+
+    }
+    #dash_titulo_container{
+        font-size: 4vh;
+        margin-left: 50px;
+        margin-top: 20px;
+    }
   }

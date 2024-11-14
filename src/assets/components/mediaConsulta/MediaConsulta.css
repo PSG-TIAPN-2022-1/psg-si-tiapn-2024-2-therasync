@@ -1,6 +1,5 @@
-.lucro{
-    background-color: rgb(214, 181, 16);
-    width: 10%;
+.MediaConsulta{
+    background-color: rgb(21, 219, 234);
     padding: 15px;
     color: aliceblue;
     width: 150px;
@@ -14,12 +13,10 @@
 
 .textDebitos{
     text-align: center;
+
 }
 
 @media (max-width:720px) {
-    .Lucro{
-        height: 50px;
-    }
     .textDebitos{
         text-align: center;
         font-weight: bold;
