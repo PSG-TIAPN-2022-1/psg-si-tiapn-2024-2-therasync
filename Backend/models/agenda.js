@@ -10,9 +10,11 @@ id: {
 },
 nomeAgenda: {
 type: DataTypes.STRING(30),
+allowNull: false
 },
 descricao: {
-    type: DataTypes.STRING(30)
+    type: DataTypes.STRING(30),
+    allowNull: false
 }
 },
 {tableName: 'agenda',

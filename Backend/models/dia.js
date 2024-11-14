@@ -1,23 +1,39 @@
 import {DataTypes} from 'sequelize';
 import sequelize from '../db.js';
-import Mes from './mes.js';
+import Dia from './dia.js';
 
-const Dia = sequelize.define('dia', {
+const Evento = sequelize.define('dia',{
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
     },
-    mesID: {
+    nomeEvento: {
+    type: DataTypes.STRING(15),
+    allowNull: false
+    },
+    horarioInicio: {
+        type: DataTypes.STRING(5),
+        allowNull: false
+    },
+    horarioFim: {
+        type: DataTypes.STRING(5),
+        allowNull: false
+    },
+    diaID: {
         type: DataTypes.INTEGER,
         references:{
-            model: Mes,
-            key: 'idMes'
-        }
+            model: Dia,
+            key: 'id'
+        },
+        allowNull: false
     }
+},
+{tableName: 'eventos',
+    timestamps: false
 });
 
-Dia.belongsTo(Mes, { foreignKey: 'idMes' });
+Evento.belongsTo(Dia, { foreignKey: 'id' });
 
-export default Dia;
+export default Evento;

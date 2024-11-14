@@ -1,6 +1,6 @@
 import {Sequelize, QueryTypes} from 'sequelize';
 
-const sequelize = new Sequelize('therasync', 'root', '', {
+const sequelize = new Sequelize('therasync2', 'root', '', {
     host: 'localhost',   
     dialect: 'mysql',    
     port: 3306         
