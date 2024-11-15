@@ -7,7 +7,7 @@ import { PiAlarmThin } from 'react-icons/pi';
 const app = express();
 const PORT = 3000;
 
-const sequelize = new Sequelize('therasync2', 'root', '', {
+const sequelize = new Sequelize('therasync', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306

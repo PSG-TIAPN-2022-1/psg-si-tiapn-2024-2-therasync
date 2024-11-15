@@ -1,12 +1,9 @@
 .lembretes_container{
-    position: absolute;
-    right: 0%;
-    top: 0%;
+    position: fixed;
     background-color: #a3c2da;
     min-height: 100vh;
     transition: width 0.5s ease, height 0.5s ease;
     z-index: 10000;
-    position: fixed;
 }
 .div_user{
     text-align: center;

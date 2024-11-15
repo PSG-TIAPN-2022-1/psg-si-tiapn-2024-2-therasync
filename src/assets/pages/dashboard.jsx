@@ -8,7 +8,8 @@ import Ganhos from '../components/ganhos/ganhos.jsx';
 import Lucro from '../components/Lucro/lucro.jsx';
 import MediaConsulta from '../components/MediaConsulta/MediaConsulta.jsx';
 import MyDoughnutChart from '../components/GraficoPizza/Pizza.jsx';
-import MyBarChart from '../components/GraficoBarras/barras.jsx';
+import MyLineChart from '../components/GraficoLinhas/linhas.jsx';
+import ListaFluxo from '../components/listaFluxo/listaFluxo.jsx';
 
 const Dashboard = () => {
   const dataAtual = new Date();
@@ -26,14 +27,6 @@ const Dashboard = () => {
     <div className="dash_container">
       
       <p id="dash_titulo_container">Dashboard</p>
-
-      <div className="barras">
-        <MyBarChart></MyBarChart>
-      </div>
-
-      <div className="pizza">
-        <MyDoughnutChart></MyDoughnutChart>
-      </div>
 
       <div className='first_container'>
       <div className='div_controle'>
@@ -67,29 +60,45 @@ const Dashboard = () => {
             Visualizar
           </Button>
         </div>
-
-        <div className='Add_Container'>
-          <p>Adicionar despesa:</p>
-          <Button variant="success">
-            Ganho
-          </Button>
-          <Button variant="danger">
-            Gasto
-          </Button>
-        </div>
-
-
-      </div>
-
+        
         <div className='MetricasTotais'>
           <Debitos mes={periodo.mes} ano={periodo.ano} dadosAtualizados={dadosAtualizados} className="componente_metricas"/>
           <Ganhos mes={periodo.mes} ano={periodo.ano} dadosAtualizados={dadosAtualizados} />
           <Lucro mes={periodo.mes} ano={periodo.ano} dadosAtualizados={dadosAtualizados} />
           <MediaConsulta></MediaConsulta>
         </div>
+
+
       </div>
 
+      <MyLineChart></MyLineChart>
 
+      </div>
+
+    <p id="dash_titulo_container">Fluxo por categoria</p>
+
+    <div className="secondSection">
+
+      <div className="pizza">
+            <MyDoughnutChart></MyDoughnutChart>
+      </div>
+
+      <div className="divListagem">  
+        <ListaFluxo></ListaFluxo>
+
+        <div className='Add_Container'>
+            <div className="addButtons">
+              <Button variant="success">
+                Adicionar ganho
+              </Button>
+              <Button variant="danger">
+                Adicionar gasto
+              </Button>
+            </div>
+        </div>
+      </div>
+
+      </div>
     </div>
   );
 };

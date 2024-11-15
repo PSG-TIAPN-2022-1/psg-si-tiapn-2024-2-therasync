@@ -1,0 +1,30 @@
+/* ScrollableComponent.css */
+.scrollable-container {
+    width: 100%; /* Definindo uma largura fixa */
+    max-height: 400px; /* Definindo uma altura máxima para permitir o scroll */
+    overflow-y: scroll; /* Habilitando o scroll vertical */
+    border: 1px solid #ddd; /* Apenas para dar uma borda ao componente */
+    padding: 15px; /* Um pouco de padding para o conteúdo não ficar grudado nas bordas */
+    margin: 20px 0; /* Para deixar um espaçamento entre o componente e outros elementos */
+    background-color: rgba(255, 255, 255, 0.724);
+    border-radius: 10px;
+  }
+  /* Para Chrome, Edge e Safari */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+/* Para Firefox */
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #ffa008 #f0f0f0;
+}

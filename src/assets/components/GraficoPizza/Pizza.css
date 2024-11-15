@@ -1,3 +1,10 @@
 .pizza{
-    width: 300px;
+    width: 500px;
+    display: block;
+    margin: auto;
+}
+@media (max-width: 780px) {
+    .pizza{
+        width: 300px;
+    }
 }

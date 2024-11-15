@@ -1,6 +1,6 @@
 .container{
     background-color: aqua;
-    position: fixed;
+    position: absolute;
     top: 50px;
     left: 100px;
     right: 100px;

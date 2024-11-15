@@ -1,39 +1,36 @@
 .dash_container{
-    position: fixed;
+    position: absolute;
     top: 50px;
-    left: 100px;
+    left: 110px;
     right: 100px;
     z-index: -1;
-    height: fit-content;
-    background-color: burlywood;
-    overflow-y: 'auto',
+    margin: 0 auto;
 }
 .first_container{
-  padding: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 8%;
   display: flex;  
   flex-direction: row;
-  justify-items: center;
+  justify-content: space-between;
   align-items: center;
 }
-.div_controle{
-  background-color: cadetblue;
-  display: block;
-  margin: 0 auto;
-}
+
 #dash_titulo_container{
     font-size: 5vh;
     margin-left: 200px;
     color: rgb(60, 60, 60);
 }
 .periodo-seletor{
-    background-color: aliceblue;
+    background-color: rgba(143, 187, 225, 0.331);
     padding: 10px;
-    width: 250px;
     border-radius: 10px;
     align-items: center;
     text-align: center;
     height: 120px;
-    margin: 10px;
+    display: block;
+    margin: 0 auto;
+    width: 320px;
 }
 .periodo-seletor Button{
     width: 200px;
@@ -67,8 +64,7 @@
   /**/
   .MetricasTotais{
     display: grid;
-    background-color: blueviolet;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     align-items: center;
     justify-items: center;
@@ -78,18 +74,50 @@
 
 /*containers adicção*/
   .Add_Container{
-    background-color: beige;
-    width: 250px;
+    width: 100%;
     border-radius: 10px;
     padding: 10px;
     text-align: center;
-    margin: 10px;
+    margin: 10px auto;
+    display: block;
   }
   .Add_Container button{
-    width: 100px;
+    width: 150px;
     margin: 10px;
   }
 
+  .addButtons{
+    display: block;
+    margin: 0 auto;
+  }
+
+  /*second section*/
+
+  .secondSection{
+    display: grid;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+  }
+
+  .divListagem{
+    display: block;
+    margin: 0 auto;
+    background-color: bisque;
+    border-radius: 10px;
+    width: 80%;
+    padding: 10px;
+  }
+
+@media (max-width:1024px) {
+  .secondSection{
+    grid-template-columns: repeat(1,1fr);
+    align-items: center;
+    justify-content: center;
+  }
+}
   @media (max-width: 760px) {
     .dash_container{
         top:0%;
@@ -125,4 +153,7 @@
     .MetricasTotais{
       grid-template-columns: repeat(2, 1fr);
     }
+
+    /*second section*/
+
   }
