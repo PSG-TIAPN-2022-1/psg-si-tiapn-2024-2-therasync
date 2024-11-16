@@ -13,7 +13,7 @@
 
 .textDebitos{
     text-align: center;
-
+    font-weight: bold;
 }
 
 @media (max-width:720px) {
