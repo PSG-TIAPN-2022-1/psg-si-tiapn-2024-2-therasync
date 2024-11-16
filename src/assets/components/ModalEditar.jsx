@@ -8,6 +8,7 @@ function ModalEditar(props) {
   const { cliente } = props;
 
   // Estados para os campos do formulário
+  const status = cliente.status;
   const [nome, setNome] = useState(cliente?.nome || '');
   const [email, setEmail] = useState(cliente?.email || '');
   const [idade, setIdade] = useState(cliente?.idade || '');
@@ -22,6 +23,7 @@ function ModalEditar(props) {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
+  // Função chamada ao clicar no botão
   const handleAlter = () => {
     const novoCliente = {
       nome,
@@ -31,34 +33,44 @@ function ModalEditar(props) {
       naturalidade,
       frequenciaPagamento,
       nomeResponsavel,
-      status: cliente.status
+      status,
     };
 
-    setClienteEditado(novoCliente);
-    setShow(false); // Fecha o modal
+    setClienteEditado(novoCliente); // Atualiza o estado com os novos dados
   };
 
+  // useEffect para fazer o PUT sempre que `clienteEditado` mudar
   useEffect(() => {
     const fetchClientes = async () => {
       try {
         const response = await fetch(`http://localhost:3000/paciente/${cliente.cpf}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(clienteEditado),
         });
+
+        if (!response.ok) {
+          alert("sem resposta");
+          throw new Error("Erro ao atualizar o paciente");
+        }
+
         const data = await response.json();
-        console.log('Paciente atualizado:', data);
+        console.log("Paciente atualizado:", data);
+        alert("Paciente atualizado com sucesso!");
       } catch (error) {
-        console.error('Erro ao atualizar paciente:', error);
+        console.error("Erro ao atualizar paciente:", error);
+        alert("Erro ao atualizar paciente!");
       }
     };
 
+    // Só realiza a chamada PUT se o objeto não estiver vazio
     if (Object.keys(clienteEditado).length > 0) {
       fetchClientes();
     }
-  }, [clienteEditado, cliente.cpf]);
+  }, [clienteEditado, cliente.cpf]); // Dependências do useEffect
+
 
   return (
     <>

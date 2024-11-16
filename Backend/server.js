@@ -51,17 +51,6 @@ app.get('/api/pacientes', async (req, resp) => {
   }
 });
 
-app.get('/api/pacientesOrdered', async (req, resp) => {
-  try{
-    const pacientes = await sequelize.query('SELECT * FROM pacientes ORDER BY nome ASC;',{
-      type: QueryTypes.SELECT,
-    });
-    resp.json(pacientes);
-  }catch(error){
-    console.error('Erro ao buscar pacientes ordenados: ', error);
-    resp.status(500).json({error: 'erro ao buscar pacientes A - Z'});
-  }
-})
 
 app.get('/api/financasCreditos', async (req, resp) => {
   try {
@@ -112,44 +101,34 @@ app.post('/pacientes', async (req, res) => {
   }
 });
 
-/*editar paciente */
-app.put('/paciente/:cpf', async (req, res) => {
-  const { cpf } = req.params;
+app.put('/api/paciente/:id', async (req, res) => {
+  const pacienteId = req.params.id; 
   const { nome, email, idade, sobre, naturalidade, frequenciaPagamento, nomeResponsavel, status } = req.body;
 
   try {
-    console.log(`Atualizando paciente com CPF: ${cpf}`);
-    console.log('Dados recebidos:', req.body);
-
-    const paciente = await Paciente.findOne({ where: { cpf } });
+    // Encontrar o paciente pelo ID
+    const paciente = await Paciente.findByPk(pacienteId);
 
     if (!paciente) {
       return res.status(404).json({ message: 'Paciente não encontrado' });
     }
 
-    const dadosAtualizados = {};
-    if (nome) dadosAtualizados.nome = nome;
-    if (email) dadosAtualizados.email = email;
-    if (idade) dadosAtualizados.idade = idade;
-    if (sobre) dadosAtualizados.sobre = sobre;
-    if (naturalidade) dadosAtualizados.naturalidade = naturalidade;
-    if (frequenciaPagamento) dadosAtualizados.frequenciaPagamento = frequenciaPagamento;
-    if (nomeResponsavel) dadosAtualizados.nomeResponsavel = nomeResponsavel;
-    if (status) dadosAtualizados.status = status;
-
-    await paciente.update(dadosAtualizados);
-
-    return res.status(200).json({
-      message: 'Paciente atualizado com sucesso!',
-      data: paciente
+    await paciente.update({
+      nome,
+      email,
+      idade,
+      sobre,
+      naturalidade,
+      frequenciaPagamento,
+      nomeResponsavel,
+      status
     });
 
+    // Resposta com o paciente atualizado
+    res.status(200).json({ message: 'Paciente atualizado com sucesso', paciente });
   } catch (error) {
-    console.error('Erro ao atualizar paciente:', error);
-    return res.status(500).json({
-      message: 'Erro ao atualizar paciente. Verifique os dados e tente novamente.',
-      error: error.message
-    });
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao atualizar paciente', error });
   }
 });
 
