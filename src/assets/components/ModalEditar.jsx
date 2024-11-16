@@ -1,19 +1,69 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { MdEdit } from "react-icons/md";
 
-function ModalEditar() {
+function ModalEditar(props) {
+  const { cliente } = props;
+
+  // Estados para os campos do formulário
+  const [nome, setNome] = useState(cliente?.nome || '');
+  const [email, setEmail] = useState(cliente?.email || '');
+  const [idade, setIdade] = useState(cliente?.idade || '');
+  const [sobre, setSobre] = useState(cliente?.sobre || '');
+  const [naturalidade, setNaturalidade] = useState(cliente?.naturalidade || '');
+  const [frequenciaPagamento, setFrequenciaPagamento] = useState(cliente?.frequenciaPagamento || '');
+  const [nomeResponsavel, setNomeResponsavel] = useState(cliente?.nomeResponsavel || '');
+  
+  const [clienteEditado, setClienteEditado] = useState({});
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  const handleAlter = () => {
+    const novoCliente = {
+      nome,
+      email,
+      idade,
+      sobre,
+      naturalidade,
+      frequenciaPagamento,
+      nomeResponsavel,
+      status: cliente.status
+    };
+
+    setClienteEditado(novoCliente);
+    setShow(false); // Fecha o modal
+  };
+
+  useEffect(() => {
+    const fetchClientes = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/paciente/${cliente.cpf}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(clienteEditado),
+        });
+        const data = await response.json();
+        console.log('Paciente atualizado:', data);
+      } catch (error) {
+        console.error('Erro ao atualizar paciente:', error);
+      }
+    };
+
+    if (Object.keys(clienteEditado).length > 0) {
+      fetchClientes();
+    }
+  }, [clienteEditado, cliente.cpf]);
 
   return (
     <>
       <Button variant="success" onClick={handleShow}>
-        <MdEdit></MdEdit>
+        <MdEdit />
       </Button>
 
       <Modal show={show} onHide={handleClose}>
@@ -23,39 +73,70 @@ function ModalEditar() {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formCpf">
-              <Form.Label>CPF</Form.Label>
-              <Form.Control type="text" placeholder="Digite o CPF" maxLength="11" />
+              <Form.Label>CPF: {cliente ? cliente.cpf : ''}</Form.Label>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formNome">
               <Form.Label>Nome</Form.Label>
-              <Form.Control type="text" placeholder="Digite o nome" maxLength="50" />
+              <Form.Control
+                type="text"
+                placeholder="Digite o nome"
+                maxLength="50"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Digite o email" maxLength="50" />
+              <Form.Control
+                type="email"
+                placeholder="Digite o email"
+                maxLength="50"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formIdade">
               <Form.Label>Data de Nascimento</Form.Label>
-              <Form.Control type="date" />
+              <Form.Control
+                type="date"
+                value={idade}
+                onChange={(e) => setIdade(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formSobre">
               <Form.Label>Sobre</Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder="Informações adicionais" maxLength="500" />
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Informações adicionais"
+                maxLength="500"
+                value={sobre}
+                onChange={(e) => setSobre(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formNaturalidade">
               <Form.Label>Naturalidade</Form.Label>
-              <Form.Control type="text" placeholder="Digite a naturalidade" maxLength="32" />
+              <Form.Control
+                type="text"
+                placeholder="Digite a naturalidade"
+                maxLength="32"
+                value={naturalidade}
+                onChange={(e) => setNaturalidade(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formFrequenciaPagamento">
               <Form.Label>Frequência de Pagamento</Form.Label>
-              <Form.Control as="select">
-                <option value="">Selecione...</option>
+              <Form.Control
+                as="select"
+                value={frequenciaPagamento}
+                onChange={(e) => setFrequenciaPagamento(e.target.value)}
+              >
                 <option value="mensal">Mensal</option>
                 <option value="quinzenal">Quinzenal</option>
                 <option value="semanal">Semanal</option>
@@ -64,17 +145,13 @@ function ModalEditar() {
 
             <Form.Group className="mb-3" controlId="formNomeResponsavel">
               <Form.Label>Nome do Responsável</Form.Label>
-              <Form.Control type="text" placeholder="Digite o nome do responsável" maxLength="50" />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formUltimaConsulta">
-              <Form.Label>Última Consulta</Form.Label>
-              <Form.Control type="date" />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formProximaConsulta">
-              <Form.Label>Próxima Consulta</Form.Label>
-              <Form.Control type="date" />
+              <Form.Control
+                type="text"
+                placeholder="Digite o nome do responsável"
+                maxLength="50"
+                value={nomeResponsavel}
+                onChange={(e) => setNomeResponsavel(e.target.value)}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -82,7 +159,7 @@ function ModalEditar() {
           <Button variant="secondary" onClick={handleClose}>
             Fechar
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleAlter}>
             Salvar Alterações
           </Button>
         </Modal.Footer>

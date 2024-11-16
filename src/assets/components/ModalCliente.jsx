@@ -21,7 +21,7 @@ const calcularIdade = (dataNascimento) => {
 export default function ModalCliente(props) {
   const { cliente } = props;
 
-    const idade = calcularIdade(cliente?.idade);
+  const idade = calcularIdade(cliente?.idade);
   
 
   return (
