@@ -65,7 +65,7 @@ const Dashboard = () => {
           <Debitos mes={periodo.mes} ano={periodo.ano} dadosAtualizados={dadosAtualizados} className="componente_metricas"/>
           <Ganhos mes={periodo.mes} ano={periodo.ano} dadosAtualizados={dadosAtualizados} />
           <Lucro mes={periodo.mes} ano={periodo.ano} dadosAtualizados={dadosAtualizados} />
-          <MediaConsulta></MediaConsulta>
+          <MediaConsulta mes={periodo.mes} ano={periodo.ano} dadosAtualizados={dadosAtualizados} />
         </div>
 
 

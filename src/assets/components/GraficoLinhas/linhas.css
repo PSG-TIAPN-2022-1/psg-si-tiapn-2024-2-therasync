@@ -9,3 +9,8 @@
 .linhas Line{
     width: 100%;
 }
+
+.TituloGrafico{
+    font-weight: bold;
+    font-size: 30px;
+}

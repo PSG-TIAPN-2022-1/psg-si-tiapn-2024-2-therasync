@@ -1,8 +1,9 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Joan:wght@400;700&display=swap');
 
 
-body{
-    background: linear-gradient(to top,#6095C6,#9DC0E1 80%,#79BFFF);
+.body-login {
+    background: linear-gradient(to top, #6095C6, #9DC0E1 80%, #79BFFF);
     height: 100vh;
     justify-content: center;
     align-items: center;
@@ -10,24 +11,25 @@ body{
     font-family: 'Joan', sans-serif;
 }
 
-#header{
+#header-login {
     padding-bottom: 10px;
 }
 
-#header p{
+#header-login p {
     display: flex;
     font-size: 30px;
     align-items: center;
     justify-content: center;
-    font-weight: 600;;
+    font-weight: 600;
+    ;
 }
 
-#header img{
+#header-login img {
     width: 400px;
     height: auto;
 }
 
-#login{
+#tela-login {
     background-color: #FFFFFF;
     border-radius: 25px;
     padding: 150px;
@@ -35,57 +37,60 @@ body{
     padding-bottom: 20px;
 }
 
-label {
+#login-Dados form label {
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
-label input[type="checkbox"] {
+#login-Dados form label input[type="checkbox"] {
     display: none;
 }
 
-label .custom-checkbox {
+#login-Dados form label .custom-checkbox {
     width: 25px;
     height: 25px;
     border: 2px solid #0386FF;
-    border-radius: 7px; 
+    border-radius: 7px;
     display: inline-block;
-    margin-right: 8px; 
+    margin-right: 8px;
     position: relative;
 }
 
-label input[type="checkbox"]:checked + .custom-checkbox::after {
+#login-Dados form label input[type="checkbox"]:checked+.custom-checkbox::after {
     content: "";
     position: absolute;
-    width: 15px;       
+    width: 15px;
     height: 15px;
-    top: 4px;        
-    left: 4px;         
+    top: 4px;
+    left: 4px;
     background-color: #0386FF;
-    border-radius: 5px; 
+    border-radius: 5px;
 }
 
-#parte-baixo{
+#login-parte-baixo {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 35px;
 }
 
-#parte-baixo a,.TextoConectado,#header p{
+#login-parte-baixo a,
+.TextoConectado,
+#header-login p {
     color: #193D5F;
 }
 
-#parte-baixo a:hover{
+#login-parte-baixo a:hover {
     color: #2a7fcf;
 }
 
-.TextoConectado,#parte-baixo a{
+.TextoConectado,
+#parte-baixo a {
     font-size: 25px;
 }
 
-#Componente{
+#ComponenteLogin {
     display: block;
     margin-bottom: 30px;
     background-color: #79beff21;
@@ -99,13 +104,27 @@ label input[type="checkbox"]:checked + .custom-checkbox::after {
     margin-left: -5%;
 }
 
-#Componente::placeholder{
-    color: #0084ff47 ;
+#email, #senha{
+    display: block;
+    margin-bottom: 30px;
+    background-color: #79beff21;
+    padding: 10px;
+    border-radius: 25px;
+    width: 120%;
+    border: 2px solid #0084FF;
+    font-size: 30px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin-left: -5%;
+}
+
+#ComponenteLogin::placeholder {
+    color: #0084ff47;
     font-size: 35px;
     line-height: 30px;
 }
 
-button{
+#login-parte-baixo button {
     border: none;
     color: rgb(255, 255, 255);
     background-color: #0386FFB3;
@@ -113,7 +132,7 @@ button{
     width: 70%;
     height: 50px;
     padding: 30px;
-    margin:15px;
+    margin: 15px;
     font-size: 27px;
     margin-top: 25px;
     display: flex;
@@ -121,6 +140,6 @@ button{
     justify-content: center;
 }
 
-button:hover{
+#login-parte-baixo button:hover {
     background-color: #45a5ffb3;
 }

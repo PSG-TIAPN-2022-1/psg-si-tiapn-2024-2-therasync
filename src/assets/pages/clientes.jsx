@@ -75,12 +75,12 @@ const Clientes = () => {
         <table>
           <thead>
             <tr>
-              <th class="thStatus">Status</th>
-              <th class="thNome">Nome</th>
-              <th class="thIdade">Idade</th>
-              <th class="thConsulta">Última Consulta</th>
-              <th class="thConsulta">Próxima Consulta</th>
-              <th class="tdInformacoes">Informações</th>
+              <th className="thStatus">Status</th>
+              <th className="thNome">Nome</th>
+              <th className="thIdade">Idade</th>
+              <th className="thConsulta">Última Consulta</th>
+              <th className="thConsulta">Próxima Consulta</th>
+              <th className="tdInformacoes">Informações</th>
               <th className='thEditar'>Editar</th>
             </tr>
           </thead>

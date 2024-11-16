@@ -94,7 +94,7 @@ function Add({onAdd}){
                 onClick={handleToggleExpanded} 
                 style={{marginTop: '10px', float: 'right'}}
                 >
-                {expanded ? <i class="bi bi-chevron-double-up"></i>: <i class="bi bi-chevron-double-down"></i>}
+                {expanded ? <i className="bi bi-chevron-double-up"></i>: <i class="bi bi-chevron-double-down"></i>}
             </Button>
 
             
