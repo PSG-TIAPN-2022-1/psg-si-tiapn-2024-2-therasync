@@ -43,7 +43,7 @@ function ModalEditar(props) {
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/paciente/${cliente.cpf}`, {
+        const response = await fetch(`http://localhost:3000/api/pacientes/${cliente.cpf}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

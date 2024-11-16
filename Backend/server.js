@@ -78,41 +78,26 @@ app.get('/api/financasDebitos', async (req, resp) => {
   }
 });
 
-// Endpoint para criar um novo paciente
-app.post('/pacientes', async (req, res) => {
-  const { cpf, nome, email, idade, sobre, naturalidade, frequenciaPagamento, nomeResponsavel, status } = req.body;
-
-  try {
-      const novoPaciente = await Paciente.create({
-          cpf,
-          nome,
-          email,
-          idade,
-          sobre,
-          naturalidade,
-          frequenciaPagamento,
-          nomeResponsavel,
-          status
-      });
-      res.status(201).json(novoPaciente);
-  } catch (error) {
-      console.error('Erro ao criar o paciente:', error);
-      res.status(500).json({ error: 'Erro ao criar o paciente' });
-  }
-});
-
-app.put('/api/paciente/:id', async (req, res) => {
-  const pacienteId = req.params.id; 
+/*editar */
+app.put('/api/pacientes/:cpf', async (req, res) => {
+  const pacienteCpf = req.params.cpf;  // Obtendo o CPF da URL
+  console.log('CPF recebido:', pacienteCpf); 
   const { nome, email, idade, sobre, naturalidade, frequenciaPagamento, nomeResponsavel, status } = req.body;
 
+  // Validar se os campos obrigatórios estão presentes
+  if (!nome || !email || !idade || !naturalidade) {
+    return res.status(400).json({ message: 'Campos obrigatórios não preenchidos' });
+  }
+
   try {
-    // Encontrar o paciente pelo ID
-    const paciente = await Paciente.findByPk(pacienteId);
+    // Encontrar o paciente pelo CPF
+    const paciente = await Paciente.findOne({ where: { cpf: pacienteCpf } });
 
     if (!paciente) {
       return res.status(404).json({ message: 'Paciente não encontrado' });
     }
 
+    // Atualizar os dados do paciente
     await paciente.update({
       nome,
       email,
@@ -132,6 +117,44 @@ app.put('/api/paciente/:id', async (req, res) => {
   }
 });
 
+/* cadastrar novo user */
+app.post('/api/pacientes', async (req, res) => {
+  const {
+    cpf,
+    nome,
+    email,
+    idade,
+    sobre,
+    naturalidade,
+    frequenciaPagamento,
+    nomeResponsavel,
+  } = req.body;
+
+  try {
+
+    const novoPaciente = await Paciente.create({
+      cpf,
+      nome,
+      email,
+      idade,
+      sobre,
+      naturalidade,
+      frequenciaPagamento,
+      nomeResponsavel,
+      status: true, 
+    });
+
+    
+    res.status(201).json({
+      message: 'Paciente criado com sucesso!',
+      paciente: novoPaciente,
+    });
+
+  } catch (error) {
+    console.error('Erro ao criar o paciente:', error);
+    res.status(500).json({ error: 'Erro ao criar paciente' });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

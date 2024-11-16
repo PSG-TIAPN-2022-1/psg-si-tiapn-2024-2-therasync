@@ -13,86 +13,45 @@ import { MdOutlineViewAgenda } from 'react-icons/md';
 
 export default function Navbar() {
 
-    /*variaveis para icones de estado da nav e função toggle*/
-
-    const [isOpen,setIsOpen] = useState(true);
-
-    const toggle = () => {
-        setIsOpen(open => !open);
-    };
-
-    /*Variavei de icones para mudança de estado */
-    const openIcon = 
-    <FaArrowAltCircleLeft 
-    style={{ color: 'white',
-         fontSize: '30px' }} 
-    className='li_icon'/>;
-    
-    const closeIcon = 
-    <FaArrowAltCircleRight 
-    style={{ color: 'white', 
-        fontSize: '30px' }} 
-        className='li_icon'/>;
-    
-    const openLogo = 
-    <div className='Logo'>
-        <LuBrainCircuit 
-        style={{ color: 'white', 
-            fontSize: '40px' }}/>
-        <h4>TheraSync</h4>
-    </div>;
-    
-    const closeLogo = <LuBrainCircuit style={{ color: 'white',
-         fontSize: '40px', 
-         padding:'10px',
-         paddingTop:'10px'
-         ,margin:'5px'}}/>;
-
   return (
     <>
-    <nav style={{ width: isOpen ? '250px' : '70px', alignItems:'center'}}>
-    <div className='logo_div'>{isOpen ? openLogo : closeLogo}</div>
-
-        <ul>
-            
-            <li>
-                <Link to="/clientes" className='li_icon'>
-                    <IoPeople style={{ color: 'white', fontSize: '30px' }}/>
-                    {isOpen && <p>Clientes</p>}
-                </Link>
-            </li>
-
-            <li>
-                <Link to="/agenda" className='li_icon'>
-                    <TfiAgenda style={{ color: 'white', fontSize: '30px' }}/>
-                    {isOpen && <p>Agenda</p>}
-                </Link>
-            </li>
-
-            <li>
-                <Link to="/dashboard" className='li_icon'>
-                    <MdOutlineDashboard style={{ color: 'white', fontSize: '30px' }}/>
-                    {isOpen && <p>Dashboard</p>}
-                </Link>
-            </li>
-
-            <li>
-                <Link to="/configurações" className='li_icon'>
-                    <IoMdSettings style={{ color: 'white', fontSize: '30px' }}/>
-                    {isOpen && <p>Configurações</p>}
-                </Link>
-            </li>
-
-            <li id='icon_lembretes'>
-                <Link to="/pagLembretes" className='li_icon'>
-                    <MdOutlineViewAgenda style={{ color: 'white', fontSize: '30px' }}/>
-                </Link>
-            </li>
-
-            <li className='nav_state'> <div onClick={toggle}>{isOpen ? openIcon : closeIcon} </div></li>
-
-        </ul>
-
+    <nav>
+    <ul className="custom-list" >
+     <li className="list-item" id='iconBrain'>
+        <LuBrainCircuit className="icon" >
+        </LuBrainCircuit>
+     </li>
+      <li>
+        <Link to="/clientes" className="list-item">
+          <IoPeople className="icon" />
+          <span className="item-label">Clientes</span>
+        </Link>
+      </li>
+      <li>
+        <Link to="/agenda" className="list-item">
+          <TfiAgenda className="icon" />
+          <span className="item-label">Agenda</span>
+        </Link>
+      </li>
+      <li>
+        <Link to="/dashboard" className="list-item">
+          <MdOutlineDashboard className="icon" />
+          <span className="item-label">Dashboard</span>
+        </Link>
+      </li>
+      <li>
+        <Link to="/configurações" className="list-item">
+          <IoMdSettings className="icon" />
+          <span className="item-label">Configurações</span>
+        </Link>
+      </li>
+      <li id='iconLembrete'>
+        <Link to="/pagLembretes" className="list-item">
+          <MdOutlineViewAgenda className="icon" />
+          <span className="item-label">Lembretes</span>
+        </Link>
+      </li>
+    </ul>
     </nav>
     </>
   )

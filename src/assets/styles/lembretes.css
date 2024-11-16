@@ -1,4 +1,5 @@
 .lembretes_container{
+  display: none;
     position: absolute;
     right: 0%;
     top: 0%;
@@ -96,7 +97,7 @@
   @media (max-width:750px) {
     .lembretes_container{
       width: 100vw;
-      display: block;
+      display: none;
     }
     .consultasDia{
       text-align: center;

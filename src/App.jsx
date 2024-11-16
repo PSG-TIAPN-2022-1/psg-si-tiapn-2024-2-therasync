@@ -28,7 +28,7 @@ function App() {
         <>
           <Navbar />
           <div id="barra_lembretes">
-            <Lembretes />
+            
           </div>
         </>
       )}
