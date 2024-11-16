@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/clientes.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Dropdown, Button } from 'react-bootstrap';
+import { Dropdown, Button, DropdownItem } from 'react-bootstrap';
 import ModalCliente from '../components/ModalCliente';
 import { FiSearch } from "react-icons/fi";
 import ModalEditar from '../components/ModalEditar';
@@ -11,8 +11,9 @@ const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
+  const [clientesFiltrados, setClientesFiltrados] = useState([]); 
 
-
+/*Clientes */
   useEffect(() => {
     const fetchClientes = async () => {
       try {
@@ -22,6 +23,7 @@ const Clientes = () => {
         }
         const data = await response.json();
         setClientes(data);
+        setClientesFiltrados(data); 
       } catch (error) {
         console.error("Erro ao buscar clientes:", error);
       }
@@ -40,7 +42,68 @@ const Clientes = () => {
     setModalShow(true);
   };
 
+  /* Ordenar Clientes A-Z */
+    const handleOrdenarClientesAZ = () => {
+    const clientesOrdenados = [...clientes].sort((a, b) => a.nome.localeCompare(b.nome));
+    setClientesFiltrados(clientesOrdenados);
+  };
+
+  /* Filtros */
+
+  /*ativos */
+    const handleFiltrarAtivos = () => {
+      const ativos = clientes.filter(cliente => cliente.status === 1);
+      setClientesFiltrados(ativos);
+    };
+  /*inativos */
+    const handleFiltrarInativos = () => {
+      const inativos = clientes.filter(cliente => cliente.status !== 1);
+      setClientesFiltrados(inativos);
+    };
+
+
+  /*proxima consulta mais recente*/
+  const handleFiltrarRecente = () => {
+    const recente = [...clientes].sort((a, b) => {
+      const dataA = new Date(a.proximaConsulta || "2100-01-01"); 
+      const dataB = new Date(b.proximaConsulta || "2100-01-01");
+      return dataB - dataA;
+    });
+
+    recente.sort((a, b) => {
+      // Verificar se o campo proximaConsulta é null e joga para o final da lista
+      if (a.proximaConsulta === null && b.proximaConsulta !== null) {
+        return 1;  
+      }
+      if (a.proximaConsulta !== null && b.proximaConsulta === null) {
+        return -1; 
+      }
+      return 0;  
+    });
+
+    setClientesFiltrados(recente);
+  };
   
+  const handleUltimaConsulta = () => {
+    const ultimos = [...clientes].sort((a,b) => {
+      const dataA = new Date(a.ultimaConsulta || "2100-01-01"); 
+      const dataB = new Date(b.ultimaConsulta || "2100-01-01");
+      return dataB - dataA;
+    })
+
+    ultimos.sort((a, b) => {
+      // Verificar se o campo ultima consulta é null e joga para o final da lista
+      if (a.ultimaConsulta === null && b.ultimaConsulta !== null) {
+        return 1;  
+      }
+      if (a.ultimaConsulta !== null && b.ultimaConsulta === null) {
+        return -1; 
+      }
+      return 0;  
+    });
+
+    setClientesFiltrados(ultimos);
+  }
 
   return (
     <div className='clientes_container'>
@@ -61,10 +124,11 @@ const Clientes = () => {
           Selecionar Opção
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">Ativos</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Inativos</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">A - Z</Dropdown.Item>
-          <Dropdown.Item href="#/action-4">Consultas mais recentes</Dropdown.Item>
+          <Dropdown.Item href="#/action-1" onClick={handleFiltrarAtivos}>Ativos</Dropdown.Item>
+          <Dropdown.Item href="#/action-2" onClick={handleFiltrarInativos}>Inativos</Dropdown.Item>
+          <Dropdown.Item href="#/action-3" onClick={handleOrdenarClientesAZ}>A - Z</Dropdown.Item>
+          <Dropdown.Item href="#/action-4" onClick={handleFiltrarRecente}>Consultas futuras</Dropdown.Item>
+          <DropdownItem href="#/action-5" onClick={handleUltimaConsulta}>Ultimas consultas</DropdownItem>
         </Dropdown.Menu>
       </Dropdown>
 
@@ -85,23 +149,23 @@ const Clientes = () => {
             </tr>
           </thead>
           <tbody>
-            {clientes.map((cliente, index) => (
-              <tr key={index}>
-                <td>{cliente.statusPaciente === 1 ? "Ativo" : "Inativo"}</td>
-                <td>{cliente.nome}</td>
-                <td >{calcularIdade(cliente.idade) || "—"}</td>
-                <td>{formatarData(cliente.ultimaConsulta)}</td>
-                <td>{cliente.proximaConsulta || "—"}</td>
-                <td>
-                  <Button variant="primary" onClick={() => handleShowModal(cliente)}>
-                    Mais
-                  </Button>
-                </td>
-                <td>
-                  <ModalEditar></ModalEditar>
-                </td>
-              </tr>
-            ))}
+                {clientesFiltrados.map((cliente, index) => (
+                <tr key={index}>
+                  <td>{cliente.status === 1 ? "Ativo" : "Inativo"}</td>
+                  <td>{cliente.nome}</td>
+                  <td >{calcularIdade(cliente.idade) || "—"}</td>
+                  <td>{formatarData(cliente.ultimaConsulta)}</td>
+                  <td>{cliente.proximaConsulta || "—"}</td>
+                  <td>
+                    <Button variant="primary" onClick={() => handleShowModal(cliente)}>
+                      Mais
+                    </Button>
+                  </td>
+                  <td>
+                    <ModalEditar cliente={cliente}></ModalEditar>
+                  </td>
+                </tr>
+          ))}
           </tbody>
         </table>
       </div>
