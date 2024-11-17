@@ -37,7 +37,7 @@ const Creditos = ({ mes, ano, dadosAtualizados }) => {
 
   return (
     <div className="MediaConsulta">
-      <h3 className="cardTitle">Ticket Médio</h3>
+      <h5 className="cardTitle">Ticket Médio</h5>
       <p className="textDebitos">R${ticketMedio.toFixed(2)}</p>
     </div>
   );

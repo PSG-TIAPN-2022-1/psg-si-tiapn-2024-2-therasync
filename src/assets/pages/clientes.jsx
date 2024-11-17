@@ -148,23 +148,6 @@ const Clientes = () => {
             </tr>
           </thead>
           <tbody>
-                <tr>
-                  <td>Ativo</td>
-                  <td>Exemplo</td>
-                  <td className='thIdade'>20</td>
-                  <td>12/23/3444</td>
-                  <td>12</td>
-                  <td>
-                    <Button style={{ width: '40px' }}><FaPlus /></Button>
-                  </td>
-                  <td>
-                    <Button style={{ width: '40px' }}><FaEdit /></Button>
-                  </td>
-                  <td>
-                    <ModalExcluirCliente></ModalExcluirCliente>
-                  </td>
-                </tr>
-
 
                 {clientesFiltrados.map((cliente, index) => (
                 <tr key={index}>

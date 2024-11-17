@@ -49,7 +49,7 @@ const LucroTotal = ({ mes, ano, dadosAtualizados }) => {
 
   return (
     <div className="lucro">
-      <h3 className="cardTitle">Lucro Total</h3>
+      <h4 className="cardTitle">Lucro Total</h4>
       <p className="textDebitos">R${lucroTotal.toFixed(2)}</p>
     </div>
   );

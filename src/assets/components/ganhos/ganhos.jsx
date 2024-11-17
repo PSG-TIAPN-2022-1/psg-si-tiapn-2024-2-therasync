@@ -38,7 +38,7 @@ const Creditos = ({ mes, ano, dadosAtualizados }) => {
 
   return (
     <div className="ganhos">
-      <h3 className="cardTitle">Créditos</h3>
+      <h4 className="cardTitle">Créditos</h4>
       <p className="textDebitos">R${Totalcreditos.toFixed(2)}</p>
     </div>
   );

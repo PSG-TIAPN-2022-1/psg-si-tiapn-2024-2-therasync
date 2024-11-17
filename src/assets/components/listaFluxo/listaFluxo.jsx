@@ -62,7 +62,12 @@ const ListaFluxo = () => {
       datasets: [
         {
           data: values,
-          backgroundColor: ['#FFB6C1', '#FF69B4', '#FF1493', '#C71585', '#8B008B'],
+          backgroundColor: [    '#FF6384', '#36A2EB', '#FFCE56', '#FF9F40', '#4BC0C0', '#9966FF',
+            '#FF33CC', '#FF6600', '#3366FF', '#99CC00', '#FF0000', '#00FF00',
+            '#0000FF', '#FF33FF', '#FF0033', '#66FF66', '#FF6600', '#3399FF',
+            '#FF6699', '#CC00CC', '#FF0033', '#6699FF', '#66FF66', '#FF6600',
+            '#00FFCC', '#99FF33', '#CC3333', '#33CC99', '#FF3300', '#33FF33'
+          ],
           hoverOffset: 4
         }
       ]
@@ -86,6 +91,13 @@ const ListaFluxo = () => {
 
   return (
     <>
+      <section className='fluxo_section'>
+              {/* Exibindo o gráfico */}
+      <div style={{ height: '500px', width: '500px', margin: 'auto'}} className='grafico_container'>
+        {chartData.labels ? <Pie data={chartData} /> : <p>Carregando gráfico...</p>}
+      </div>
+
+      <div className="second_division">
       <div className="buttons">
         <Button 
           variant="success"
@@ -109,10 +121,6 @@ const ListaFluxo = () => {
         <h2>{selectedButton === 'ganhos' ? 'Ganhos' : 'Gastos'}</h2>
         <p></p>
 
-        {/* Exibindo o gráfico */}
-        <div style={{ height: '300px', width: '300px', margin: 'auto' }}>
-          {chartData.labels ? <Pie data={chartData} /> : <p>Carregando gráfico...</p>}
-        </div>
 
         {/* Exibindo os dados da API */}
         <div>
@@ -127,6 +135,8 @@ const ListaFluxo = () => {
           )}
         </div>
       </div>
+      </div>
+      </section>
     </>
   );
 };

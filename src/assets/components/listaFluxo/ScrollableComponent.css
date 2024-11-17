@@ -9,6 +9,14 @@
     background-color: rgba(255, 255, 255, 0.724);
     border-radius: 10px;
   }
+
+.fluxo_section{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+.second_division{
+  margin-top: 10%;
+}
 .gasto, .ganho{
   background-color: #ffa00841;
   padding: 5px;
@@ -38,10 +46,15 @@
 .buttons Button{
   margin: 5px;
 }
-/* Para Firefox */
-body {
-  scrollbar-width: thin;
-  scrollbar-color: #ffa008 #f0f0f0;
+
+@media (max-width:900px) {
+  .fluxo_section{
+    grid-template-columns: repeat(1,1fr);
+  }
+
 }
-
-
+@media (max-width:700px) {
+  .grafico_container{
+    width: 300px;
+  }
+}
