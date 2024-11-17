@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { MdDelete } from "react-icons/md";
 
-function ModalExcluirCliente({ cliente, onClienteExcluido }) {
+function ModalExcluirGanho({ganho}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -11,7 +11,7 @@ function ModalExcluirCliente({ cliente, onClienteExcluido }) {
 
   const handleExcluir = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/pacientes/${cliente.cpf}`, {
+      const response = await fetch(`http://localhost:3000/api/financasCreditos/${ganho.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -19,17 +19,12 @@ function ModalExcluirCliente({ cliente, onClienteExcluido }) {
       });
 
       if (!response.ok) {
-        throw new Error("Erro ao excluir o paciente");
+        throw new Error("Erro ao excluir ganho");
       }
 
       const data = await response.json();
-      console.log("Paciente excluído:", data);
-      alert("Paciente excluído com sucesso!");
-
-      // Chamar função de callback para atualizar a lista
-      if (onClienteExcluido) {
-        onClienteExcluido(cliente.cpf);
-      }
+      console.log("excluído:", data);
+      alert("excluído com sucesso!");
 
       handleClose(); // Fecha o modal após a exclusão
     } catch (error) {
@@ -40,16 +35,16 @@ function ModalExcluirCliente({ cliente, onClienteExcluido }) {
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow} style={{ width: '40px' }}>
+      <Button variant="success" onClick={handleShow} style={{ width: '40px' }}>
         <MdDelete />
       </Button>
 
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Excluir Paciente</Modal.Title>
+          <Modal.Title>Excluir ganho</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Tem certeza que deseja excluir {cliente.nome} permanentemente?
+          Tem certeza que deseja excluir {ganho.nome} permanentemente?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -64,4 +59,4 @@ function ModalExcluirCliente({ cliente, onClienteExcluido }) {
   );
 }
 
-export default ModalExcluirCliente;
+export default ModalExcluirGanho;

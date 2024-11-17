@@ -1,3 +1,4 @@
+import React, { useState } from 'react'; // Importando useState
 import '../styles/lembretes.css';
 import { IoMdAdd } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
@@ -18,6 +19,13 @@ function Lembretes() {
 
   const togglePanel = () => {
     setIsVisible(prevState => !prevState);
+  };
+
+  const adicionarLembrete = () => {
+    if (lembreteInput.trim() !== "") {
+      setLembretes([...lembretes, lembreteInput]);
+      setLembreteInput("");
+    }
   };
 
   return (
@@ -54,9 +62,9 @@ function Lembretes() {
               </button>
             </div>
             <div className="lembretes_atuais">
-              {/* Substituir com lembretes reais */}
-              <p>Lembrete 1</p>
-              <p>Lembrete 2</p>
+              {lembretes.map((lembrete, index) => (
+                <p key={index}>{lembrete}</p>
+              ))}
             </div>
           </div>
         </div>

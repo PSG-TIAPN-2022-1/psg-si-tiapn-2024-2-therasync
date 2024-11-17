@@ -47,6 +47,77 @@
   margin: 5px;
 }
 
+/* Container principal */
+.financas-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Estilo para cada item de finança */
+.financa-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Texto da finança */
+.financa-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+/* Estilo específico para Ganho */
+.ganho {
+  color: green;
+}
+
+/* Estilo específico para Gasto */
+.gasto {
+  color: red;
+}
+
+/* Estilo para as ações (modais de edição e exclusão) */
+.financa-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Estilo para o botão de editar ou excluir */
+.excluirGasto, .excluirGanho, .editDebito, .editGanho {
+  font-size: 14px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.excluirGasto:hover, .excluirGanho:hover, .editDebito:hover, .editGanho:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para carregamento */
+.financas-container p {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+
+
+
 @media (max-width:900px) {
   .fluxo_section{
     grid-template-columns: repeat(1,1fr);

@@ -1,0 +1,156 @@
+/* Container principal da barra */
+.lembretes_container {
+  position: fixed;
+  top: -100%; /* Fora da tela inicialmente */
+  right: 0;
+  width: 300px; /* Largura fixa */
+  height: 100%; /* Limite da altura da barra */
+  background-color: #f4f4f4;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-100%);
+  transition: transform 0.5s ease-in-out; /* Transição suave */
+  z-index: 1000; /* Fica acima do restante do conteúdo */
+  display: flex;
+  flex-direction: column; /* Garante que o conteúdo interno flua verticalmente */
+  padding-top: 20px;
+}
+
+/* Ativar o painel */
+.lembretes_container.active {
+  transform: translateY(0); /* Faz a barra deslizar para dentro da tela */
+  top:0;
+}
+
+/* Scroll no conteúdo interno */
+.render_lembretes {
+  flex: 1; /* Faz o conteúdo ocupar o restante do espaço */
+  overflow-y: auto; /* Scroll apenas no conteúdo interno */
+  padding: 16px;
+}
+
+/* Botão de alternar */
+.toggleButton {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1001; /* Acima do painel */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Usuário e saudação */
+.div_user p {
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  margin: 0;
+}
+
+/* Seções de conteúdo */
+.consultasDia, .Lembretes {
+  margin-top: 40px;
+}
+
+.consultasDia h3, .Lembretes h3 {
+  color: #003f7f;
+}
+
+.dados_consulta p, .lembretes_atuais p{
+  background-color: #0057b336;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+/* Input e botão de lembrete */
+/* Contêiner do campo de adicionar lembrete */
+.div_addLembrete {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+/* Input estilizado */
+.input_lembrete {
+  flex: 1; /* Ocupa o espaço restante */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc; /* Borda leve */
+  border-radius: 4px; /* Bordas arredondadas */
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input_lembrete:focus {
+  border-color: #007BFF; /* Cor em destaque ao focar */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Botão de adicionar */
+.btn_addLembrete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007BFF; /* Azul chamativo */
+  color: white;
+  border: none;
+  border-radius: 4px; /* Bordas arredondadas */
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  width: 40px;
+}
+
+.btn_addLembrete:hover {
+  background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+  transform: scale(1.05); /* Leve aumento no tamanho */
+}
+
+.btn_addLembrete:active {
+  background-color: #003f7f; /* Cor mais escura ao clicar */
+  transform: scale(1); /* Retorna ao tamanho normal */
+}
+
+.icon-hover {
+  color: rgb(161, 7, 7); /* Cor inicial */
+  transition: color 0.3s; /* Transição suave ao trocar a cor */
+}
+
+.icon-hover:hover {
+  color: red; /* Cor no hover */
+}
+
+  @media (max-width:750px) {
+    .lembretes_container{
+      width: 100vw;
+      margin: 0%;
+    }
+    .consultasDia{
+      text-align: center;
+    }
+    .Lembretes{
+      text-align: center;
+      padding-bottom: 100px;
+    }
+    .consultasDia h3,.Lembretes h3{
+      font-size: 30px;
+    }
+    .closeIcon{
+      display: none;
+    }
+    .input_lembrete {
+      max-width: 300px;
+      display: block;
+      margin: auto;
+    }
+
+  }

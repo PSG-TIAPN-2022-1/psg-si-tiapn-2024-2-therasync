@@ -123,7 +123,30 @@ app.put('/api/pacientes/:cpf', async (req, res) => {
   }
 });
 
+/* deleta paciente */
+app.delete('/api/pacientes/:cpf', async (req, res) => {
+  const pacienteCpf = req.params.cpf;  // Obtendo o CPF da URL
+  console.log('CPF recebido:', pacienteCpf); 
 
+  try {
+    // Encontrar o paciente pelo CPF
+    const paciente = await Paciente.findOne({ where: { cpf: pacienteCpf } });
+
+    if (!paciente) {
+      return res.status(404).json({ message: 'Paciente não encontrado' });
+    }
+
+    // Deletar o paciente encontrado
+    await paciente.destroy();
+
+    return res.status(200).json({ message: 'Paciente deletado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao deletar paciente:', error);
+    return res.status(500).json({ message: 'Erro no servidor', error });
+  }
+});
+
+/*cria paciente */
 app.post('/api/pacientes', async (req, res) => {
   console.log('Body recebido:', req.body);
   const {
@@ -183,6 +206,126 @@ app.post('/api/financasCreditos', async (req, res) => {
   } catch (error) {
     console.error('Erro ao salvar a entrada:', error);
     return res.status(500).json({ error: 'Erro ao salvar a entrada no servidor' });
+  }
+});
+
+/* Excluir ganho */
+app.delete('/api/financasCreditos/:id', async (req, res) => {
+  const idCredito = req.params.id; // Obtém o ID do ganho
+  console.log('ID do ganho:', idCredito);
+
+  if (isNaN(idCredito)) {
+    return res.status(400).json({ message: 'ID inválido' });
+  }
+
+  try {
+    // Procurar a finança pelo ID
+    const credito = await FinancasEntradas.findOne({ where: { id: idCredito } });
+
+    // Verificar se a finança existe
+    if (!credito) {
+      return res.status(404).json({ message: 'Finança de entrada não encontrada' });
+    }
+
+    // Excluir a finança encontrada
+    await credito.destroy();
+
+    // Retornar uma resposta bem-sucedida
+    return res.status(200).json({ message: 'Finança de entrada excluída com sucesso', id: idCredito });
+  } catch (error) {
+    console.error('Erro ao excluir finança de entrada:', error.message);
+    return res.status(500).json({ message: 'Erro interno ao excluir finança de entrada' });
+  }
+});
+
+/* Excluir saída */
+app.delete('/api/financasSaidas/:id', async (req, res) => {
+  const idDebito = req.params.id; 
+  console.log('ID da saída:', idDebito);
+
+  if (isNaN(idDebito)) {
+    return res.status(400).json({ message: 'ID inválido' });
+  }
+
+  try {
+    const debito = await FinancasSaidas.findOne({ where: { id: idDebito } });
+
+    if (!debito) {
+      return res.status(404).json({ message: 'Finança de saída não encontrada' });
+    }
+
+    await debito.destroy();
+
+    return res.status(200).json({ message: 'Finança de saída excluída com sucesso', id: idDebito });
+  } catch (error) {
+    console.error('Erro ao excluir finança de saída:', error.message);
+    return res.status(500).json({ message: 'Erro interno ao excluir finança de saída' });
+  }
+});
+
+// Rota PUT para atualizar um gasto
+app.put('/api/gastos/:id', async (req, res) => {
+  const gastoId = req.params.id;  // Obtendo o ID do gasto da URL
+  console.log('ID do gasto recebido:', gastoId);
+  
+  const { nome, valor, dataDebito } = req.body;
+
+  // Validar se os campos obrigatórios estão presentes
+  if (!nome || !valor || !dataDebito) {
+    return res.status(400).json({ message: 'Campos obrigatórios não preenchidos' });
+  }
+
+  try {
+    // Encontrar o gasto pelo ID
+    const gasto = await FinancasSaidas.findByPk(gastoId);
+
+    if (!gasto) {
+      return res.status(404).json({ message: 'Gasto não encontrado' });
+    }
+
+    // Atualizar os dados do gasto
+    await gasto.update({
+      nome,
+      valor,
+      dataDebito,
+    });
+
+    // Resposta com o gasto atualizado
+    res.status(200).json({ message: 'Gasto atualizado com sucesso', gasto });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao atualizar gasto', error });
+  }
+});
+
+app.put('/api/ganhos/:id', async (req, res) => {
+  const ganhoId = req.params.id;  
+  console.log('ID do ganho recebido:', ganhoId);
+  console.log('Corpo da requisição:', req.body);  // Adicione esse log para verificar os dados recebidos
+
+  const { nome, valor, dataCredito } = req.body;
+
+  // Validar se os campos obrigatórios estão presentes
+  if (!nome || !valor || !dataCredito) {
+    return res.status(400).json({ message: 'Campos obrigatórios não preenchidos' });
+  }
+
+  try {
+    const ganho = await FinancasEntradas.findByPk(ganhoId);
+    if (!ganho) {
+      return res.status(404).json({ message: 'Ganho não encontrado' });
+    }
+
+    await ganho.update({
+      nome,
+      valor,
+      dataCredito,
+    });
+
+    res.status(200).json({ message: 'Ganho atualizado com sucesso', ganho });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao atualizar ganho', error });
   }
 });
 

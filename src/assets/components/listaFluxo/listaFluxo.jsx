@@ -3,6 +3,10 @@ import './ScrollableComponent.css';
 import { Button } from 'react-bootstrap';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ModalExcluirGanho from '../ModalExcluirGanho';
+import ModalExcluirGasto from '../ModalExcluirGasto';
+import ModalEditGanhos from '../ModalEditarGanho';
+import ModalEditDebitos from '../ModalEditarGasto';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -121,18 +125,36 @@ const ListaFluxo = () => {
 
 
 
-        {/* Exibindo os dados da API */}
-        <div>
-          {dataApi.length > 0 ? (
-            dataApi.map((item, index) => (
-              <p key={index} className={selectedButton === 'ganhos' ? 'ganho' : 'gasto'}>
-                {item.nome} - R${parseFloat(item.valor).toFixed(2)}
-              </p>
-            ))
-          ) : (
-            <p>Carregando dados...</p>
-          )}
-        </div>
+          {/* Exibindo os dados da API */}
+          <div className="financas-container">
+            {dataApi.length > 0 ? (
+              dataApi.map((item, index) => (
+                <div key={index} className="financa-item">
+                  {/* Exibe o ModalExcluirGasto apenas quando selectedButton for 'gastos' */}
+                  {selectedButton === 'gastos' && (
+                    <div className="financa-actions">
+                      <ModalExcluirGasto gasto={item} className="excluirGasto" />
+                      <ModalEditDebitos gasto={item} className="editDebito" />
+                    </div>
+                  )}
+
+                  {/* Exibe o ModalExcluirGanho apenas quando selectedButton for 'ganhos' */}
+                  {selectedButton === 'ganhos' && (
+                    <div className="financa-actions">
+                      <ModalExcluirGanho ganho={item} className="excluirGanho" />
+                      <ModalEditGanhos ganho={item} className="editGanho" />
+                    </div>
+                  )}
+
+                  <p className={`financa-text ${selectedButton === 'ganhos' ? 'ganho' : 'gasto'}`}>
+                    {item.nome} - R${parseFloat(item.valor).toFixed(2)}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p>Carregando dados...</p>
+            )}
+          </div>
       </div>
       </div>
       </section>
