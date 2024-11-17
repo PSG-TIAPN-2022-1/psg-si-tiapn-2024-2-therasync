@@ -4,11 +4,13 @@ import {Sequelize} from 'sequelize';
 import {QueryTypes} from 'sequelize';
 import { PiAlarmThin } from 'react-icons/pi';
 import bodyParser from 'body-parser';
+import FinancasEntradas from './models/financasEntradas.js';
 
 const app = express();
 const PORT = 3000;
+app.use(bodyParser.json());
 
-const sequelize = new Sequelize('therasync', 'root', '', {
+const sequelize = new Sequelize('therasync2', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306
@@ -154,6 +156,27 @@ app.post('/api/pacientes', async (req, res) => {
   } catch (error) {
     console.error('Erro ao criar o paciente:', error);
     res.status(500).json({ error: 'Erro ao criar paciente' });
+  }
+});
+
+app.post('/api/financasCreditos', async (req, res) => {
+  const { nome, valor, dataEntrada } = req.body;
+
+  if (!nome || !valor || !dataEntrada) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+  }
+
+  try {
+    const novaEntrada = await FinancasEntradas.create({
+      nome,
+      valor,
+      dataEntrada,
+    });
+
+    return res.status(201).json({ message: 'Dados salvos com sucesso', data: novaEntrada });
+  } catch (error) {
+    console.error('Erro ao salvar os dados:', error);
+    return res.status(500).json({ error: 'Erro ao salvar os dados no servidor' });
   }
 });
 
