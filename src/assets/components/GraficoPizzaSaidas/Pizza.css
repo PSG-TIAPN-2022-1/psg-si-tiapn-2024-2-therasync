@@ -1,6 +1,6 @@
 .pizza {
-    width: 100%;        /* Ocupa 100% da largura disponível */
-    height: 100%;       /* Ocupa 100% da altura disponível */
+    width: 100%;       
+    height: 100%;      
     display: flex;
     justify-content: center;
     align-items: center;

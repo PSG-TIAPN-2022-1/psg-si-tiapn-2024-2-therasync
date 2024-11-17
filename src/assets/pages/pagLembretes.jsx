@@ -5,12 +5,12 @@ import '../styles/pagLembretes.css';
 
 export default function PagLembretes() {
 
-    /*usuario lembretes*/
+
     const nome = 'João Vitor';
 
     const now = new Date();
-    const hours = now.getHours(); // Retorna as horas (0-23)
-    const minutes = now.getMinutes(); // Retorna os minutos (0-59)
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
     let saudacao;
 
     switch (true) {
@@ -24,7 +24,6 @@ export default function PagLembretes() {
         saudacao = 'Boa noite';
     }
 
-    /*dados consulta */
     const horario_consulta = now.getHours(); 
     const minutos_consulta = String(minutes).padStart(2, '0');
     const nomeCliente = 'Maria chaves';
@@ -40,7 +39,6 @@ export default function PagLembretes() {
     ];
     
     
-    /*Dados Lembrete */
     const lembretes = 'alskjhdgcyujndfjkdmdnfjk';
 
 

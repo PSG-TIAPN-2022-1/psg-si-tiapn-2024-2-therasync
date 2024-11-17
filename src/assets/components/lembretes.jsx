@@ -1,22 +1,85 @@
+import { useState, useEffect } from 'react';
 import '../styles/lembretes.css';
 import { IoMdAdd } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
-import { useState } from 'react';
 import { MdOutlineViewAgenda } from 'react-icons/md';
+import { MdDelete } from "react-icons/md";
 
 function Lembretes() {
-  const nome = 'João Vitor';
-
   const now = new Date();
   const hours = now.getHours();
   const saudacao =
     hours < 12 ? 'Bom dia' : hours < 18 ? 'Boa tarde' : 'Boa noite';
 
   const [isVisible, setIsVisible] = useState(false);
+  const [consultas, setConsultas] = useState([]);
+  const [lembretes, setLembretes] = useState([]);
+
 
   const togglePanel = () => {
     setIsVisible(prevState => !prevState);
   };
+
+  const fetchConsultas = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/consultas');
+      if (!response.ok) {
+        throw new Error('Erro ao buscar consultas');
+      }
+      const data = await response.json();
+      console.log('Consultas recebidas da API:', data);
+      setConsultas(data);
+    } catch (error) {
+      console.error('Erro ao fazer o fetch:', error);
+    }
+  };
+
+  const formatarData = (data) => {
+    const date = new Date(data);
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getUTCDate()).padStart(2, '0');
+
+    return `${day}/${month}/${year}`;
+  };
+
+
+  const isHoje = (dataConsulta) => {
+    const hoje = new Date();
+    const dataConsultaObj = new Date(dataConsulta);
+
+    return hoje.getUTCFullYear() === dataConsultaObj.getUTCFullYear() &&
+           hoje.getUTCMonth() === dataConsultaObj.getUTCMonth() &&
+           hoje.getUTCDate() === dataConsultaObj.getUTCDate();
+  };
+
+  const gerarLembretes = () => {
+    try {
+
+      const novosLembretes = consultas
+        .filter(consulta => isHoje(consulta.dataConsulta))
+        .map(consulta => ({
+          nomePaciente: consulta.nome,
+          dataConsulta: formatarData(consulta.dataConsulta),
+        }));
+
+      console.log('Lembretes gerados:', novosLembretes);
+      setLembretes(novosLembretes);
+    } catch (error) {
+      console.error('Erro ao gerar lembretes:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchConsultas();
+  }, []);
+
+  useEffect(() => {
+    if (consultas.length > 0) {
+      gerarLembretes();
+    }
+  }, [consultas]);
 
   return (
     <>
@@ -26,19 +89,25 @@ function Lembretes() {
       <div className={`lembretes_container ${isVisible ? 'active' : ''}`}>
         <div className="render_lembretes">
           <div className="div_user">
-            <p>Olá, {nome}</p>
-            <p>{saudacao}!</p>
+            <p>Olá João, {saudacao}</p>
           </div>
           <div className="consultasDia">
-            <h3>CONSULTAS</h3>
+            <h3>LEMBRETES</h3>
             <div className="dados_consulta">
-              {/* Substituir com consultas reais */}
-              <p>10:00 - Cliente 1</p>
-              <p>14:00 - Cliente 2</p>
+              {lembretes.length > 0 ? (
+                lembretes.map((lembrete, index) => (
+                  <p key={index}>
+                    {lembrete.dataConsulta} - Cliente: {lembrete.nomePaciente}
+                    <MdDelete size={24} className="icon-hover" />
+                  </p>
+                ))
+              ) : (
+                <p>Sem lembretes para o dia</p>
+              )}
             </div>
           </div>
           <div className="Lembretes">
-            <h3>LEMBRETES</h3>
+            <h3>ADICIONAR LEMBRETE</h3>
             <div className="div_addLembrete">
               <input 
                 type="text" 
@@ -50,9 +119,9 @@ function Lembretes() {
               </button>
             </div>
             <div className="lembretes_atuais">
-              {/* Substituir com lembretes reais */}
-              <p>Lembrete 1</p>
-              <p>Lembrete 2</p>
+              {lembretes.map((lembrete, index) => (
+                <p key={index}><MdDelete size={24} className="icon-hover" /> {lembrete.nomePaciente} - {lembrete.dataConsulta}</p>
+              ))}
             </div>
           </div>
         </div>
