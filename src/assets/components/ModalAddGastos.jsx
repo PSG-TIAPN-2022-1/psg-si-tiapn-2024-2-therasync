@@ -3,10 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-// Função para enviar os dados para a API de gastos
-const sendFinancasSaida = async (data) => {
+const sendFinancasDebito = async (data) => {
   try {
-    const response = await fetch('http://localhost:3000/api/financasSaidas', {
+    const response = await fetch('http://localhost:3000/api/financasDebitos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -15,21 +14,21 @@ const sendFinancasSaida = async (data) => {
     });
 
     if (!response.ok) {
-      throw new Error('Erro ao salvar os dados');
+      throw new Error('Erro na resposta', error);
     }
 
     const result = await response.json();
-    console.log('Dados salvos com sucesso:', result);
+    console.log('Débito salvo com sucesso:', result);
   } catch (error) {
-    console.error('Erro ao enviar dados:', error);
+    console.error('Erro ao enviar débitos:', error);
   }
 };
 
-function ModalAddGastos() {
+function ModalAddDebitos() {
   const [show, setShow] = useState(false);
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
-  const [dataSaida, setDataSaida] = useState('');
+  const [dataDebito, setDataDebito] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -40,24 +39,26 @@ function ModalAddGastos() {
     const data = {
       nome,
       valor,
-      dataSaida,
+      dataDebito,
     };
 
-    sendFinancasSaida(data);  // Envia os dados para a API de Saídas
+    sendFinancasDebito(data);
+    setNome('');
+    setValor('');
+    setDataDebito('');
 
-    // Fechar o modal após salvar
     handleClose();
   };
 
   return (
     <>
       <Button variant="danger" onClick={handleShow}>
-        Adicionar Gasto
+        Adicionar Débito
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Cadastrar Gasto</Modal.Title>
+          <Modal.Title>Cadastrar Débito</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -65,7 +66,7 @@ function ModalAddGastos() {
               <Form.Label>Nome</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nome do gasto"
+                placeholder="Nome do débito"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 required
@@ -76,19 +77,19 @@ function ModalAddGastos() {
               <Form.Label>Valor</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Valor do gasto"
+                placeholder="Valor do débito"
                 value={valor}
                 onChange={(e) => setValor(e.target.value)}
                 required
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="dataSaida">
-              <Form.Label>Data de Saída</Form.Label>
+            <Form.Group className="mb-3" controlId="dataDebito">
+              <Form.Label>Data de Débito</Form.Label>
               <Form.Control
                 type="date"
-                value={dataSaida}
-                onChange={(e) => setDataSaida(e.target.value)}
+                value={dataDebito}
+                onChange={(e) => setDataDebito(e.target.value)}
                 required
               />
             </Form.Group>
@@ -108,4 +109,4 @@ function ModalAddGastos() {
   );
 }
 
-export default ModalAddGastos;
+export default ModalAddDebitos;

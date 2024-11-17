@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-// Função para calcular idade a partir da data de nascimento
 const calcularIdade = (dataNascimento) => {
     if (!dataNascimento) return '—';
     

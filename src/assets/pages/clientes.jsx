@@ -13,7 +13,7 @@ const Clientes = () => {
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]); 
 
-/*Clientes */
+
   useEffect(() => {
     const fetchClientes = async () => {
       try {
@@ -42,27 +42,24 @@ const Clientes = () => {
     setModalShow(true);
   };
 
-  /* Ordenar Clientes A-Z */
     const handleOrdenarClientesAZ = () => {
     const clientesOrdenados = [...clientes].sort((a, b) => a.nome.localeCompare(b.nome));
     setClientesFiltrados(clientesOrdenados);
   };
 
-  /* Filtros */
 
-  /*ativos */
     const handleFiltrarAtivos = () => {
       const ativos = clientes.filter(cliente => cliente.status === 1);
       setClientesFiltrados(ativos);
     };
-  /*inativos */
+
     const handleFiltrarInativos = () => {
       const inativos = clientes.filter(cliente => cliente.status !== 1);
       setClientesFiltrados(inativos);
     };
 
 
-  /*proxima consulta mais recente*/
+
   const handleFiltrarRecente = () => {
     const recente = [...clientes].sort((a, b) => {
       const dataA = new Date(a.proximaConsulta || "2100-01-01"); 
@@ -71,7 +68,6 @@ const Clientes = () => {
     });
 
     recente.sort((a, b) => {
-      // Verificar se o campo proximaConsulta é null e joga para o final da lista
       if (a.proximaConsulta === null && b.proximaConsulta !== null) {
         return 1;  
       }
@@ -92,7 +88,6 @@ const Clientes = () => {
     })
 
     ultimos.sort((a, b) => {
-      // Verificar se o campo ultima consulta é null e joga para o final da lista
       if (a.ultimaConsulta === null && b.ultimaConsulta !== null) {
         return 1;  
       }

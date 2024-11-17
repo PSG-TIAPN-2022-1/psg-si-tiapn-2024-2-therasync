@@ -7,7 +7,7 @@ import { MdEdit } from "react-icons/md";
 function ModalEditar(props) {
   const { cliente } = props;
 
-  // Estados para os campos do formulário
+
   const status = cliente.status;
   const [nome, setNome] = useState(cliente?.nome || '');
   const [email, setEmail] = useState(cliente?.email || '');
@@ -23,7 +23,6 @@ function ModalEditar(props) {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  // Função chamada ao clicar no botão
   const handleAlter = () => {
     const novoCliente = {
       nome,
@@ -36,10 +35,10 @@ function ModalEditar(props) {
       status,
     };
 
-    setClienteEditado(novoCliente); // Atualiza o estado com os novos dados
+    setClienteEditado(novoCliente);
   };
 
-  // useEffect para fazer o PUT sempre que `clienteEditado` mudar
+
   useEffect(() => {
     const fetchClientes = async () => {
       try {
@@ -65,7 +64,6 @@ function ModalEditar(props) {
       }
     };
 
-    // Só realiza a chamada PUT se o objeto não estiver vazio
     if (Object.keys(clienteEditado).length > 0) {
       fetchClientes();
     }

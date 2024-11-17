@@ -22,7 +22,7 @@ const FinancasSaidas = sequelize.define('financasSaidas', {
     }
 },
 {
-  tableName: 'financasSaidas',
+  tableName: 'financassaidas',
   timestamps: false
 }
 );

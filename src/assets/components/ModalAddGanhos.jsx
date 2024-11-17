@@ -43,10 +43,10 @@ function ModalAddGanhos() {
       dataEntrada,
     };
 
-    // Envia os dados para a API (backend com Sequelize)
+
     sendFinancasEntrada(data);
 
-    // Limpar campos após envio
+
     setNome('');
     setValor('');
     setDataEntrada('');

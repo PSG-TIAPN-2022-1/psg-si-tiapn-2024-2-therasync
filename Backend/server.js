@@ -5,6 +5,9 @@ import {QueryTypes} from 'sequelize';
 import { PiAlarmThin } from 'react-icons/pi';
 import bodyParser from 'body-parser';
 import FinancasEntradas from './models/financasEntradas.js';
+import FinancasSaidas from './models/financasSaidas.js';
+import Paciente from './models/paciente.js'
+import { parseISO, isValid } from 'date-fns';
 
 const app = express();
 const PORT = 3000;
@@ -81,7 +84,7 @@ app.get('/api/financasDebitos', async (req, resp) => {
   }
 });
 
-/*editar paciente*/
+
 app.put('/api/pacientes/:cpf', async (req, res) => {
   const pacienteCpf = req.params.cpf;  // Obtendo o CPF da URL
   console.log('CPF recebido:', pacienteCpf); 
@@ -120,10 +123,9 @@ app.put('/api/pacientes/:cpf', async (req, res) => {
   }
 });
 
-/* Novo paciente */
-app.post('/api/pacientes', async (req, res) => {
-  console.log('Body recebido:', req.body);  // Verifique o que está chegando no corpo da requisição
 
+app.post('/api/pacientes', async (req, res) => {
+  console.log('Body recebido:', req.body);
   const {
     cpf,
     nome,
@@ -144,8 +146,7 @@ app.post('/api/pacientes', async (req, res) => {
       sobre,
       naturalidade,
       frequenciaPagamento,
-      nomeResponsavel,
-      status: true, 
+      nomeResponsavel
     });
 
     res.status(201).json({
@@ -166,17 +167,48 @@ app.post('/api/financasCreditos', async (req, res) => {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
   }
 
+  const dataEntradaFormatada = parseISO(dataEntrada);
+  if (!isValid(dataEntradaFormatada)) {
+    return res.status(400).json({ error: 'Formato de data inválido' });
+  }
+
   try {
     const novaEntrada = await FinancasEntradas.create({
       nome,
       valor,
-      dataEntrada,
+      dataCredito: dataEntradaFormatada,
     });
 
-    return res.status(201).json({ message: 'Dados salvos com sucesso', data: novaEntrada });
+    return res.status(201).json({ message: 'Entrada salva com sucesso', data: novaEntrada });
   } catch (error) {
-    console.error('Erro ao salvar os dados:', error);
-    return res.status(500).json({ error: 'Erro ao salvar os dados no servidor' });
+    console.error('Erro ao salvar a entrada:', error);
+    return res.status(500).json({ error: 'Erro ao salvar a entrada no servidor' });
+  }
+});
+
+app.post('/api/financasDebitos', async (req, res) => {
+  const { nome, valor, dataDebito } = req.body;
+
+  if (!nome || !valor || !dataDebito) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+  }
+
+  const dataDebitoFormatada = parseISO(dataDebito);
+  if (!isValid(dataDebitoFormatada)) {
+    return res.status(400).json({ error: 'Formato de data inválido' });
+  }
+
+  try {
+    const novoDebito = await FinancasSaidas.create({
+      nome,
+      valor,
+      dataDebito: dataDebitoFormatada,
+    });
+
+    return res.status(201).json({ message: 'Débito salvo com sucesso', data: novoDebito });
+  } catch (error) {
+    console.error('Erro ao salvar o débito:', error);
+    return res.status(500).json({ error: 'Erro ao salvar o débito no servidor' });
   }
 });
 

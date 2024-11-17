@@ -19,7 +19,6 @@ function NovoCliente() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // Função para capturar os valores dos campos do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;  
     setNovoCliente({
@@ -40,7 +39,6 @@ function NovoCliente() {
       Nome do Responsável: ${novoCliente.nomeResponsavel}
     `);
 
-    // Chamada para a API
     try {
       const response = await fetch('http://localhost:3000/api/pacientes', {
         method: 'POST',
@@ -60,7 +58,8 @@ function NovoCliente() {
       console.error('Erro:', error);
     }
 
-    handleClose(); // Fechar o modal após o submit
+    handleClose();
+ 
   };
 
   

@@ -31,11 +31,6 @@ const Paciente = sequelize.define('paciente', {
     nomeResponsavel: {
         type: DataTypes.STRING(50),
         allowNull: true,
-    },
-    status:{
-        type: DataTypes.BOOLEAN,
-        allowNull:false,
-        defaultValue: true, 
     }
 
 },
