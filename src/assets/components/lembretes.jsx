@@ -14,7 +14,7 @@ function Lembretes() {
   const [isVisible, setIsVisible] = useState(false);
   const [consultas, setConsultas] = useState([]);
   const [lembretes, setLembretes] = useState([]);
-
+  const [lembreteInput, setLembreteInput] = useState("");
 
   const togglePanel = () => {
     setIsVisible(prevState => !prevState);
@@ -44,7 +44,6 @@ function Lembretes() {
     return `${day}/${month}/${year}`;
   };
 
-
   const isHoje = (dataConsulta) => {
     const hoje = new Date();
     const dataConsultaObj = new Date(dataConsulta);
@@ -56,7 +55,6 @@ function Lembretes() {
 
   const gerarLembretes = () => {
     try {
-
       const novosLembretes = consultas
         .filter(consulta => isHoje(consulta.dataConsulta))
         .map(consulta => ({
@@ -71,8 +69,42 @@ function Lembretes() {
     }
   };
 
+  const salvarLembretesNoStorage = (novosLembretes) => {
+    localStorage.setItem('lembretes', JSON.stringify(novosLembretes));
+  };
+
+  const carregarLembretesDoStorage = () => {
+    const lembretesStorage = JSON.parse(localStorage.getItem('lembretes')) || [];
+    setLembretes(lembretesStorage);
+  };
+
+  const adicionarLembrete = () => {
+    if (!lembreteInput.trim()) return; // Evita adicionar lembrete vazio
+
+    const novoLembrete = {
+      nomePaciente: 'Novo Lembrete',
+      dataConsulta: formatarData(new Date()),
+      descricao: lembreteInput
+    };
+
+    const lembretesAtuais = [...lembretes, novoLembrete];
+    setLembretes(lembretesAtuais);
+    salvarLembretesNoStorage(lembretesAtuais);
+    setLembreteInput(""); // Limpa o input após adicionar
+  };
+
+  const removerLembrete = (index) => {
+    const lembretesAtualizados = lembretes.filter((_, i) => i !== index);
+    setLembretes(lembretesAtualizados);
+    salvarLembretesNoStorage(lembretesAtualizados);
+  };
+
   useEffect(() => {
     fetchConsultas();
+  }, []);
+
+  useEffect(() => {
+    carregarLembretesDoStorage();
   }, []);
 
   useEffect(() => {
@@ -97,8 +129,12 @@ function Lembretes() {
               {lembretes.length > 0 ? (
                 lembretes.map((lembrete, index) => (
                   <p key={index}>
-                    {lembrete.dataConsulta} - Cliente: {lembrete.nomePaciente}
-                    <MdDelete size={24} className="icon-hover" />
+                    {lembrete.dataConsulta} - {lembrete.descricao}
+                    <MdDelete 
+                      size={24} 
+                      className="icon-hover" 
+                      onClick={() => removerLembrete(index)} 
+                    />
                   </p>
                 ))
               ) : (
@@ -113,15 +149,12 @@ function Lembretes() {
                 type="text" 
                 className="input_lembrete" 
                 placeholder="Adicionar lembrete" 
+                value={lembreteInput}
+                onChange={(e) => setLembreteInput(e.target.value)}
               />
-              <button type="button" className="btn_addLembrete">
+              <button type="button" className="btn_addLembrete" onClick={adicionarLembrete}>
                 <IoMdAdd size={20} />
               </button>
-            </div>
-            <div className="lembretes_atuais">
-              {lembretes.map((lembrete, index) => (
-                <p key={index}><MdDelete size={24} className="icon-hover" /> {lembrete.nomePaciente} - {lembrete.dataConsulta}</p>
-              ))}
             </div>
           </div>
         </div>
