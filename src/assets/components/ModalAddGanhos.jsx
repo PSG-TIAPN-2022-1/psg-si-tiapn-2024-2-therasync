@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 // Função para enviar os dados para a API
 const sendFinancasEntrada = async (data) => {
   try {
-    const response = await fetch('http://localhost:3000/api/financasEntradas', {
+    const response = await fetch('http://localhost:3000/api/financasCreditos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,9 +43,14 @@ function ModalAddGanhos() {
       dataEntrada,
     };
 
-    sendFinancasEntrada(data);  // Envia os dados para a API
+    // Envia os dados para a API (backend com Sequelize)
+    sendFinancasEntrada(data);
 
-    // Fechar o modal após salvar
+    // Limpar campos após envio
+    setNome('');
+    setValor('');
+    setDataEntrada('');
+
     handleClose();
   };
 

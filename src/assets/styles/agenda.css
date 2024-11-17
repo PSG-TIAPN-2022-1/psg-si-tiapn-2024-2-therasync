@@ -12,6 +12,10 @@
     text-align: center;
 }
 
+body {
+    background-color: black;
+}
+
 .tela{
     display: flex;
     
