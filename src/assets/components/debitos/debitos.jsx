@@ -14,7 +14,7 @@ const Debitos = ({ mes, ano, dadosAtualizados }) => {
       const data = await response.json();
       const total = data
         .filter(item => {
-          const dataDebito = new Date(item.dataDebito); // Corrigido para dataDebito
+          const dataDebito = new Date(item.dataDebito);
           return (
             dataDebito.getMonth() === mes &&
             dataDebito.getFullYear() === ano &&

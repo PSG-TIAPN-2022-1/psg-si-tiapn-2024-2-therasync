@@ -5,18 +5,18 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,  // Registro do ponto
+  PointElement, 
   LineElement,
   Title,
   Tooltip,
   Legend
 } from 'chart.js';
 
-// Registrar os componentes necessários para o gráfico
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement, // Registro do ponto
+  PointElement, 
   LineElement,
   Title,
   Tooltip,
@@ -34,7 +34,7 @@ const MyLineChart = () => {
       }
 
       const data = await response.json();
-      setDataApi(data);  // Armazenando os dados da API no estado
+      setDataApi(data);  
     } catch (error) {
       console.error("Erro ao buscar dados da API:", error);
     }
@@ -44,11 +44,11 @@ const MyLineChart = () => {
     fetchCreditos();
   }, []);
 
-  // Função para agrupar os créditos por mês
+
   const agruparPorMes = (dados) => {
     const creditosPorMes = {};
 
-    // Inicializar o objeto com todos os meses de 2024 (1 a 12)
+
     for (let i = 1; i <= 12; i++) {
       creditosPorMes[i] = 0;
     }
@@ -56,25 +56,25 @@ const MyLineChart = () => {
     dados.forEach(item => {
       if (item.dataCredito !== '0000-00-00') {
         const dataCredito = new Date(item.dataCredito);
-        const mes = dataCredito.getMonth() + 1; // Ajuste porque getMonth() retorna 0 (janeiro) a 11 (dezembro)
+        const mes = dataCredito.getMonth() + 1; 
 
-        creditosPorMes[mes] += parseFloat(item.valor); // Soma o valor do crédito
+        creditosPorMes[mes] += parseFloat(item.valor); 
       }
     });
 
     return creditosPorMes;
   };
 
-  // Agrupar dados e preparar para o gráfico
+
   const creditosAgrupados = agruparPorMes(dataApi);
 
-  // Extrair os meses e valores para o gráfico
+ 
   const meses = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
   ];
   const valores = Object.values(creditosAgrupados);
 
-  // Dados para o gráfico
+
   const data = {
     labels: meses,
     datasets: [
@@ -90,7 +90,7 @@ const MyLineChart = () => {
     ]
   };
 
-  // Opções do gráfico
+
   const options = {
     responsive: true,
     plugins: {

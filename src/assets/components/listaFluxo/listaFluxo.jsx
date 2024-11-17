@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ScrollableComponent.css'; // Importando o arquivo de estilo
+import './ScrollableComponent.css';
 import { Button } from 'react-bootstrap';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -7,13 +7,12 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ListaFluxo = () => {
-  // Estado para armazenar os dados da API
+
   const [dataApi, setDataApi] = useState([]);
-  // Estado para controlar se o botão "Ganhos" ou "Gastos" está ativo
+
   const [selectedButton, setSelectedButton] = useState('gastos');
   const [chartData, setChartData] = useState({});
 
-  // Função para buscar dados de Débitos (Gastos)
   const fetchDebitos = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/financasDebitos');
@@ -28,7 +27,7 @@ const ListaFluxo = () => {
     }
   };
 
-  // Função para buscar dados de Créditos (Ganhos)
+
   const fetchCreditos = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/financasCreditos');
@@ -43,7 +42,6 @@ const ListaFluxo = () => {
     }
   };
 
-  // Função para preparar os dados do gráfico
   const prepareChartData = (data) => {
     const groupedData = data.reduce((acc, item) => {
       if (acc[item.nome]) {
@@ -117,9 +115,10 @@ const ListaFluxo = () => {
         </Button>
       </div>
 
-      <div className="scrollable-container">
-        <h2>{selectedButton === 'ganhos' ? 'Ganhos' : 'Gastos'}</h2>
-        <p></p>
+        <div className="scrollable-container">
+          <h2>{selectedButton === 'ganhos' ? 'Ganhos' : 'Gastos'}</h2>
+          <p></p>
+
 
 
         {/* Exibindo os dados da API */}

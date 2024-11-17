@@ -3,12 +3,12 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import './Pizza.css';
 
-// Registrando os elementos e plugins necessários
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyDoughnutChart = () => {
 
-  // Adicionando o estado para armazenar os dados da API
+
   const [dataApi, setDataApi] = useState([]);
 
   const fetchDebitos = async () => {
@@ -19,7 +19,7 @@ const MyDoughnutChart = () => {
       }
 
       const data = await response.json();
-      setDataApi(data);  // Armazenando os dados da API no estado
+      setDataApi(data); 
     } catch (error) {
       console.error("Erro ao buscar dados da API:", error);
     }
@@ -36,13 +36,13 @@ const MyDoughnutChart = () => {
     '#FF6699', '#CC00CC', '#FF0033', '#6699FF', '#66FF66', '#FF6600',
     '#00FFCC', '#99FF33', '#CC3333', '#33CC99', '#FF3300', '#33FF33'
   ];
-  // Usando os dados da API para gerar o gráfico
+
   const data = {
-    labels: dataApi.map((debito) => debito.nome), // Supondo que cada débito tenha o campo "nome"
+    labels: dataApi.map((debito) => debito.nome),
     datasets: [
       {
         label: 'Débitos',
-        data: dataApi.map((debito) => debito.valor), // Supondo que cada débito tenha o campo "valor"
+        data: dataApi.map((debito) => debito.valor), 
         backgroundColor: backgroundColors,
         hoverBackgroundColor: backgroundColors,
       },
@@ -53,7 +53,7 @@ const MyDoughnutChart = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top', // posição da legenda (topo)
+        position: 'top', 
       },
     },
   };

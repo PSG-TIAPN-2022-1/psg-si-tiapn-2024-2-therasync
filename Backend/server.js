@@ -35,7 +35,7 @@ app.get('/api/users', async (req, res) => {
 
 app.get('/api/consultas', async (req, resp) => {
   try {
-    const consultas = await sequelize.query('SELECT * FROM `consulta`', {
+    const consultas = await sequelize.query('select paciente.nome, consulta.dataConsulta from `paciente` inner join `consulta` where paciente.cpf = consulta.id_paciente;', {
       type: QueryTypes.SELECT,
     });
     resp.json(consultas);

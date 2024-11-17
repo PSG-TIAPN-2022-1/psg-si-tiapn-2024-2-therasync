@@ -10,7 +10,7 @@ import {
   Legend
 } from 'chart.js';
 
-// Registrar as escalas e outros elementos necessários
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,7 +21,7 @@ ChartJS.register(
 );
 
 const MyBarChart = () => {
-  // Dados do gráfico
+
   const data = {
     labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
     datasets: [
@@ -35,7 +35,7 @@ const MyBarChart = () => {
     ]
   };
 
-  // Opções do gráfico
+  
   const options = {
     responsive: true,
     plugins: {

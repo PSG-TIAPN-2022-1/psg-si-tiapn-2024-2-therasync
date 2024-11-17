@@ -23,15 +23,13 @@ const Dashboard = () => {
 
   const handleBuscar = () => {
     setPeriodo({ mes, ano });
-    setDadosAtualizados(prev => !prev); // Alterna o estado para forçar atualização nos componentes filhos
+    setDadosAtualizados(prev => !prev);
   };
 
-  // Estado para controlar qual gráfico mostrar
-  const [showGanhos, setShowGanhos] = useState(true); // Inicialmente mostrar gráfico de ganhos
 
-  // Função para alternar entre gráfico de Ganhos e Saídas
-  const showGanhosGraph = () => setShowGanhos(true); // Exibe gráfico de Ganhos
-  const showSaidasGraph = () => setShowGanhos(false); // Exibe gráfico de Saídas
+  const [showGanhos, setShowGanhos] = useState(true); 
+  const showGanhosGraph = () => setShowGanhos(true); 
+  const showSaidasGraph = () => setShowGanhos(false); 
 
   return (
     <div className="dash_container">

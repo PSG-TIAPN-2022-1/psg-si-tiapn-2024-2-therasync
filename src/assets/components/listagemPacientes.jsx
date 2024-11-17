@@ -9,13 +9,12 @@ const listagemPacientes = () => {
   const [modalShow, setModalShow] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
 
-  // Função para buscar dados dos clientes na API
+
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/pacientes'); // Verifique a URL aqui
+        const response = await fetch('http://localhost:3000/api/pacientes');
         
-        // Verifique se a resposta é um JSON válido
         if (!response.ok) {
           throw new Error(`Erro na resposta da API: ${response.status}`);
         }
@@ -29,14 +28,12 @@ const listagemPacientes = () => {
     fetchClientes();
   }, []);
 
-  // Função para formatar datas
   const formatarData = (data) => {
     if (!data || data === "0000-00-00") return "—";
     const dataObj = new Date(data);
     return dataObj.toLocaleDateString();
   };
 
-  // Função para abrir o modal com os dados do cliente selecionado
   const handleShowModal = (cliente) => {
     setClienteSelecionado(cliente);
     setModalShow(true);

@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-// Função para enviar os dados para a API
 const sendFinancasEntrada = async (data) => {
   try {
     const response = await fetch('http://localhost:3000/api/financasCreditos', {
