@@ -1,11 +1,12 @@
+import { useState, useEffect } from 'react'; // Adicione o useEffect aqui
 import '../styles/lembretes.css';
 import { IoMdAdd } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
-import { useState } from 'react';
 import { MdOutlineViewAgenda } from 'react-icons/md';
+import { MdDelete } from "react-icons/md";
+import { Button } from 'react-bootstrap';
 
 function Lembretes() {
-  const nome = 'João Vitor';
 
   const now = new Date();
   const hours = now.getHours();
@@ -18,6 +19,37 @@ function Lembretes() {
     setIsVisible(prevState => !prevState);
   };
 
+  const [consultas, setConsultas] = useState([]);
+  const [consultasDia, setConsultasDia] = useState([]);
+
+  const fetchConsultas = async () => {
+    try {
+      const response = await fetch('/api/consultas');
+      if (!response.ok) {
+        throw new Error('Erro ao buscar consultas');
+      }
+      const data = await response.json();
+      setConsultas(data);
+    } catch (error) {
+      console.error('Erro ao fazer o fetch:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchConsultas();
+
+    const FiltrarConsultas = () => {
+      const hoje = new Date();
+      const dia = consultas.filter(consulta => {
+        const dataConsulta = new Date(consulta.dataConsulta);
+        return dataConsulta.toLocaleDateString() === hoje.toLocaleDateString();
+      });
+      setConsultasDia(dia);
+    };
+
+    FiltrarConsultas();
+  }, [consultas]); // O useEffect agora depende de 'consultas' para filtrar as consultas após o fetch
+
   return (
     <>
       <button className="toggleButton" onClick={togglePanel}>
@@ -26,15 +58,14 @@ function Lembretes() {
       <div className={`lembretes_container ${isVisible ? 'active' : ''}`}>
         <div className="render_lembretes">
           <div className="div_user">
-            <p>Olá, {nome}</p>
-            <p>{saudacao}!</p>
+            <p>Olá, {saudacao}</p>
           </div>
           <div className="consultasDia">
             <h3>CONSULTAS</h3>
             <div className="dados_consulta">
-              {/* Substituir com consultas reais */}
-              <p>10:00 - Cliente 1</p>
-              <p>14:00 - Cliente 2</p>
+              {consultasDia.map((consulta, index) => (
+                <p key={index}>{new Date(consulta.dataConsulta).toLocaleTimeString()}<MdDelete size={24} className="icon-hover" /> - Cliente: {consulta.id_paciente} </p>
+              ))}
             </div>
           </div>
           <div className="Lembretes">
@@ -50,9 +81,7 @@ function Lembretes() {
               </button>
             </div>
             <div className="lembretes_atuais">
-              {/* Substituir com lembretes reais */}
-              <p>Lembrete 1</p>
-              <p>Lembrete 2</p>
+              <p><MdDelete size={24} className="icon-hover" /> Lembrete 1</p>
             </div>
           </div>
         </div>
