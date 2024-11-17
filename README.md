@@ -403,35 +403,50 @@ Legenda:
 # 6. Interface do Sistema
 
 ## 6.1. Tela login
-
 <img src='docs/Sprint 4/PaginaLogin.png'>
+
+<p>Sistema inicialmente entra nessa página em caso de login não autenticado</p>
 
 ## 6.2 Tela Dashboard
 
 <img src='docs/Sprint 4/Dashboard parte 1.png'>
 
+<p>Seção exibe alguns insights vindos diretamente do banco de dados, com faturamento mensal, podendo ser alterado pelo filtro e g´rafico com faturamento mensal</p>
 <img src='docs/Sprint 4/DashboardParte2Gastos.png'>
+
+<p>Seção exibe a listagem de gastos no banco</p>
 <img src='docs/Sprint 4/DashboardParte2Ganhos.png'>
+<p>Seção exibe a listagem de ganhos no banco</p>
 
 ## 6.2.1 Dashboard CREATE
 
 <img src='docs/Sprint 4/DashboardInclusão Gastos.png'>
 
+<p>Ao clicar no botão de inclusão, abre-se um modal com os campos, sendo todos obrigatórios.</p>
+
 ## 6.2.2 Dashboard Resultado
 
 <img src='docs/Sprint 4/DashbardResultado.png'>
+
+<p>Resultado esperado é a inclusão dos dados e exibição nos insights relacionados</p>
 
 ## 6.3 Tela Clientes
 
 <img src='docs/Sprint 4/1Clientes.png'>
 
+<p>Seção exibe a listagem dos pacientes</p>
+
 ## 6.3.1 Clientes Exibir Mais
 
 <img src='docs/Sprint 4/1Clientes Visualizar tudo.png'>
 
+<p>Modal que exibe o restante das informações do paciente</p>
+
 ## 6.3.2 Editar Clientes
 
 <img src='docs/Sprint 4/1Clientes Editar.png'>
+
+<p>Modal para edição de algumas informações</p>
 
 ## 6.3.2 Editando Clientes
 
@@ -441,9 +456,13 @@ Legenda:
 
 <img src='docs/Sprint 4/1Clientes Resultado.png'>
 
+<p>Resultado da edição</p>
+
 ## 6.3.3 Clientes Filtro A-Z
 
 <img src='docs/Sprint 4/1Clientes A-z.png'>
+
+<p>Resultado do filtro A-Z</p>
 
 
 
