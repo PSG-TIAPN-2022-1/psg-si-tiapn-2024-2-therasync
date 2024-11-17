@@ -148,11 +148,11 @@ const Clientes = () => {
                 <tr key={index}>
                   <td>{cliente.status === 1 ? "Ativo" : "Inativo"}</td>
                   <td>{cliente.nome}</td>
-                  <td >{calcularIdade(cliente.idade) || "—"}</td>
+                  <td className='thIdade'>{calcularIdade(cliente.idade) || "—"}</td>
                   <td>{formatarData(cliente.ultimaConsulta)}</td>
                   <td>{cliente.proximaConsulta || "—"}</td>
                   <td>
-                    <Button variant="primary" onClick={() => handleShowModal(cliente)}>
+                    <Button className='Mais' variant="primary" onClick={() => handleShowModal(cliente)}>
                       Mais
                     </Button>
                   </td>

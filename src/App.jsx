@@ -6,7 +6,6 @@ import Dashboard from './assets/pages/dashboard';
 import Configurações from './assets/pages/configurações';
 import Agenda from './assets/pages/agenda';
 import Clientes from './assets/pages/clientes';
-import PagLembretes from './assets/pages/pagLembretes';
 import Login from './assets/pages/login';  // Importe o componente de login
 
 function App() {
@@ -28,7 +27,7 @@ function App() {
         <>
           <Navbar />
           <div id="barra_lembretes">
-            
+            <Lembretes></Lembretes>
           </div>
         </>
       )}
@@ -46,7 +45,6 @@ function App() {
           <Route path="/configurações" element={isAuthenticated ? <Configurações /> : <Navigate to="/login" />} />
           <Route path="/agenda" element={isAuthenticated ? <Agenda /> : <Navigate to="/login" />} />
           <Route path="/clientes" element={isAuthenticated ? <Clientes /> : <Navigate to="/login" />} />
-          <Route path="/pagLembretes" element={isAuthenticated ? <PagLembretes /> : <Navigate to="/login" />} />
         </Routes>
       </div>
     </>

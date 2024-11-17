@@ -132,7 +132,6 @@ button {
         right: 0%;
         width: 100%;
         margin: 0 auto;
-
     }
     #clientes_titulo_container{
         font-size: 4vh;
@@ -148,15 +147,15 @@ button {
     }
 
     .thStatus{
-      width: 15%;
+      width: fit-content;
     }
     
     .thNome{
-      width: 5%;
+      width: fit-content;
     }
     
     .thIdade{
-      width: 10px;
+      display: none;
     }
     
     .thConsulta{
@@ -172,4 +171,7 @@ button {
       gap: 12px;
     }
     
+    .Mais{
+      width: 60px;
+    }
   }

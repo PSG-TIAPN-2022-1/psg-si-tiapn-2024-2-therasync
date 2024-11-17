@@ -45,12 +45,6 @@ export default function Navbar() {
           <span className="item-label">Configurações</span>
         </Link>
       </li>
-      <li id='iconLembrete'>
-        <Link to="/pagLembretes" className="list-item">
-          <MdOutlineViewAgenda className="icon" />
-          <span className="item-label">Lembretes</span>
-        </Link>
-      </li>
     </ul>
     </nav>
     </>
