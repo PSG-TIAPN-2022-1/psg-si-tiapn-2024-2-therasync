@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { MdEdit } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 function ModalEditar(props) {
   const { cliente } = props;
@@ -72,8 +72,8 @@ function ModalEditar(props) {
 
   return (
     <>
-      <Button variant="success" onClick={handleShow}>
-        <MdEdit />
+      <Button variant="success" onClick={handleShow} style={{ width: '50px' }}>
+       <FaEdit />
       </Button>
 
       <Modal show={show} onHide={handleClose}>

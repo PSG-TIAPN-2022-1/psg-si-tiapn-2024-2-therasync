@@ -6,6 +6,9 @@ import ModalCliente from '../components/ModalCliente';
 import { FiSearch } from "react-icons/fi";
 import ModalEditar from '../components/ModalEditar';
 import NovoCliente from '../components/NovoCliente';
+import ModalExcluirCliente from '../components/ModalExcluirCliente.jsx/ModalExcluirCliente';
+import { FaPlus } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
@@ -141,9 +144,28 @@ const Clientes = () => {
               <th className="thConsulta">Próxima Consulta</th>
               <th className="tdInformacoes">Informações</th>
               <th className='thEditar'>Editar</th>
+              <th className='thEditar'>Excluir</th>
             </tr>
           </thead>
           <tbody>
+                <tr>
+                  <td>Ativo</td>
+                  <td>Exemplo</td>
+                  <td className='thIdade'>20</td>
+                  <td>12/23/3444</td>
+                  <td>12</td>
+                  <td>
+                    <Button style={{ width: '40px' }}><FaPlus /></Button>
+                  </td>
+                  <td>
+                    <Button style={{ width: '40px' }}><FaEdit /></Button>
+                  </td>
+                  <td>
+                    <ModalExcluirCliente></ModalExcluirCliente>
+                  </td>
+                </tr>
+
+
                 {clientesFiltrados.map((cliente, index) => (
                 <tr key={index}>
                   <td>{cliente.status === 1 ? "Ativo" : "Inativo"}</td>
@@ -152,12 +174,15 @@ const Clientes = () => {
                   <td>{formatarData(cliente.ultimaConsulta)}</td>
                   <td>{cliente.proximaConsulta || "—"}</td>
                   <td>
-                    <Button className='Mais' variant="primary" onClick={() => handleShowModal(cliente)}>
-                      Mais
+                    <Button className='Mais' variant="primary" onClick={() => handleShowModal(cliente)} style={{ width: '100px' }}>
+                      <FaPlus />
                     </Button>
                   </td>
                   <td>
                     <ModalEditar cliente={cliente}></ModalEditar>
+                  </td>
+                  <td>
+                    <ModalExcluirCliente cliente={cliente}></ModalExcluirCliente>
                   </td>
                 </tr>
           ))}
