@@ -379,6 +379,17 @@ Atualizado em: 23/10/2024
 | Luan       | Modelagem de processos|16/10/2024     | 27/10/2024 | ✔️    |25/10/2024|
 | Gustavo    | Modelagem Relacional e criação de scripts| 16/10/2024    | 27/10/2024 | ✔️    |22/10/2024|
 
+### Sprint 4
+
+Atualizado em: 23/10/2024
+
+| Responsável   | Tarefa/Requisito | Iniciado em    | Prazo      | Status | Terminado em    |
+| :----         |    :----         |      :----:    | :----:     | :----: | :----:          |
+| Neto       | Cadastro de usuarios - Back-end e front-end      | 11/11/2024    |17/10/2024 | ⌛    |24/10/2024|
+| Grazielle  | CRUD Clientes - front e backend | 04/11/2024    | 17/10/2024 | ✔️    |16/11/2024|
+| Luan       | Login - front-end e back-end| 11/11/2024     | 17/10/2024 | ✔️    |17/10/2024|
+| Gustavo    | CRUD Dashboard - front-end e back-end| 04/10/2024    | 17/10/2024 | ✔️    |16/11/2024|
+
 
 Legenda:
 - ✔️: terminado
@@ -387,6 +398,55 @@ Legenda:
 - ❌: não iniciado
 
 <li><a href="docs/6-Interface-Sistema.md"> Interface do Sistema</a></li>
+
+
+# 6. Interface do Sistema
+
+## 6.1. Tela login
+
+<img src='docs/Sprint 4/PaginaLogin.png'>
+
+## 6.2 Tela Dashboard
+
+<img src='docs/Sprint 4/Dashboard parte 1.png'>
+
+<img src='docs/Sprint 4/DashboardParte2Gastos.png'>
+<img src='docs/Sprint 4/DashboardParte2Ganhos.png'>
+
+## 6.2.1 Dashboard CREATE
+
+<img src='docs/Sprint 4/DashboardInclusão Gastos.png'>
+
+## 6.2.2 Dashboard Resultado
+
+<img src='docs/Sprint 4/DashbardResultado.png'>
+
+## 6.3 Tela Clientes
+
+<img src='docs/Sprint 4/1Clientes.png'>
+
+## 6.3.1 Clientes Exibir Mais
+
+<img src='docs/Sprint 4/1Clientes Visualizar tudo.png'>
+
+## 6.3.2 Editar Clientes
+
+<img src='docs/Sprint 4/1Clientes Editar.png'>
+
+## 6.3.2 Editando Clientes
+
+<img src='docs/Sprint 4/1Clientes Edição.png'>
+
+## 6.3.2 Resultado edição
+
+<img src='docs/Sprint 4/1Clientes Resultado.png'>
+
+## 6.3.3 Clientes Filtro A-Z
+
+<img src='docs/Sprint 4/1Clientes A-z.png'>
+
+
+
 <li><a href="docs/7-Conclusão.md"> Conclusão</a></li>
 <li><a href="docs/8-Referências.md"> Referências</a></li>
 
