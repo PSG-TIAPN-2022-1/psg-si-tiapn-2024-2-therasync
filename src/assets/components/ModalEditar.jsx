@@ -69,7 +69,7 @@ function ModalEditar(props) {
     if (Object.keys(clienteEditado).length > 0) {
       fetchClientes();
     }
-  }, [clienteEditado, cliente.cpf]); // Dependências do useEffect
+  }, [clienteEditado]); 
 
 
   return (

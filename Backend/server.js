@@ -3,11 +3,12 @@ import cors from 'cors';
 import {Sequelize} from 'sequelize';
 import {QueryTypes} from 'sequelize';
 import { PiAlarmThin } from 'react-icons/pi';
+import bodyParser from 'body-parser';
 
 const app = express();
 const PORT = 3000;
 
-const sequelize = new Sequelize('therasync2', 'root', '', {
+const sequelize = new Sequelize('therasync', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306
@@ -60,25 +61,25 @@ app.get('/api/financasCreditos', async (req, resp) => {
     resp.json(credito);
   }
   catch (error) {
-    alert('erro ao buscar as finanças', error);
+    
     resp.status(500).json({ error: 'Erro ao buscar financas' });
   }
 });
 
 app.get('/api/financasDebitos', async (req, resp) => {
   try {
-    const debitos = await sequelize.query(' select * from `financassaidas`', {
+    const debitos = await sequelize.query(' select * from `financasSaidas`', {
       type: QueryTypes.SELECT,
     });
     resp.json(debitos);
   }
   catch (error) {
-    alert('erro ao buscar as finanças', error);
+    
     resp.status(500).json({ error: 'Erro ao buscar financas' });
   }
 });
 
-/*editar */
+/*editar paciente*/
 app.put('/api/pacientes/:cpf', async (req, res) => {
   const pacienteCpf = req.params.cpf;  // Obtendo o CPF da URL
   console.log('CPF recebido:', pacienteCpf); 
@@ -117,8 +118,10 @@ app.put('/api/pacientes/:cpf', async (req, res) => {
   }
 });
 
-/* cadastrar novo user */
+/* Novo paciente */
 app.post('/api/pacientes', async (req, res) => {
+  console.log('Body recebido:', req.body);  // Verifique o que está chegando no corpo da requisição
+
   const {
     cpf,
     nome,
@@ -131,7 +134,6 @@ app.post('/api/pacientes', async (req, res) => {
   } = req.body;
 
   try {
-
     const novoPaciente = await Paciente.create({
       cpf,
       nome,
@@ -144,7 +146,6 @@ app.post('/api/pacientes', async (req, res) => {
       status: true, 
     });
 
-    
     res.status(201).json({
       message: 'Paciente criado com sucesso!',
       paciente: novoPaciente,

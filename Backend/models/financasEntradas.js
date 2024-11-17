@@ -20,7 +20,7 @@ const FinancasEntradas = sequelize.define('financasEntrada', {
         type: DataTypes.DATE
     }
 },{
-  tableName: 'financasentradas',
+  tableName: 'financasEntradas',
   timestamps: false
 }
 );

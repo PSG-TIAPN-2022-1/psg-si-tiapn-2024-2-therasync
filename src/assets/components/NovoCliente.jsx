@@ -1,15 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
 function NovoCliente() {
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  // Estado para armazenar os dados do novo cliente
   const [novoCliente, setNovoCliente] = useState({
     cpf: '',
     nome: '',
@@ -21,19 +16,54 @@ function NovoCliente() {
     nomeResponsavel: ''
   });
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   // Função para capturar os valores dos campos do formulário
   const handleChange = (e) => {
-    const { name, value } = e.target;  // Corrigido para "name"
+    const { name, value } = e.target;  
     setNovoCliente({
       ...novoCliente,
-      [name]: value  // Corrigido para usar "name"
+      [name]: value  
     });
   };
 
-  const handleSubmit = () => {
-    alert(novoCliente.naturalidade)
-  }
+  const handleSubmit = async () => {
+    alert(`
+      CPF: ${novoCliente.cpf}
+      Nome: ${novoCliente.nome}
+      Email: ${novoCliente.email}
+      Idade: ${novoCliente.idade}
+      Sobre: ${novoCliente.sobre}
+      Naturalidade: ${novoCliente.naturalidade}
+      Frequência de Pagamento: ${novoCliente.frequenciaPagamento}
+      Nome do Responsável: ${novoCliente.nomeResponsavel}
+    `);
 
+    // Chamada para a API
+    try {
+      const response = await fetch('http://localhost:3000/api/pacientes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(novoCliente),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Paciente adicionado:', data);
+      } else {
+        console.error('Erro ao adicionar paciente');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+    }
+
+    handleClose(); // Fechar o modal após o submit
+  };
+
+  
   return (
     <>
       <Button variant="success" onClick={handleShow}>

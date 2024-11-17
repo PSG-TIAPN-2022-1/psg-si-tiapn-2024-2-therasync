@@ -1,0 +1,7 @@
+.pizza {
+    width: 100%;        /* Ocupa 100% da largura disponível */
+    height: 100%;       /* Ocupa 100% da altura disponível */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

@@ -9,6 +9,15 @@
     background-color: rgba(255, 255, 255, 0.724);
     border-radius: 10px;
   }
+.gasto, .ganho{
+  background-color: #ffa00841;
+  padding: 5px;
+  border-radius: 8px;
+}
+.checkbox_mensal{
+  margin-left: 20px;
+  margin-right: 20px;
+}
   /* Para Chrome, Edge e Safari */
 ::-webkit-scrollbar {
   width: 12px;
@@ -23,6 +32,12 @@
   background: #f0f0f0;
 }
 
+.buttons{
+  display: flex;
+}
+.buttons Button{
+  margin: 5px;
+}
 /* Para Firefox */
 body {
   scrollbar-width: thin;

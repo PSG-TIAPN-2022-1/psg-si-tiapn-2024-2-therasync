@@ -1,16 +1,15 @@
 .container{
-    background-color: aqua;
     position: absolute;
     top: 50px;
-    left: 100px;
+    left: 110px;
     right: 100px;
     z-index: -1;
-    height: fit-content;
+    margin: 0 auto;
 }
 #titulo_container{
     font-size: 5vh;
-    margin-left: 200px;
-    color: rgb(60, 60, 60);
+    margin-bottom: 5%;
+    text-align: center;
 }
 
 .tela{
@@ -115,3 +114,13 @@
     background-color: rgb(255, 192, 31);
 }
 
+@media (max-width: 760px) {
+    .container{
+        top:0%;
+        left: 0%;
+        right: 0%;
+        width: 100%;
+        margin: 0 auto;
+
+    }
+}

@@ -1,7 +1,7 @@
 import {DataTypes} from 'sequelize';
 import sequelize from '../db.js';
 
-const FinancasSaidas = sequelize.define('financassaidas', {
+const FinancasSaidas = sequelize.define('financasSaidas', {
     id:  {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -22,7 +22,7 @@ const FinancasSaidas = sequelize.define('financassaidas', {
     }
 },
 {
-  tableName: 'financassaidas',
+  tableName: 'financasSaidas',
   timestamps: false
 }
 );

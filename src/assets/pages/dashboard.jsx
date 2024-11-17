@@ -7,9 +7,12 @@ import { Button } from 'react-bootstrap';
 import Ganhos from '../components/ganhos/ganhos.jsx';
 import Lucro from '../components/Lucro/lucro.jsx';
 import MediaConsulta from '../components/MediaConsulta/MediaConsulta.jsx';
-import MyDoughnutChart from '../components/GraficoPizza/Pizza.jsx';
+import MyDoughnutChart from '../components/GraficoPizzaSaidas/Pizza.jsx';
 import MyLineChart from '../components/GraficoLinhas/linhas.jsx';
 import ListaFluxo from '../components/listaFluxo/listaFluxo.jsx';
+import ModalAddGanhos from '../components/ModalAddGanhos.jsx';
+import ModalAddGastos from '../components/ModalAddGastos.jsx';
+import GraficoCreditos from '../components/GraficoPizzaGanhos/PizzaGanhos.jsx';
 
 const Dashboard = () => {
   const dataAtual = new Date();
@@ -22,6 +25,13 @@ const Dashboard = () => {
     setPeriodo({ mes, ano });
     setDadosAtualizados(prev => !prev); // Alterna o estado para forçar atualização nos componentes filhos
   };
+
+    // Estado para controlar qual gráfico mostrar
+    const [showGanhos, setShowGanhos] = useState(true); // Inicialmente mostrar gráfico de ganhos
+
+    // Função para alternar entre gráfico de Ganhos e Saídas
+    const showGanhosGraph = () => setShowGanhos(true); // Exibe gráfico de Ganhos
+    const showSaidasGraph = () => setShowGanhos(false); // Exibe gráfico de Saídas
 
   return (
     <div className="dash_container">
@@ -80,7 +90,7 @@ const Dashboard = () => {
     <div className="secondSection">
 
       <div className="pizza">
-            <MyDoughnutChart></MyDoughnutChart>
+        {showGanhos ? <MyDoughnutChart /> : <GraficoCreditos />}  
       </div>
 
       <div className="divListagem">  
@@ -88,12 +98,8 @@ const Dashboard = () => {
 
         <div className='Add_Container'>
             <div className="addButtons">
-              <Button variant="success">
-                Adicionar ganho
-              </Button>
-              <Button variant="danger">
-                Adicionar gasto
-              </Button>
+              <ModalAddGanhos></ModalAddGanhos>
+              <ModalAddGastos></ModalAddGastos>
             </div>
         </div>
       </div>

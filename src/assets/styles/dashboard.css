@@ -18,8 +18,8 @@
 
 #dash_titulo_container{
     font-size: 5vh;
-    margin-left: 200px;
-    color: rgb(60, 60, 60);
+    margin-bottom: 5%;
+    text-align: center;
 }
 .periodo-seletor{
     background-color: rgba(143, 187, 225, 0.331);
