@@ -2,7 +2,9 @@ import React from 'react'
 
 const Configurações = () => {
   return (
-    <div>Configurações</div>
+    <div className='container'>
+      <p id='titulo_container'>Configurações</p>
+    </div>
   )
 }
 

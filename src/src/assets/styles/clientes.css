@@ -1,0 +1,177 @@
+.clientes_container{
+  background-color: transparent;
+  position: absolute;
+  top: 50px;
+  left: 110px;
+  right: 100px;
+  z-index: -1;
+  height: fit-content;
+}
+#clientes_titulo_container{
+  font-size: 5vh;
+  margin-left: 100px;
+  color: rgb(60, 60, 60);
+}
+
+  /* Estilo da tabela */
+  .clientes_container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+  }
+  
+  .clientes_container th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .clientes_container th {
+    text-align: center;
+    background-color: #3498db;
+    color: white;
+  }
+
+  .clientes_container tbody tr:hover {
+    background-color: #eaf2f8; /* Cor de fundo ao passar o mouse */
+  }
+
+  /* Estilo do botão "Mais" */
+  .clientes_container .btn-more {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+.btn-more:hover {
+    background-color: #a1c8e2;
+  }
+
+.clientes_options{
+  height: 300px;
+}
+
+.thStatus{
+  width: 1%;
+}
+
+.thNome{
+  width: 1%;
+}
+
+.thIdade{
+  width: 1%;
+}
+
+.thConsulta{
+  width: 1%;
+}
+
+.tdInformacoes{
+  width: 1%;
+}
+
+.thEditar{
+  width: 1%;
+}
+/*options constainer*/
+
+.options_container {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 10px;
+}
+
+/*search*/
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-icon {
+  font-size: 20px;
+  color: #888;
+  margin-right: 8px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 16px;
+  width: 100%;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+button {
+  width: 100%; /* Garante que ocupem todo o espaço da coluna */
+  font-size: 16px;
+}
+
+
+/* Responsividade para telas menores */
+  @media (max-width: 760px) {
+    .clientes_container{
+        top:0%;
+        left: 0%;
+        right: 0%;
+        width: 100%;
+        margin: 0 auto;
+    }
+    #clientes_titulo_container{
+        font-size: 4vh;
+        margin-left: 50px;
+        margin-top: 20px;
+    }
+    .table-container {
+      overflow-x: auto; /* Habilita o scroll horizontal */
+    }
+    .clientes_container table {
+      width: 100%;
+      min-width: 600px; /* Define uma largura mínima para não distorcer a tabela */
+    }
+
+    .thStatus{
+      width: fit-content;
+    }
+    
+    .thNome{
+      width: fit-content;
+    }
+    
+    .thIdade{
+      display: none;
+    }
+    
+    .thConsulta{
+      width: 18%;
+    }
+    
+    .tdInformacoes{
+      width: 2%;
+    }
+
+    .options_container {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    
+    .Mais{
+      width: 60px;
+    }
+  }

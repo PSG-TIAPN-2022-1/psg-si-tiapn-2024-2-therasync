@@ -1,0 +1,17 @@
+.ganhos{
+    background-color: rgb(0, 255, 34);
+    width: 10%;
+    padding: 15px;
+    color: aliceblue;
+    width: 150px;
+    border-radius: 10px;
+    height: 120px;
+}
+
+.cardTitle{
+    text-align: center;
+}
+
+.textDebitos{
+    text-align: center;
+}

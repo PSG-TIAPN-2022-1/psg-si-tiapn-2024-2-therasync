@@ -1,0 +1,25 @@
+.MediaConsulta{
+    background-color: rgb(21, 219, 234);
+    padding: 15px;
+    color: aliceblue;
+    width: 150px;
+    border-radius: 10px;
+    height: 120px;
+}
+
+.cardTitle{
+    text-align: center;
+}
+
+.textDebitos{
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width:720px) {
+    .textDebitos{
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+    }
+}
