@@ -40,7 +40,7 @@ app.get('/api/users', async (req, res) => {
 
 app.get('/api/consultas', async (req, resp) => {
   try {
-    const consultas = await sequelize.query('select paciente.nome, consulta.dataConsulta from `paciente` inner join `consulta` where paciente.cpf = consulta.id_paciente;', {
+    const consultas = await sequelize.query('select paciente.nome, consulta.dataConsulta from paciente inner join consulta where paciente.cpf = consulta.id_paciente;', {
       type: QueryTypes.SELECT,
     });
     resp.json(consultas);
@@ -52,7 +52,7 @@ app.get('/api/consultas', async (req, resp) => {
 
 app.get('/api/pacientes', async (req, resp) => {
   try {
-    const pacientes = await sequelize.query('select * FROM `paciente`', {
+    const pacientes = await sequelize.query('select * FROM paciente', {
       type: QueryTypes.SELECT,
     });
     resp.json(pacientes);
@@ -65,7 +65,7 @@ app.get('/api/pacientes', async (req, resp) => {
 
 app.get('/api/financasCreditos', async (req, resp) => {
   try {
-    const credito = await sequelize.query(' select * from `financasEntradas`', {
+    const credito = await sequelize.query(' select * from financasentradas', {
       type: QueryTypes.SELECT,
     });
     resp.json(credito);
@@ -78,7 +78,7 @@ app.get('/api/financasCreditos', async (req, resp) => {
 
 app.get('/api/financasDebitos', async (req, resp) => {
   try {
-    const debitos = await sequelize.query(' select * from `financassaidas`', {
+    const debitos = await sequelize.query(' select * from financassaidas', {
       type: QueryTypes.SELECT,
     });
     resp.json(debitos);
@@ -91,7 +91,7 @@ app.get('/api/financasDebitos', async (req, resp) => {
 
 
 app.put('/api/pacientes/:cpf', async (req, res) => {
-  const pacienteCpf = req.params.cpf;  // Obtendo o CPF da URL
+  const pacienteCpf = req.params.cpf;
   console.log('CPF recebido:', pacienteCpf); 
   const { nome, email, idade, sobre, naturalidade, frequenciaPagamento, nomeResponsavel, status } = req.body;
 
@@ -101,7 +101,6 @@ app.put('/api/pacientes/:cpf', async (req, res) => {
   }
 
   try {
-    // Encontrar o paciente pelo CPF
     const paciente = await Paciente.findOne({ where: { cpf: pacienteCpf } });
 
     if (!paciente) {

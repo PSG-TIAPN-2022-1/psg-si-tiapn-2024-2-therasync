@@ -18,9 +18,12 @@ const FinancasEntradas = sequelize.define('financasEntrada', {
     },
     datacredito:{
         type: DataTypes.DATE
+    },
+    recorrente: {
+      type: DataTypes.BOOLEAN
     }
 },{
-  tableName: 'financasEntradas',
+  tableName: 'financasentradas',
   timestamps: false
 }
 );

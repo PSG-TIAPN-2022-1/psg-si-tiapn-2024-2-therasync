@@ -12,33 +12,44 @@ const Creditos = ({ mes, ano, dadosAtualizados }) => {
       }
 
       const data = await response.json();
-      console.log("Dados recebidoas:", data);
+      console.log("Dados recebidos:", data);
+
+      // Filtra as consultas do mês e ano especificados
       const consultas = data.filter(item => {
-        const dataCredito = new Date(item.dataCredito);
+        const dataCredito = new Date(item.datacredito); // Usando 'datacredito' para a data
         return (
-          item.nome === "Consulta" &&
+          item.nome === "consulta" && // Certifique-se de que o nome é exatamente "consulta"
           dataCredito.getMonth() === mes &&
-          dataCredito.getFullYear() === ano
+          dataCredito.getFullYear() === ano &&
+          !isNaN(dataCredito.getTime()) && // Verifica se a data é válida
+          parseFloat(item.valor) > 0 // Garante que o valor seja positivo
         );
       });
 
-      const totalValor = consultas.reduce((acc, item) => acc + parseFloat(item.valor), 0);
-      const ticketMedioCalculado = consultas.length > 0 ? totalValor / consultas.length : 0;
+      if (consultas.length === 0) {
+        setTicketMedio(0); // Se não houver consultas, ticket médio é 0
+        return;
+      }
 
-      setTicketMedio(ticketMedioCalculado);
+      // Calcula o total das consultas
+      const totalValor = consultas.reduce((acc, item) => acc + parseFloat(item.valor), 0);
+
+      // Calcula o ticket médio
+      const ticketMedioCalculado = totalValor / consultas.length;
+      setTicketMedio(ticketMedioCalculado.toFixed(2)); // Atualiza o estado com o valor do ticket médio
     } catch (error) {
       console.error("Erro ao buscar créditos:", error);
     }
   };
 
   useEffect(() => {
-    fetchCreditos();
+    fetchCreditos(); // Recarrega os dados sempre que o mês, ano ou dados são atualizados
   }, [mes, ano, dadosAtualizados]);
 
   return (
     <div className="MediaConsulta">
       <h5 className="cardTitle">Ticket Médio</h5>
-      <p className="textDebitos">R${ticketMedio.toFixed(2)}</p>
+      <p className="textDebitos">R${ticketMedio}</p>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ganhos.css';
 
-
 const Creditos = ({ mes, ano, dadosAtualizados }) => {
   const [Totalcreditos, setTotalCreditos] = useState(0);
 
@@ -13,13 +12,15 @@ const Creditos = ({ mes, ano, dadosAtualizados }) => {
       }
 
       const data = await response.json();
-      console.log("Dados recebidos:", data); // Verificar dados recebidos
+      console.log("Dados recebidos:", data);
 
       const total = data
         .filter(item => {
-          const dataCredito = new Date(item.dataCredito);
+          const dataCredito = new Date(item.datacredito); // Corrigir para usar 'datacredito'
+          
+          // Ajuste para comparar mês e ano corretamente
           return (
-            dataCredito.getMonth() === mes &&
+            dataCredito.getMonth() === mes && // Mes vem no formato 0-11
             dataCredito.getFullYear() === ano &&
             parseFloat(item.valor) > 0
           );
@@ -28,7 +29,7 @@ const Creditos = ({ mes, ano, dadosAtualizados }) => {
 
       setTotalCreditos(total);
     } catch (error) {
-      console.error("Erro ao buscar débitos:", error);
+      console.error("Erro ao buscar créditos:", error);
     }
   };
 

@@ -12,16 +12,22 @@ const Debitos = ({ mes, ano, dadosAtualizados }) => {
       }
 
       const data = await response.json();
+      console.log("Dados recebidos:", data);
+
+      // Filtra os dados para o mês e ano específicos
       const total = data
         .filter(item => {
-          const dataDebito = new Date(item.dataDebito);
+          const dataDebito = new Date(item.datadebito); // Corrigido para o campo correto
+
+          // Verifica se a data do débito está no mês e ano corretos
           return (
-            dataDebito.getMonth() === mes &&
+            dataDebito.getMonth() === mes && 
             dataDebito.getFullYear() === ano &&
-            parseFloat(item.valor) > 0
+            !isNaN(dataDebito.getTime()) && // Verifica se a data é válida
+            parseFloat(item.valor) > 0 // Garantir que o valor seja positivo
           );
         })
-        .reduce((acc, item) => acc + parseFloat(item.valor), 0);
+        .reduce((acc, item) => acc + parseFloat(item.valor), 0); // Soma os valores válidos
 
       setTotalDebitos(total);
     } catch (error) {
@@ -30,7 +36,7 @@ const Debitos = ({ mes, ano, dadosAtualizados }) => {
   };
 
   useEffect(() => {
-    fetchDebitos();
+    fetchDebitos(); // Recarrega os dados sempre que o mês, ano ou dados são atualizados
   }, [mes, ano, dadosAtualizados]);
 
   return (
