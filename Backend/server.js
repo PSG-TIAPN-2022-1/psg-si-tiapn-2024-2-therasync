@@ -8,15 +8,20 @@ import FinancasEntradas from './models/financasEntradas.js';
 import FinancasSaidas from './models/financasSaidas.js';
 import Paciente from './models/paciente.js'
 import { parseISO, isValid } from 'date-fns';
+import { Op } from 'sequelize';
 
 const app = express();
 const PORT = 3000;
 app.use(bodyParser.json());
 
-const sequelize = new Sequelize('therasync2', 'root', '', {
-  host: 'localhost',
+const sequelize = new Sequelize('postgresql://therasync_owner:chY8lTZDbVF5@ep-dawn-dew-a4syknso.us-east-1.aws.neon.tech/therasync?sslmode=require', {
   dialect: 'mysql',
-  port: 3306
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
 });
 
 app.use(cors());
@@ -73,7 +78,7 @@ app.get('/api/financasCreditos', async (req, resp) => {
 
 app.get('/api/financasDebitos', async (req, resp) => {
   try {
-    const debitos = await sequelize.query(' select * from `financasSaidas`', {
+    const debitos = await sequelize.query(' select * from `financassaidas`', {
       type: QueryTypes.SELECT,
     });
     resp.json(debitos);
@@ -156,22 +161,35 @@ app.post('/api/pacientes', async (req, res) => {
     idade,
     sobre,
     naturalidade,
-    frequenciaPagamento,
-    nomeResponsavel,
+    frequenciapagamento,
+    nomeresponsavel,
+    valorporconsulta
   } = req.body;
 
   try {
+    // Validando que o CPF já não exista na base
+    const pacienteExistente = await Paciente.findOne({
+      where: { cpf }
+    });
+
+    if (pacienteExistente) {
+      return res.status(400).json({ error: 'Paciente com esse CPF já existe.' });
+    }
+
+    // Criando o novo paciente
     const novoPaciente = await Paciente.create({
       cpf,
       nome,
       email,
-      idade,
+      idade: idade ? new Date(idade) : null,
       sobre,
       naturalidade,
-      frequenciaPagamento,
-      nomeResponsavel
+      frequenciapagamento: frequenciapagamento  || 'mensal',
+      nomeresponsavel,
+      valorporconsulta : 60
     });
 
+    // Respondendo ao cliente
     res.status(201).json({
       message: 'Paciente criado com sucesso!',
       paciente: novoPaciente,
@@ -182,6 +200,7 @@ app.post('/api/pacientes', async (req, res) => {
     res.status(500).json({ error: 'Erro ao criar paciente' });
   }
 });
+
 
 app.post('/api/financasCreditos', async (req, res) => {
   const { nome, valor, dataEntrada } = req.body;

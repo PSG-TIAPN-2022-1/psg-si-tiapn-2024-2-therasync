@@ -24,13 +24,17 @@ const Paciente = sequelize.define('paciente', {
         type: DataTypes.STRING(32),
         allowNull: false,
     },
-    frequenciaPagamento:{
+    frequenciapagamento:{
         type: DataTypes.STRING(7),
         allowNull: false,
     },
-    nomeResponsavel: {
+    nomeresponsavel: {
         type: DataTypes.STRING(50),
         allowNull: true,
+    },
+    valorporconsulta: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     }
 
 },

@@ -16,7 +16,7 @@ const FinancasSaidas = sequelize.define('financasSaidas', {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false
     },
-    dataDebito:{
+    datadebito:{
         type: DataTypes.DATE,
         allowNull: false,
     }
