@@ -28,7 +28,7 @@ app.use(cors());
 
 app.get('/api/users', async (req, res) => {
   try {
-      const users = await sequelize.query('SELECT * FROM `usuarios`', {
+      const users = await sequelize.query('SELECT * FROM usuarios', {
           type: QueryTypes.SELECT,
       });
       res.json(users);
