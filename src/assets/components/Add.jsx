@@ -47,7 +47,6 @@ function Add({onAdd}){
     return(
         
         <div lassName="adicionar p-3 rounded border border-white"> 
-            <h3>Adicionar Consulta</h3>
             <Collapse in={expanded}>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group  controlId='fromBasicTitle'>
@@ -80,7 +79,7 @@ function Add({onAdd}){
                         <Button
                         variant='success'
                         type='submit'
-                        style={{marginTop: '20px', marginLeft: '10px', }}
+                        style={{marginTop: '20px',  width: '150px'}}
                         disabled={!novoEvento.title || !novoEvento.start || !novoEvento.end}
                         >
                             Salvar
@@ -93,7 +92,7 @@ function Add({onAdd}){
                 type="button"
                 onClick={handleToggleExpanded} 
                 style={{marginTop: '10px', float: 'right'}}
-                >
+                > Adicionar Evento 
                 {expanded ? <i className="bi bi-chevron-double-up"></i>: <i class="bi bi-chevron-double-down"></i>}
             </Button>
 
