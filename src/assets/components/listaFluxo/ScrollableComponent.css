@@ -6,8 +6,8 @@
     border: 1px solid #ddd; 
     padding: 15px;
     margin: 20px 0;
-    background-color: rgba(255, 255, 255, 0.724);
     border-radius: 10px;
+    background-color: #ffffff;
   }
 
 .fluxo_section{
@@ -18,7 +18,7 @@
   margin-top: 10%;
 }
 .gasto, .ganho{
-  background-color: #ffa00841;
+  color: #333;
   padding: 5px;
   border-radius: 8px;
 }
@@ -62,7 +62,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
-  background-color: #fff;
+  background-color: #d7d7d7;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -70,8 +70,7 @@
 
 /* Texto da finança */
 .financa-text {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 10px;
   color: #333;
   margin: 0;
 }

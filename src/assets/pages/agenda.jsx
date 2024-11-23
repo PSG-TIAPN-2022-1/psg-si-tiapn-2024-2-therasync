@@ -6,8 +6,7 @@ const Agenda = () => {
   return (
    
     <div className='container'>
-      <p id='titulo_container'><FaRegCalendarAlt></FaRegCalendarAlt> Agenda 
-      </p>
+
       <Agendas></Agendas>
     </div>
   )

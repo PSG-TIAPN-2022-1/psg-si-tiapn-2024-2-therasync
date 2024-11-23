@@ -1,4 +1,5 @@
 import React from 'react';
+import './barras.css';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -58,7 +59,7 @@ const MyBarChart = () => {
   };
 
   return (
-    <div>
+    <div className='graficoBarras'>
       <Bar data={data} options={options} />
     </div>
   );
