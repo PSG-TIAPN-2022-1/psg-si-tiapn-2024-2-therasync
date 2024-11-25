@@ -45,7 +45,7 @@ const MyBarChart = () => {
       },
       title: {
         display: true,
-        text: 'Gráfico de Barras - Vendas 2024'
+        text: 'Quantidade de consultas por mês'
       }
     },
     scales: {

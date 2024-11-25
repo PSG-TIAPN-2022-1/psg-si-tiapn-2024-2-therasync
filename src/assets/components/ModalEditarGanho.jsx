@@ -29,6 +29,7 @@ function ModalEditGanhos({ ganho }) {
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [dataCredito, setDataCredito] = useState('');
+  const [recorrente, setRecorrente] = useState('nao'); // Estado para a recorrência
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -39,6 +40,7 @@ function ModalEditGanhos({ ganho }) {
       setNome(ganho.nome);
       setValor(ganho.valor);
       setDataCredito(ganho.dataCredito);
+      setRecorrente(ganho.recorrente || 'nao'); // Assume 'nao' se não estiver definido
     }
   }, [ganho]);
 
@@ -49,6 +51,7 @@ function ModalEditGanhos({ ganho }) {
       nome,
       valor,
       dataCredito,
+      recorrente,
     };
 
     // Atualiza o ganho
@@ -58,6 +61,7 @@ function ModalEditGanhos({ ganho }) {
     setNome('');
     setValor('');
     setDataCredito('');
+    setRecorrente('nao'); // Resetar para "nao"
 
     // Fecha o modal
     handleClose();
@@ -67,7 +71,7 @@ function ModalEditGanhos({ ganho }) {
     <>
       {/* Botão para abrir o modal */}
       <Button variant="success" onClick={handleShow} style={{ width: '40px' }}>
-         <FaEdit />
+        <FaEdit />
       </Button>
 
       <Modal show={show} onHide={handleClose} animation={false}>
@@ -112,6 +116,36 @@ function ModalEditGanhos({ ganho }) {
                 onChange={(e) => setDataCredito(e.target.value)}
                 required
               />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">É recorrente?</label>
+              <div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="recorrente-sim"
+                    className="form-check-input"
+                    name="recorrente"
+                    value="sim"
+                    checked={recorrente === 'sim'}
+                    onChange={(e) => setRecorrente(e.target.value)}
+                  />
+                  <label htmlFor="recorrente-sim" className="form-check-label">Sim</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="recorrente-nao"
+                    className="form-check-input"
+                    name="recorrente"
+                    value="nao"
+                    checked={recorrente === 'nao'}
+                    onChange={(e) => setRecorrente(e.target.value)}
+                  />
+                  <label htmlFor="recorrente-nao" className="form-check-label">Não</label>
+                </div>
+              </div>
             </div>
 
             <div className="d-flex justify-content-end">
