@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Debitos from '../components/debitos/debitos.jsx';
 import { Button } from 'react-bootstrap';
 import Ganhos from '../components/ganhos/ganhos.jsx';
-import Lucro from '../components/Lucro/lucro.jsx';
+import Lucro from '../components/lucro/lucro.jsx';
 import MediaConsulta from '../components/MediaConsulta/MediaConsulta.jsx';
 import MyDoughnutChart from '../components/GraficoPizzaSaidas/Pizza.jsx';
 import MyLineChart from '../components/GraficoLinhas/linhas.jsx';

@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import FinancasEntradas from './models/financasEntradas.js';
 import FinancasSaidas from './models/financasSaidas.js';
 import Paciente from './models/paciente.js'
+import User from './models/users.js';
 import { parseISO, isValid } from 'date-fns';
 import { Op } from 'sequelize';
 
