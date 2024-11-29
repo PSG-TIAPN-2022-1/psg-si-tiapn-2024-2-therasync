@@ -1,52 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 
-function ComponenteLogin({ type, text, id, value, onChange }) {
-    return <input type={type} placeholder={text} id={id} value={value} onChange={onChange} />;
-}
+    function ComponenteLogin({ type, text, id, value, onChange }) {
+        return <input type={type} placeholder={text} id={id} value={value} onChange={onChange} />;
+    }
 
-function Login({ setIsAuthenticated }) {
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const navigate = useNavigate();
+    function Login({ setIsAuthenticated }) {
+        const [email, setEmail] = useState('');
+        const [senha, setSenha] = useState('');
+        const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+        const handleSubmit = async (event) => {
+            event.preventDefault();
 
-        const url = 'http://localhost:3000/api/users';
+            const url = 'http://localhost:3000/api/users';
 
-        try {
-            const response = await fetch(url);
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha }),
+                });
 
-            if (!response.ok) {
-                throw new Error('Erro ao buscar os dados da API.');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar os dados da API.');
+                }
+                
+                const autenticado = await response.json();            
+                // Verifica se existe um usuário com as credenciais fornecida
+                if (autenticado) {
+                    // Autenticação bem-sucedida
+                    setIsAuthenticated(true);
+                    localStorage.setItem('isAuthenticated', 'true');
+                    alert('Bem-vindo(a)!');
+                    navigate('/dashboard');
+                } else {
+                    alert('E-mail ou senha incorretos. Tente novamente.');
+                }
+            } catch (error) {
+                console.error('Erro ao autenticar:', error);
+                alert('Erro ao autenticar. Verifique sua conexão e tente novamente.');
             }
-
-            const usuarios = await response.json();
-            console.log('Dados da API:', usuarios);
-
-            // Verifica se existe um usuário com as credenciais fornecidas
-            const usuario = usuarios.find(
-                (user) => user.email.trim().toLowerCase() === email.trim().toLowerCase() && user.senha === senha
-            );
-
-            if (usuario) {
-                // Autenticação bem-sucedida
-                setIsAuthenticated(true);
-                localStorage.setItem('isAuthenticated', 'true');
-                localStorage.setItem('usuarioNivel', usuario.nivel); // Exemplo: salva o nível do usuário
-
-                alert(`Bem-vindo(a), ${usuario.nome}!`);
-                navigate('/dashboard');
-            } else {
-                alert('E-mail ou senha incorretos. Tente novamente.');
-            }
-        } catch (error) {
-            console.error('Erro ao autenticar:', error);
-            alert('Erro ao autenticar. Verifique sua conexão e tente novamente.');
-        }
-    };
+        };
 
     return (
         <div className="body-login">

@@ -12,6 +12,8 @@
     "front-end": "vite"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.6",
     "cors": "^2.8.5",

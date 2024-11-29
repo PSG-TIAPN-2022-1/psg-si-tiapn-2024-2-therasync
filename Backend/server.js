@@ -10,6 +10,8 @@ import Paciente from './models/paciente.js'
 import User from './models/users.js';
 import { parseISO, isValid } from 'date-fns';
 import { Op } from 'sequelize';
+import bcrypt from 'bcrypt';
+
 
 const app = express();
 const PORT = 3000;
@@ -315,6 +317,22 @@ app.put('/api/gastos/:id', async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Erro ao atualizar gasto', error });
   }
+});
+
+app.use(express.json());
+//VerificarLogin
+app.post('/api/users', async (req, res) => {
+  const {email, senha} = req.body;
+  const usuario = await User.findOne({ where: {email: email.trim().toLowerCase()}
+});
+  if(!usuario){
+    return res.json(false);
+  };
+  const Verificacao = senha===usuario.senha ? true: false;
+  if(!Verificacao){
+    return res.json(false);
+  }
+  return res.json(true);
 });
 
 app.put('/api/ganhos/:id', async (req, res) => {
