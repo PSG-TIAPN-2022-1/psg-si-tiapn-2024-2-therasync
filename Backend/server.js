@@ -11,11 +11,12 @@ import User from './models/users.js';
 import { parseISO, isValid } from 'date-fns';
 import { Op } from 'sequelize';
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken';
 
 const app = express();
 const PORT = 3000;
 app.use(bodyParser.json());
+
 
 const sequelize = new Sequelize('postgresql://therasync_owner:chY8lTZDbVF5@ep-dawn-dew-a4syknso.us-east-1.aws.neon.tech/therasync?sslmode=require', {
   dialect: 'mysql',
@@ -320,19 +321,38 @@ app.put('/api/gastos/:id', async (req, res) => {
 });
 
 app.use(express.json());
+const SECRET = 'JoaoVitorClienteTheraSync';
+
+app.get('/api/validate', verificarJWT, (req, res) => {
+  // Se o token for válido, a requisição vai continuar aqui
+  res.status(200).json({ message: 'Token válido', userID: req.UserID });
+});
 //VerificarLogin
+function verificarJWT(req,res){
+  const token = req.headers['x-access-token'];
+  jwt.verify(token, SECRET, (err, decoded) => {
+    if(err) return res.status(401).end();
+
+    req.UserID = decoded.UserID;
+    next();
+  })
+}
+
+
 app.post('/api/users', async (req, res) => {
   const {email, senha} = req.body;
   const usuario = await User.findOne({ where: {email: email.trim().toLowerCase()}
 });
   if(!usuario){
-    return res.json(false);
+    return res.json({auth: false});
   };
-  const Verificacao = senha===usuario.senha ? true: false;
+  const Verificacao = await bcrypt.compare(senha, usuario.senha);
+
   if(!Verificacao){
-    return res.json(false);
+    return res.json({auth: false});
   }
-  return res.json(true);
+  const token = jwt.sign({UserID: usuario.id},SECRET, {expiresIn: 300})
+  return res.json({auth: true, token});
 });
 
 app.put('/api/ganhos/:id', async (req, res) => {

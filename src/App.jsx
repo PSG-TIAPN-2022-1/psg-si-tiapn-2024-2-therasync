@@ -8,16 +8,45 @@ import Agenda from './assets/pages/agenda';
 import Clientes from './assets/pages/clientes';
 import Login from './assets/pages/login';
 
-function App() {
 
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('isAuthenticated') === 'true';
-  });
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+  const validateToken = async () => {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      setIsAuthenticated(false);
+      return;
+    }
+    // Fazendo uma requisição ao backend para validar o token
+    try {
+      const response = await fetch('http://localhost:3000/api/validate', {
+        method: 'GET',
+        headers: {
+          'x-access-token': token,  // Envia o token no cabeçalho
+        },
+      });
+      setIsAuthenticated(response.ok); // Define com base no status da resposta
+    } catch (error) {
+      console.error('Erro ao validar o token:', error);
+      setIsAuthenticated(false);  // Se der erro na requisição, desautentica
+    }
+  };
+
+  useEffect(() => {
+    validateToken();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('isAuthenticated', isAuthenticated);
+  }, [isAuthenticated]);
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    setIsAuthenticated(false);
+    localStorage.removeItem('token');  // Remove o token ao fazer logout
+    setIsAuthenticated(false);  // Atualiza o estado de autenticação
   };
+
 
   return (
     <>
@@ -32,7 +61,7 @@ function App() {
 
       <div className="main-content">
         <Routes>
-         
+        
           <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
 
           <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />

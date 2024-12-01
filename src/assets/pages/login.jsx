@@ -29,10 +29,10 @@ import '../styles/login.css';
                 
                 const autenticado = await response.json();            
                 // Verifica se existe um usuário com as credenciais fornecida
-                if (autenticado) {
+                if (autenticado.auth) {
                     // Autenticação bem-sucedida
                     setIsAuthenticated(true);
-                    localStorage.setItem('isAuthenticated', 'true');
+                    localStorage.setItem('token', autenticado.token);
                     alert('Bem-vindo(a)!');
                     navigate('/dashboard');
                 } else {
