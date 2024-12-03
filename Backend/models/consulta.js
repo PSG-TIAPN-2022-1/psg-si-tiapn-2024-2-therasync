@@ -1,6 +1,6 @@
 import {DataTypes} from 'sequelize';
 import sequelize from '../db.js';
-import Paciente from '.models/paciente.js'
+import Paciente from './paciente.js';
 const Consulta = sequelize.define('consulta', {
 
 CodConsulta: {

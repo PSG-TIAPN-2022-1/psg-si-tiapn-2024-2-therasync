@@ -29,7 +29,7 @@ function ModalAddDebitos() {
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [dataDebito, setDataDebito] = useState('');
-  const [recorrente, setRecorrente] = useState('nao'); // "sim" ou "nao"
+  const [recorrente, setRecorrente] = useState('false');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -48,7 +48,7 @@ function ModalAddDebitos() {
     setNome('');
     setValor('');
     setDataDebito('');
-    setRecorrente('nao'); // Resetar para "nao"
+    setRecorrente('false');
 
     handleClose();
   };

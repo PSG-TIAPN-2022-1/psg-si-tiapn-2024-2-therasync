@@ -6,7 +6,8 @@ import { PiAlarmThin } from 'react-icons/pi';
 import bodyParser from 'body-parser';
 import FinancasEntradas from './models/financasEntradas.js';
 import FinancasSaidas from './models/financasSaidas.js';
-import Paciente from './models/paciente.js'
+import Paciente from './models/paciente.js';
+import Consulta from './models/consulta.js';
 import User from './models/users.js';
 import { parseISO, isValid } from 'date-fns';
 import { Op } from 'sequelize';
@@ -44,7 +45,7 @@ app.get('/api/users', async (req, res) => {
 
 app.get('/api/consultas', async (req, resp) => {
   try {
-    const consultas = await sequelize.query('select paciente.nome, consulta.dataConsulta from paciente inner join consulta where paciente.cpf = consulta.id_paciente;', {
+    const consultas = await sequelize.query('SELECT paciente.nome, consulta.dataConsulta FROM paciente INNER JOIN consulta ON paciente.cpf = consulta.id_paciente;', {
       type: QueryTypes.SELECT,
     });
     resp.json(consultas);
@@ -131,13 +132,12 @@ app.put('/api/pacientes/:cpf', async (req, res) => {
   }
 });
 
-/* deleta paciente */
+
 app.delete('/api/pacientes/:cpf', async (req, res) => {
-  const pacienteCpf = req.params.cpf;  // Obtendo o CPF da URL
+  const pacienteCpf = req.params.cpf; 
   console.log('CPF recebido:', pacienteCpf); 
 
   try {
-    // Encontrar o paciente pelo CPF
     const paciente = await Paciente.findOne({ where: { cpf: pacienteCpf } });
 
     if (!paciente) {
@@ -154,7 +154,6 @@ app.delete('/api/pacientes/:cpf', async (req, res) => {
   }
 });
 
-/*cria paciente */
 app.post('/api/pacientes', async (req, res) => {
   console.log('Body recebido:', req.body);
   const {
@@ -204,7 +203,6 @@ app.post('/api/pacientes', async (req, res) => {
   }
 });
 
-
 app.post('/api/financasCreditos', async (req, res) => {
   const { nome, valor, dataEntrada } = req.body;
 
@@ -212,26 +210,29 @@ app.post('/api/financasCreditos', async (req, res) => {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
   }
 
-  const dataEntradaFormatada = parseISO(dataEntrada);
-  if (!isValid(dataEntradaFormatada)) {
-    return res.status(400).json({ error: 'Formato de data inválido' });
-  }
+  const dataFormatada = new Date(dataEntrada).toISOString();
 
   try {
-    const novaEntrada = await FinancasEntradas.create({
-      nome,
-      valor,
-      dataCredito: dataEntradaFormatada,
-    });
+    const [results, metadata] = await sequelize.query(
+      `
+      INSERT INTO FinancasEntradas (nome, valor, datacredito) 
+      VALUES (:nome, :valor, :dataEntrada)
+      RETURNING *;
+      `,
+      {
+        replacements: { nome, valor, dataEntrada: dataFormatada },
+        type: sequelize.QueryTypes.INSERT,
+      }
+    );
 
-    return res.status(201).json({ message: 'Entrada salva com sucesso', data: novaEntrada });
+    return res.status(201).json({ message: 'Entrada salva com sucesso', data: results[0] });
   } catch (error) {
     console.error('Erro ao salvar a entrada:', error);
     return res.status(500).json({ error: 'Erro ao salvar a entrada no servidor' });
   }
 });
 
-/* Excluir ganho */
+
 app.delete('/api/financasCreditos/:id', async (req, res) => {
   const idCredito = req.params.id; // Obtém o ID do ganho
   console.log('ID do ganho:', idCredito);
@@ -260,7 +261,6 @@ app.delete('/api/financasCreditos/:id', async (req, res) => {
   }
 });
 
-/* Excluir saída */
 app.delete('/api/financasSaidas/:id', async (req, res) => {
   const idDebito = req.params.id; 
   console.log('ID da saída:', idDebito);
@@ -285,7 +285,7 @@ app.delete('/api/financasSaidas/:id', async (req, res) => {
   }
 });
 
-// Rota PUT para atualizar um gasto
+
 app.put('/api/gastos/:id', async (req, res) => {
   const gastoId = req.params.id;  // Obtendo o ID do gasto da URL
   console.log('ID do gasto recebido:', gastoId);
@@ -387,30 +387,67 @@ app.put('/api/ganhos/:id', async (req, res) => {
 });
 
 app.post('/api/financasDebitos', async (req, res) => {
-  const { nome, valor, dataDebito } = req.body;
+  const { nome, valor, dataDebito, recorrente } = req.body;
 
-  if (!nome || !valor || !dataDebito) {
+  if (!nome || !valor || !dataDebito || recorrente === undefined) {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
   }
 
+  // Validar e formatar a data
   const dataDebitoFormatada = parseISO(dataDebito);
   if (!isValid(dataDebitoFormatada)) {
     return res.status(400).json({ error: 'Formato de data inválido' });
   }
+  const dataDebitoISO = dataDebitoFormatada.toISOString();
 
   try {
-    const novoDebito = await FinancasSaidas.create({
-      nome,
-      valor,
-      dataDebito: dataDebitoFormatada,
-    });
+    // Inserir débito no banco usando sequelize.query
+    const [results, metadata] = await sequelize.query(
+      `
+      INSERT INTO FinancasSaidas (nome, valor, datadebito, recorrente) 
+      VALUES (:nome, :valor, :dataDebito, :recorrente)
+      RETURNING *;
+      `,
+      {
+        replacements: { nome, valor, dataDebito: dataDebitoISO, recorrente },
+        type: sequelize.QueryTypes.INSERT,
+      }
+    );
 
-    return res.status(201).json({ message: 'Débito salvo com sucesso', data: novoDebito });
+    return res.status(201).json({ message: 'Débito salvo com sucesso', data: results[0] });
   } catch (error) {
     console.error('Erro ao salvar o débito:', error);
     return res.status(500).json({ error: 'Erro ao salvar o débito no servidor' });
   }
 });
+
+app.post('/api/consultas', async (req, res) => {
+  const { id_paciente, observacoesconsultas, dataconsulta } = req.body;
+
+  const dataFormatada = new Date(dataconsulta);
+
+  if (isNaN(dataFormatada)) {
+    return res.status(400).send('Data inválida');
+  }
+
+  try {
+    // Se a data for válida, converte para ISO 8601
+    const novaConsulta = await sequelize.query(
+      `INSERT INTO consulta (id_paciente, observacoesconsultas, dataconsulta) 
+      VALUES ($1, $2, $3) RETURNING *`,
+      {
+        bind: [id_paciente, observacoesconsultas, dataFormatada.toISOString()]
+      }
+    );
+
+    res.status(201).json(novaConsulta[0][0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erro ao inserir consulta');
+  }
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

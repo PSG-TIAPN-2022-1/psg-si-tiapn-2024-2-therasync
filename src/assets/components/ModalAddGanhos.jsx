@@ -29,7 +29,7 @@ function ModalAddGanhos() {
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [dataEntrada, setDataEntrada] = useState('');
-  const [recorrente, setRecorrente] = useState(false); // Estado para a checkbox
+  const [recorrente, setRecorrente] = useState(false);
   
 
   const handleClose = () => setShow(false);
@@ -37,11 +37,13 @@ function ModalAddGanhos() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formattedDataEntrada = new Date(dataEntrada).toISOString();
     
     const data = {
       nome,
       valor,
-      dataEntrada,
+      dataEntrada: formattedDataEntrada,
       recorrente,
     };
 
