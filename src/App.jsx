@@ -7,6 +7,7 @@ import Configurações from './assets/pages/configurações';
 import Agenda from './assets/pages/agenda';
 import Clientes from './assets/pages/clientes';
 import Login from './assets/pages/login';
+import Consultas from './assets/pages/consultas';
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           <Route path="/configurações" element={isAuthenticated ? <Configurações /> : <Navigate to="/login" />} />
           <Route path="/agenda" element={isAuthenticated ? <Agenda /> : <Navigate to="/login" />} />
           <Route path="/clientes" element={isAuthenticated ? <Clientes /> : <Navigate to="/login" />} />
+          <Route path="/consultas" element={isAuthenticated ? <Consultas/> : <Navigate to="/login" />} />
         </Routes>
       </div>
     </>

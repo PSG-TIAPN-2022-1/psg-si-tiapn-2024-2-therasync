@@ -1,0 +1,62 @@
+.paciente-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Estilos para cada item da lista */
+  .paciente-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  /* Nome do paciente */
+  .paciente-nome {
+    flex: 1;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  /* Horário */
+  .paciente-horario {
+    flex: 0.5;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
+  /* Botão */
+  .paciente-botao {
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .paciente-botao:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Ajustes para telas menores */
+  @media (max-width: 480px) {
+    .paciente-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .paciente-botao {
+      width: 100%;
+      text-align: center;
+    }
+  }
