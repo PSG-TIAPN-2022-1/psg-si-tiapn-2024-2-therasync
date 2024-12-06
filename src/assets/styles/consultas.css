@@ -1,62 +1,82 @@
-.paciente-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px;
-    width: 100%;
-    margin: 0 auto;
-  }
-  
-  /* Estilos para cada item da lista */
-  .paciente-item {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 12px;
-    gap: 8px;
-  }
-  
-  /* Nome do paciente */
-  .paciente-nome {
-    flex: 1;
-    font-weight: bold;
-    font-size: 1rem;
-  }
-  
-  /* Horário */
-  .paciente-horario {
-    flex: 0.5;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  
-  /* Botão */
-  .paciente-botao {
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .paciente-botao:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Ajustes para telas menores */
-  @media (max-width: 480px) {
-    .paciente-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .paciente-botao {
-      width: 100%;
-      text-align: center;
-    }
-  }
+/* Estilo para tabelas de pacientes */
+.table-pacientes {
+  width: 100%; /* Largura total */
+  border-collapse: collapse; /* Remove espaços entre bordas */
+  margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+/* Estilo para cabeçalho da tabela */
+.table-pacientes thead {
+  background-color: #007bff; /* Cor de fundo do cabeçalho */
+  color: white; /* Cor do texto do cabeçalho */
+}
+
+.table-pacientes th {
+  padding: 10px; /* Espaçamento interno */
+  text-align: left; /* Alinha o texto à esquerda */
+  text-align: center;
+}
+
+/* Estilo para as células da tabela */
+.table-pacientes td {
+  padding: 10px; /* Espaçamento interno */
+  border: 1px solid #ddd; /* Borda das células */
+}
+
+/* Estilo para a linha do paciente */
+.paciente-item {
+  background-color: #ffffff; /* Cor de fundo padrão */
+  transition: background-color 0.3s; /* Transição suave para hover */
+}
+
+.paciente-item:hover {
+  background-color: #f1f1f1; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo para as ações de consulta feitas */
+.pacienteFC-item {
+  background-color: #e7f5ff; /* Cor de fundo para consultas feitas */
+}
+
+/* Estilo para os dados de paciente */
+.paciente-dados,
+.FC-dados {
+  font-size: 16px; /* Tamanho da fonte */
+}
+
+/* Estilo para botões */
+.paciente-botao {
+  padding: 8px 12px; /* Espaçamento interno do botão */
+  border: none; /* Remove borda padrão */
+  border-radius: 4px; /* Bordas arredondadas do botão */
+  cursor: pointer; /* Cursor de mão ao passar o mouse */
+}
+
+/* Estilo para o botão de editar */
+.btn-success {
+  background-color: #28a745; /* Cor verde para botões de sucesso */
+  color: white; /* Cor do texto do botão */
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Cor vermelha para botões de perigo */
+  color: white; /* Cor do texto do botão */
+}
+
+.btn-success:hover,
+.btn-danger:hover {
+  opacity: 0.9; /* Leve transparência ao passar o mouse */
+}
+
+/* Estilo para a seção de título de consultas feitas ou canceladas */
+h4 {
+  margin-top: 20px; /* Espaçamento superior */
+  text-align: center; /* Centraliza o texto */
+  color: #333; /* Cor do texto */
+}
+.Botões-FC{
+  margin-top: 100px;
+}
+.Botões-FC Button{
+  margin: 10px;
+}
