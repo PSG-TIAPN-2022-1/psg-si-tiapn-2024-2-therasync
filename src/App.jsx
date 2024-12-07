@@ -19,7 +19,6 @@ function App() {
     
     if (!token) {
       setIsAuthenticated(false);
-      console.log('Token ta dando como falso');
       return;
     }
     // Fazendo uma requisição ao backend para validar o token
@@ -44,11 +43,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem('isAuthenticated', isAuthenticated);
   }, [isAuthenticated]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');  // Remove o token ao fazer logout
-    setIsAuthenticated(false);  // Atualiza o estado de autenticação
-  };
 
 
   return (
