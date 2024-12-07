@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import './ModalConsultas.css';
 
-function ModalConsultas({buttonText}) {
+function ModalConsultas({buttonText, consulta}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);

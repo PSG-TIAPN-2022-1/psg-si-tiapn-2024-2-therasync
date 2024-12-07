@@ -4,39 +4,43 @@ import { Button } from "react-bootstrap";
 import ModalConsultas from "../components/modalConsultas/ModalConsultas";
 
 export default function Consultas() {
-    const [consultas, setConsultas] = useState([])
+    const [consultas, setConsultas] = useState([]);
+    const [consultaFeita, setConsultaFeita] = useState(true);
 
     useEffect(() => {
         const fetchConsultas = async () => {
-            try{
-                const response = await fetch('http://localhost:3000/api/consultas');
+            try {
+                const response = await fetch("http://localhost:3000/api/consultas");
 
-                if(!response.ok){
+                if (!response.ok) {
                     throw new Error(`Erro na resposta da API: ${response.status}`);
                 }
 
                 const data = await response.json();
                 setConsultas(data);
-            }catch(error){
+            } catch (error) {
                 console.error("Erro ao buscar consultas:", error);
             }
-        }
+        };
         fetchConsultas();
     }, []);
-      
-  
-    // Função de clique do botão
-    const handleButtonClick = () => {
 
+    // Consultas pendentes (não canceladas e não realizadas)
+    const consultasPendentes = consultas.filter(
+        (consulta) => !consulta.status && !consulta.cancelada
+    );
+
+    // Função para formatar a data e retornar apenas o horário
+    const formatarHorario = (dataConsulta) => {
+        const data = new Date(dataConsulta); 
+        return data.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); 
     };
 
-    const [consultaFeita, setConsultaFeita] = useState(true);
 
-  
     return (
         <div className="container">
             <p id="titulo_container">Consultas</p>
-    
+
             <h4>A revisar</h4>
             <table className="table-pacientes">
                 <thead>
@@ -48,30 +52,27 @@ export default function Consultas() {
                     </tr>
                 </thead>
                 <tbody>
-                    {consultas
-                        .filter((consulta) => !consulta.status) // Filtra por status
-                        .map((consulta) => (
-                            <tr key={consulta.id} className="paciente-item">
-                                <td className="paciente-dados">{consulta.dataconsulta}</td>
-                                <td className="paciente-dados">{consulta.paciente.nome}</td>
-                                <td>
-                                    <Button
-                                        style={{ width: "100px", backgroundColor: "#bd0c0c" }}
-                                        className="paciente-botao"
-                                        onClick={() => handleButtonClick(consulta.id)}
-                                    >
-                                        Cancelar
-                                    </Button>
-                                    
-                                </td>
-                                <td>
-                                <ModalConsultas buttonText={"Realizada"} />
-                                </td>
-                            </tr>
-                        ))}
+                    {consultasPendentes.map((consulta) => (
+                        <tr key={consulta.id} className="paciente-item">
+                            <td className="paciente-dados">{formatarHorario(consulta.dataconsulta)}</td>
+                            <td className="FC-dados">{consulta.nome}</td>
+                            <td>
+                                <Button
+                                    style={{ width: "100px", backgroundColor: "#bd0c0c" }}
+                                    className="paciente-botao"
+                                    onClick={() => handleButtonClick(consulta.id)}
+                                >
+                                    Cancelar
+                                </Button>
+                            </td>
+                            <td>
+                                <ModalConsultas buttonText="Realizada" consultaId={consulta} />
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
-    
+
             {/* Botões separados */}
             <div className="Botões-FC">
                 <Button className="btn btn-success" onClick={() => setConsultaFeita(true)}>
@@ -81,7 +82,7 @@ export default function Consultas() {
                     Canceladas
                 </Button>
             </div>
-    
+
             {consultaFeita ? <h4>Consultas feitas</h4> : <h4>Consultas Canceladas</h4>}
             <table className="table-pacientes">
                 <thead>
@@ -94,14 +95,16 @@ export default function Consultas() {
                 </thead>
                 <tbody>
                     {consultas
-                        .filter((consulta) => consultaFeita ? paciente.status === true : paciente.cancelada === true) // Filtra por status 
+                        .filter((consulta) =>
+                            consultaFeita ? consulta.status : consulta.cancelada
+                        )
                         .map((consulta) => (
                             <tr key={consulta.id} className="pacienteFC-item">
-                                <td className="FC-dados">{consulta.dataconsulta}</td>
-                                <td className="FC-dados">{consulta.paciente.nome}</td>
+                                <td className="FC-dados">{formatarHorario(consulta.dataconsulta)}</td>
+                                <td className="FC-dados">{consulta.nome}</td>
                                 <td className="FC-dados">R$ {consulta.valorpago}</td>
                                 <td>
-                                    <ModalConsultas buttonText={"Editar"} />
+                                <ModalConsultas buttonText="Editar" props={consulta} />
                                 </td>
                             </tr>
                         ))}
@@ -109,5 +112,4 @@ export default function Consultas() {
             </table>
         </div>
     );
-    
-  }
+}

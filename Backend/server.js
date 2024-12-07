@@ -43,15 +43,29 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
-app.get('/api/consultas', async (req, resp) => {
+app.get('/api/consultas', async (req, res) => {
   try {
-    const consultas = await sequelize.query('SELECT paciente.nome, consulta.dataConsulta FROM paciente INNER JOIN consulta ON paciente.cpf = consulta.id_paciente;', {
-      type: QueryTypes.SELECT,
-    });
-    resp.json(consultas);
+    const consultas = await sequelize.query(
+      `SELECT 
+         paciente.nome, 
+         consulta.dataConsulta, 
+         consulta.status, 
+         consulta.cancelada, 
+         consulta.valorpago 
+       FROM 
+         paciente 
+       INNER JOIN 
+         consulta 
+       ON 
+         paciente.cpf = consulta.id_paciente;`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    res.json(consultas);
   } catch (error) {
     console.error('Erro ao buscar consultas:', error);
-    resp.status(500).json({ error: 'Erro ao buscar consultas' });
+    res.status(500).json({ error: 'Erro ao buscar consultas' });
   }
 });
 
@@ -445,6 +459,35 @@ app.post('/api/consultas', async (req, res) => {
   }
 });
 
+// Rota PUT para atualizar uma consulta
+app.put('/api/consultas/:codconsulta', async (req, res) => {
+  const { codconsulta } = req.params; // Obtemos o ID da consulta a partir da URL
+  const { status, cancelada, valorpago, observacoesconsultas, dataconsulta } = req.body; // Dados enviados no corpo da requisição
+
+  try {
+    // Busca a consulta pelo ID fornecido
+    const consulta = await Consulta.findByPk(codconsulta);
+
+    if (!consulta) {
+      return res.status(404).json({ error: 'Consulta não encontrada.' });
+    }
+
+    // Atualiza os campos fornecidos
+    consulta.status = status !== undefined ? status : consulta.status;
+    consulta.cancelada = cancelada !== undefined ? cancelada : consulta.cancelada;
+    consulta.valorpago = valorpago !== undefined ? valorpago : consulta.valorpago;
+    consulta.observacoesconsultas = observacoesconsultas !== undefined ? observacoesconsultas : consulta.observacoesconsultas;
+    consulta.dataconsulta = dataconsulta !== undefined ? dataconsulta : consulta.dataconsulta;
+
+    // Salva as mudanças no banco de dados
+    await consulta.save();
+
+    res.json({ message: 'Consulta atualizada com sucesso!', consulta });
+  } catch (error) {
+    console.error('Erro ao atualizar a consulta:', error);
+    res.status(500).json({ error: 'Erro ao atualizar a consulta.' });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
