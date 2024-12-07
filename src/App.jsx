@@ -11,13 +11,15 @@ import Consultas from './assets/pages/consultas';
 
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => JSON.parse(localStorage.getItem('isAuthenticated')) ?? true
+  );
   const validateToken = async () => {
     const token = localStorage.getItem('token');
     
     if (!token) {
       setIsAuthenticated(false);
+      console.log('Token ta dando como falso');
       return;
     }
     // Fazendo uma requisição ao backend para validar o token

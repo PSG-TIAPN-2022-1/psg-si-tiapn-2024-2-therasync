@@ -323,21 +323,19 @@ app.put('/api/gastos/:id', async (req, res) => {
 app.use(express.json());
 const SECRET = 'JoaoVitorClienteTheraSync';
 
-app.get('/api/validate', verificarJWT, (req, res) => {
+app.get('/api/validate', verificarJWT, (req, res, next) => {
   // Se o token for válido, a requisição vai continuar aqui
   res.status(200).json({ message: 'Token válido', userID: req.UserID });
 });
 //VerificarLogin
-function verificarJWT(req,res){
+function verificarJWT(req,res, next){
   const token = req.headers['x-access-token'];
   jwt.verify(token, SECRET, (err, decoded) => {
     if(err) return res.status(401).end();
-
     req.UserID = decoded.UserID;
     next();
   })
 }
-
 
 app.post('/api/users', async (req, res) => {
   const {email, senha} = req.body;
@@ -351,7 +349,7 @@ app.post('/api/users', async (req, res) => {
   if(!Verificacao){
     return res.json({auth: false});
   }
-  const token = jwt.sign({UserID: usuario.id},SECRET, {expiresIn: 300})
+  const token = jwt.sign({UserID: usuario.id},SECRET, {expiresIn: 10800})
   return res.json({auth: true, token});
 });
 
