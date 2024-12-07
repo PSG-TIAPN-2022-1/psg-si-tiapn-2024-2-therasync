@@ -9,7 +9,10 @@ const Configurações = () => {
   return (
     <div className='container'>
       <p id='titulo_container'>Configurações</p>
+      <button type="button" class="btn btn-success">Adicionar usuário</button>
+      <hr></hr>
       <button type="button" class="btn btn-danger" onClick={handleLogout}>Logout</button>
+      
     </div>
   )
 }
