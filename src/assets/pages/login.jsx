@@ -14,7 +14,7 @@ import '../styles/login.css';
         const handleSubmit = async (event) => {
             event.preventDefault();
 
-            const url = 'http://localhost:3000/api/users';
+            const url = 'http://localhost:3000/api/users/login';
 
             try {
                 const response = await fetch(url, {
