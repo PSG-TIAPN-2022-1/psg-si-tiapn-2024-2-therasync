@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap';
+import ModalUsuarios from '../components/ModalUsuario/ModalUsuario';
 
 const Configurações = () => {
   const handleLogout = () => {
@@ -9,7 +10,7 @@ const Configurações = () => {
   return (
     <div className='container'>
       <p id='titulo_container'>Configurações</p>
-      <button type="button" class="btn btn-success">Adicionar usuário</button>
+      <ModalUsuarios></ModalUsuarios>
       <hr></hr>
       <button type="button" class="btn btn-danger" onClick={handleLogout}>Logout</button>
       
