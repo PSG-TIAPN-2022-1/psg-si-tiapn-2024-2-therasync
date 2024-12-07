@@ -334,6 +334,8 @@ app.put('/api/gastos/:id', async (req, res) => {
   }
 });
 
+
+//Autenticação login e validação
 app.use(express.json());
 const SECRET = 'JoaoVitorClienteTheraSync';
 
@@ -341,7 +343,7 @@ app.get('/api/validate', verificarJWT, (req, res, next) => {
   // Se o token for válido, a requisição vai continuar aqui
   res.status(200).json({ message: 'Token válido', userID: req.UserID });
 });
-//VerificarLogin
+
 function verificarJWT(req,res, next){
   const token = req.headers['x-access-token'];
   jwt.verify(token, SECRET, (err, decoded) => {
@@ -351,7 +353,7 @@ function verificarJWT(req,res, next){
   })
 }
 
-app.post('/api/users', async (req, res) => {
+app.post('/api/users/login', async (req, res) => {
   const {email, senha} = req.body;
   const usuario = await User.findOne({ where: {email: email.trim().toLowerCase()}
 });
@@ -366,6 +368,20 @@ app.post('/api/users', async (req, res) => {
   const token = jwt.sign({UserID: usuario.id},SECRET, {expiresIn: 10800})
   return res.json({auth: true, token});
 });
+
+//CadastrarUsuário
+app.post('/api/users/register', async (req, res) => {
+  const {nome, email, senha, nivel} = req.body;
+  const hash = await bcrypt.hash(senha,10);
+  const usuario = await User.create({
+    nome,
+    email,
+    nivel,
+    senha: hash
+  })
+});
+
+
 
 app.put('/api/ganhos/:id', async (req, res) => {
   const ganhoId = req.params.id;  
