@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'; 
-import moment from 'moment'; 
-import { Calendar, momentLocalizer } from 'react-big-calendar'; 
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'; 
-import 'react-big-calendar/lib/css/react-big-calendar.css'; 
-import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'; 
-import '../styles/agenda.css'; 
+import { useState, useEffect } from 'react';
+import moment from 'moment';
+import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import '../styles/agenda.css';
 import Add from '../components/Add.jsx';
 import CustomizarToolBar from './CustomizarToolBar.jsx';
 import EventoModal from '../components/EventoModal';
@@ -16,7 +16,7 @@ const localizador = momentLocalizer(moment);
 function Agenda() {
   const [eventos, setEventos] = useState([]);
   const [eventoSelecionado, setEventoSelecionado] = useState(null);
-
+  const [view, setView] = useState(Views.MONTH); // Estado para armazenar a visualização atual
 
   const formatarEventos = (dadosApi) => {
     return dadosApi.map((evento) => ({
@@ -30,7 +30,7 @@ function Agenda() {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/consultas'); 
+        const response = await fetch('http://localhost:3000/api/consultas');
         const data = await response.json();
         const eventosFormatados = formatarEventos(data);
         setEventos(eventosFormatados);
@@ -42,7 +42,7 @@ function Agenda() {
     fetchEventos();
   }, []);
 
-  const moverEventos = (data) => {     
+  const moverEventos = (data) => {
     const { start, end } = data;
     const updatedEvents = eventos.map((event) => {
       if (event.id === data.event.id) {
@@ -90,13 +90,12 @@ function Agenda() {
   return (
     <div className="tela">
       <div className="toolbar p-4">
-        <Add onAdd={handleAdd} />
+        <Add className="botaoAddAgenda" onAdd={handleAdd} />
       </div>
 
       <div>
         <DragAndDropAgenda
           defaultDate={moment().toDate()}
-          defaultView="month"
           events={eventos}
           localizer={localizador}
           onEventDrop={moverEventos}
@@ -105,6 +104,8 @@ function Agenda() {
           components={{
             toolbar: CustomizarToolBar,
           }}
+          view={view}
+          onView={(newView) => setView(newView)}
           className="agendaDeD"
         />
         {eventoSelecionado && (
