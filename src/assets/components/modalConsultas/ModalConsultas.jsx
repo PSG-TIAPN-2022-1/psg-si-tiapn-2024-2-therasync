@@ -6,8 +6,7 @@ import './ModalConsultas.css';
 
 function ModalConsultas({ buttonText, data }) {
   const [show, setShow] = useState(false);
-  const [valorPago, setValorPago] = useState(""); // Estado para capturar o valor pago
-  const consulta = data;
+  const [valorPago, setValorPago] = useState(""); 
 
   const handleShow = () => setShow(true);
 

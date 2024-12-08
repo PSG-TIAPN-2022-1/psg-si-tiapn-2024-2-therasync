@@ -8,7 +8,7 @@ function ModalEditar(props) {
   const { cliente } = props;
 
 
-  const status = cliente.status;
+  const [status, setStatus] = useState(cliente?.status || '');//adicionar opção de mudar status
   const [nome, setNome] = useState(cliente?.nome || '');
   const [email, setEmail] = useState(cliente?.email || '');
   const [idade, setIdade] = useState(cliente?.idade || '');
@@ -163,6 +163,31 @@ function ModalEditar(props) {
                 onChange={(e) => setNomeResponsavel(e.target.value)}
               />
             </Form.Group>
+
+                       {/* Radio Buttons para o status */}
+                       <Form.Group className="mb-3" controlId="formStatus">
+              <Form.Label>Status</Form.Label>
+              <div className="d-flex">
+                <Form.Check
+                  type="radio"
+                  label="Ativo"
+                  name="status"
+                  value='true'
+                  checked={status === 'ativo'}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="me-3"
+                />
+                <Form.Check
+                  type="radio"
+                  label="Inativo"
+                  name="status"
+                  value='false'
+                  checked={status === 'inativo'}
+                  onChange={(e) => setStatus(e.target.value)}
+                />
+              </div>
+            </Form.Group>
+
           </Form>
         </Modal.Body>
         <Modal.Footer>

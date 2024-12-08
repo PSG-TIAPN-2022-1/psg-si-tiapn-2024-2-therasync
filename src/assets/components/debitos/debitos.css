@@ -1,5 +1,5 @@
 .debitos{
-    background-color: rgb(192, 53, 97);
+    background-color: rgb(165, 2, 2);
     width: 10%;
     padding: 15px;
     color: aliceblue;
@@ -9,6 +9,7 @@
 }
 
 .cardTitle{
+    color: aliceblue;
     text-align: center;
 }
 

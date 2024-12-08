@@ -74,36 +74,16 @@ function Lembretes() {
             <p>Olá, {nome}</p>
             <p>{saudacao}!</p>
           </div>
-          <h3>CONSULTAS</h3>
+          <h4>Consultas do dia</h4>
           <div>
                 {consultas.filter(consulta => {
                     const dataConsultaFormatada = formatarData(new Date(consulta.dataconsulta));
                     return dataConsultaFormatada === formatarData(dataDeHoje);
                 }).map(consulta => (
-                    <h4 key={consulta.codconsulta}>{formatarHorario(new Date(consulta.dataconsulta))} - {consulta.nome}</h4>
+                    <h5 key={consulta.codconsulta} className='doDia'>{formatarHorario(new Date(consulta.dataconsulta))} - {consulta.nome}</h5>
                 ))}
           </div>
-          <div className="Lembretes">
-            <h3>ADICIONAR LEMBRETE</h3>
-            <div className="div_addLembrete">
-              <input 
-                type="text" 
-                className="input_lembrete" 
-                placeholder="Adicionar lembrete" 
-                value={lembreteInput}
-                onChange={(e) => setLembreteInput(e.target.value)}
-              />
-              <button type="button" className="btn_addLembrete" onClick={adicionarLembrete}>
-                <IoMdAdd size={20} />
-              </button>
-            </div>
-            <div className="lembretes_atuais">
-              {lembretes.map((lembrete, index) => (
-                <p key={index}>{lembrete}</p>
-              ))}
-            </div>
           </div>
-        </div>
       </div>
     </>
   );

@@ -128,7 +128,6 @@
     justify-content: center;
   }
   .consultasMetricas{
-    background-color: rgba(134, 28, 155, 0.482);
     text-align: center;
     font-size: larger;
     font-weight: 600;
@@ -153,12 +152,7 @@
     padding: 2%;
   }
   
-  .footerBarras{
-    background-color: blueviolet;
-    margin-top: 2%;
-    border-radius: 10px;
-    height: fit-content;
-  }
+
   
 
 @media (max-width:1024px) {

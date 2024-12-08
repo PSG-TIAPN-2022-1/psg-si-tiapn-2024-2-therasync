@@ -14,7 +14,11 @@
   flex-direction: column; /* Garante que o conteúdo interno flua verticalmente */
   padding-top: 20px;
 }
-
+.doDia{
+  padding: 10px;
+  background-color: #bad4ef;
+  border-radius: 12px;
+}
 /* Ativar o painel */
 .lembretes_container.active {
   transform: translateY(0); /* Faz a barra deslizar para dentro da tela */

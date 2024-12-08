@@ -106,7 +106,7 @@ function fluxoConsultas({periodo}){
     return (
         <div className="thirdSection">
             <div className="consultasMetricas">
-                <p>Faturamento por consultas:</p>
+                <p style={{ color:'black' }}>Faturamento por consultas:</p>
                 <li>
                     <FcCurrencyExchange style={{ fontSize: '36px' }} />
 
@@ -115,17 +115,14 @@ function fluxoConsultas({periodo}){
                 <li><FcBarChart style={{ fontSize: '36px' }} />Consultas Realizadas: {numeroConsultas()}</li>
                 <li><FcMoneyTransfer style={{ fontSize: '36px' }} />Consulta Mais Cara: {consultaCara()}</li>
 
-                <p>Clientes:</p>
+                <p style={{ color:'black' }}>Clientes:</p>
                 <li><FcOk style={{ fontSize: '36px' }} /><p>Ativos: {ativos}</p></li>
                 <li><FcCancel style={{ fontSize: '36px' }} />Inativos: {inativos}</li>
                 
 
             </div>
             <div className="barras">
-                <MyBarChart />
-                <div className='footerBarras' periodo={periodo}>
-                    <p>Adicionais</p>
-                </div>
+                <MyBarChart/>
             </div>
         </div>
 

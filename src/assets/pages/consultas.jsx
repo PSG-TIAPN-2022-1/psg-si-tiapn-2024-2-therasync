@@ -1,111 +1,198 @@
-import React, { useEffect, useState } from "react";
-import "../styles/consultas.css";
-import { Button } from "react-bootstrap";
-import ModalConsultas from "../components/modalConsultas/ModalConsultas";
+import { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import { FaEdit } from "react-icons/fa";
 
-export default function Consultas() {
-    const [consultas, setConsultas] = useState([]);
-    const [consultaFeita, setConsultaFeita] = useState(true);
+function ModalEditar(props) {
+  const { cliente } = props;
 
-    useEffect(() => {
-        const fetchConsultas = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/api/consultas");
+  const status = cliente.status; // Assume que o status é booleano
+  const [nome, setNome] = useState(cliente?.nome || '');
+  const [email, setEmail] = useState(cliente?.email || '');
+  const [idade, setIdade] = useState(cliente?.idade || '');
+  const [sobre, setSobre] = useState(cliente?.sobre || '');
+  const [naturalidade, setNaturalidade] = useState(cliente?.naturalidade || '');
+  const [frequenciaPagamento, setFrequenciaPagamento] = useState(cliente?.frequenciaPagamento || '');
+  const [nomeResponsavel, setNomeResponsavel] = useState(cliente?.nomeResponsavel || '');
+  const [statusCliente, setStatusCliente] = useState(status); // Estado para o status do cliente
+  
+  const [clienteEditado, setClienteEditado] = useState({});
+  const [show, setShow] = useState(false);
 
-                if (!response.ok) {
-                    throw new Error(`Erro na resposta da API: ${response.status}`);
-                }
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
-                const data = await response.json();
-                setConsultas(data);
-            } catch (error) {
-                console.error("Erro ao buscar consultas:", error);
-            }
-        };
-        fetchConsultas();
-    }, []);
-
-    // Consultas pendentes (não canceladas e não realizadas)
-    const consultasPendentes = consultas.filter(
-        (consulta) => !consulta.status && !consulta.cancelada
-    );
-
-    // Função para formatar a data e retornar apenas o horário
-    const formatarHorario = (dataConsulta) => {
-        const data = new Date(dataConsulta);
-        return data.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const handleAlter = () => {
+    const novoCliente = {
+      nome,
+      email,
+      idade,
+      sobre,
+      naturalidade,
+      frequenciaPagamento,
+      nomeResponsavel,
+      status: statusCliente, // Usa o novo estado para o status
     };
 
+    setClienteEditado(novoCliente);
+  };
 
-    return (
-        <div className="container">
-            <p id="titulo_container">Consultas</p>
+  useEffect(() => {
+    const fetchClientes = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/pacientes/${cliente.cpf}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(clienteEditado),
+        });
 
-            <h4>A revisar</h4>
-            <table className="table-pacientes">
-                <thead>
-                    <tr>
-                        <th>Horário</th>
-                        <th>Nome</th>
-                        <th>Cancelada</th>
-                        <th>Realizada</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {consultasPendentes.map((consulta) => (
-                        <tr key={consulta.id} className="paciente-item">
-                            <td className="paciente-dados">{formatarHorario(consulta.dataconsulta)}</td>
-                            <td className="FC-dados">{consulta.nome}</td>
-                            <td>
-                                <Button
-                                    style={{ width: "100px", backgroundColor: "#bd0c0c" }}
-                                    className="paciente-botao"
-                                    onClick={() => handleButtonClick(consulta.id)}
-                                >
-                                    Cancelar
-                                </Button>
-                            </td>
-                            <td>
-                                <ModalConsultas buttonText="Realizada" data={consulta} />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        if (!response.ok) {
+          alert("sem resposta");
+          throw new Error("Erro ao atualizar o paciente");
+        }
 
-            {/* Botões separados */}
-            <div className="Botões-FC">
-                <Button className="btn btn-success" onClick={() => setConsultaFeita(true)}>
-                    Feitas
-                </Button>
-                <Button className="btn btn-danger" onClick={() => setConsultaFeita(false)}>
-                    Canceladas
-                </Button>
-            </div>
+        const data = await response.json();
+        console.log("Paciente atualizado:", data);
+        alert("Paciente atualizado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao atualizar paciente:", error);
+        alert("Erro ao atualizar paciente!");
+      }
+    };
 
-            {consultaFeita ? <h4>Consultas feitas</h4> : <h4>Consultas Canceladas</h4>}
-            <table className="table-pacientes">
-                <thead>
-                    <tr>
-                        <th>Horário</th>
-                        <th>Nome</th>
-                        <th>Valor Pago</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {consultas
-                        .filter((consulta) =>
-                            consultaFeita ? consulta.status : consulta.cancelada
-                        )
-                        .map((consulta) => (
-                            <tr key={consulta.codconsulta} className="pacienteFC-item">
-                                <td className="FC-dados">{formatarHorario(consulta.dataconsulta)}</td>
-                                <td className="FC-dados">{consulta.nome}</td>
-                                <td className="FC-dados">R$ {consulta.valorpago}</td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
-        </div>
-    );
+    if (Object.keys(clienteEditado).length > 0) {
+      fetchClientes();
+    }
+  }, [clienteEditado]);
+
+  return (
+    <>
+      <Button variant="success" onClick={handleShow} style={{ width: '50px' }}>
+       <FaEdit />
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Paciente</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formCpf">
+              <Form.Label>CPF: {cliente ? cliente.cpf : ''}</Form.Label>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formNome">
+              <Form.Label>Nome</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Digite o nome"
+                maxLength="50"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Digite o email"
+                maxLength="50"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formIdade">
+              <Form.Label>Data de Nascimento</Form.Label>
+              <Form.Control
+                type="date"
+                value={idade}
+                onChange={(e) => setIdade(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formSobre">
+              <Form.Label>Sobre</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Informações adicionais"
+                maxLength="500"
+                value={sobre}
+                onChange={(e) => setSobre(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formNaturalidade">
+              <Form.Label>Naturalidade</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Digite a naturalidade"
+                maxLength="32"
+                value={naturalidade}
+                onChange={(e) => setNaturalidade(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formFrequenciaPagamento">
+              <Form.Label>Frequência de Pagamento</Form.Label>
+              <Form.Control
+                as="select"
+                value={frequenciaPagamento}
+                onChange={(e) => setFrequenciaPagamento(e.target.value)}
+              >
+                <option value="mensal">Mensal</option>
+                <option value="quinzenal">Quinzenal</option>
+                <option value="semanal">Semanal</option>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formNomeResponsavel">
+              <Form.Label>Nome do Responsável</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Digite o nome do responsável"
+                maxLength="50"
+                value={nomeResponsavel}
+                onChange={(e) => setNomeResponsavel(e.target.value)}
+              />
+            </Form.Group>
+
+            {/* Radio buttons para status */}
+            <Form.Group className="mb-3">
+              <Form.Label>Status</Form.Label>
+              <div>
+                <Form.Check 
+                  type="radio"
+                  label="Ativo"
+                  checked={statusCliente === true}
+                  onChange={() => setStatusCliente(true)} 
+                />
+                <Form.Check 
+                  type="radio"
+                  label="Inativo"
+                  checked={statusCliente === false}
+                  onChange={() => setStatusCliente(false)} 
+                />
+              </div>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Fechar
+          </Button>
+          <Button variant="primary" onClick={handleAlter}>
+            Salvar Alterações
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
+
+export default ModalEditar;
