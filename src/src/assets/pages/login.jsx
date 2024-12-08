@@ -1,50 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 
-function ComponenteLogin({ type, text, id, value, onChange }) {
-    return <input type={type} placeholder={text} id={id} value={value} onChange={onChange} />;
-}
+    function ComponenteLogin({ type, text, id, value, onChange }) {
+        return <input type={type} placeholder={text} id={id} value={value} onChange={onChange} />;
+    }
 
-function Login({ setIsAuthenticated }) {
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const navigate = useNavigate(); 
+    function Login({ setIsAuthenticated }) {
+        const [email, setEmail] = useState('');
+        const [senha, setSenha] = useState('');
+        const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+        const handleSubmit = async (event) => {
+            event.preventDefault();
 
-        const url = 'http://localhost:3000/api/users';
+            const url = 'http://localhost:3000/api/users/login';
 
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Erro ao buscar os dados');
-            }
-            const data = await response.json();
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha }),
+                });
 
-            const usuario = data.find(
-                (user) => user.username === email && user.senha === senha
-            );
-
-            if (usuario) {
-                setIsAuthenticated(true);
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar os dados da API.');
+                }
                 
-
-                localStorage.setItem('isAuthenticated', 'true');
-                
-
-                navigate('/dashboard');
-            } else {
-                alert('Credenciais inválidas');
+                const autenticado = await response.json();            
+                // Verifica se existe um usuário com as credenciais fornecida
+                if (autenticado.auth) {
+                    // Autenticação bem-sucedida
+                    setIsAuthenticated(true);
+                    localStorage.setItem('token', autenticado.token);
+                    alert('Bem-vindo(a)!');
+                    navigate('/dashboard');
+                } else {
+                    alert('E-mail ou senha incorretos. Tente novamente.');
+                }
+            } catch (error) {
+                console.error('Erro ao autenticar:', error);
+                alert('Erro ao autenticar. Verifique sua conexão e tente novamente.');
             }
-        } catch (error) {
-            console.error('Erro ao autenticar:', error);
-            alert('Erro ao autenticar. Tente novamente.');
-        }
-    };
+        };
+
     return (
-        <div className='body-login'>
+        <div className="body-login">
             <div id="tela-login">
                 <div id="header-login">
                     <img src="https://i.ibb.co/31WR201/Thera-Sync.png" alt="Logo" />

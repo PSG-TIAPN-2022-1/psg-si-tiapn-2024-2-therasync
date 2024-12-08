@@ -28,6 +28,11 @@ function NovoCliente() {
   };
 
   const handleSubmit = async () => {
+    if (!novoCliente.frequenciaPagamento) {
+      alert('Por favor, selecione a frequência de pagamento.');
+      return; // Não envia a requisição se o campo estiver vazio
+    }
+  
     alert(`
       CPF: ${novoCliente.cpf}
       Nome: ${novoCliente.nome}
@@ -38,7 +43,7 @@ function NovoCliente() {
       Frequência de Pagamento: ${novoCliente.frequenciaPagamento}
       Nome do Responsável: ${novoCliente.nomeResponsavel}
     `);
-
+  
     try {
       const response = await fetch('http://localhost:3000/api/pacientes', {
         method: 'POST',
@@ -47,7 +52,7 @@ function NovoCliente() {
         },
         body: JSON.stringify(novoCliente),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         console.log('Paciente adicionado:', data);
@@ -57,15 +62,14 @@ function NovoCliente() {
     } catch (error) {
       console.error('Erro:', error);
     }
-
+  
     handleClose();
- 
   };
 
   
   return (
     <>
-      <Button variant="success" onClick={handleShow}>
+      <Button variant="success" onClick={handleShow} style={{width: '200px' }}>
         Cadastrar Cliente
       </Button>
 

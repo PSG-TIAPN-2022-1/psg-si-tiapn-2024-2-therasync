@@ -1,105 +1,132 @@
 import { useState } from "react";
-import {Button, Form, Row, Col, Collapse} from 'react-bootstrap';
+import { Button, Form, Row, Col, Collapse } from 'react-bootstrap';
 
-function Add({onAdd}){
-
+function Add({ onAdd }) {
     const [novoEvento, setNovoEvento] = useState({
-        title: '',
-        start: '', 
-        end: '',
-        desc: '',
+        cpf: '',
+        observacoesconsultas: '',
+        dataconsulta: '',
     });
 
-    const[expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
-        setNovoEvento({...novoEvento, [name]: value });
-    }
+        const { name, value } = e.target;
+        setNovoEvento({ ...novoEvento, [name]: value });
+    };
 
     const handleToggleExpanded = (e) => {
         e.stopPropagation();
-        setExpanded(!expanded)
+        setExpanded(!expanded);
+    };
 
-    }
-
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if(novoEvento.title && novoEvento.start && novoEvento.end){
-            const startDate = new Date(novoEvento.start);
-            const endDate = new Date(novoEvento.end);
-
-            if(startDate >= endDate){
-                alert('A data de início deve ser anterior a data de Término');
+    
+        if (novoEvento.cpf && novoEvento.observacoesconsultas && novoEvento.dataconsulta) {
+            const startDate = new Date(novoEvento.dataconsulta);  // 
+            if (isNaN(startDate)) {
+                alert('Data inválida');
                 return;
             }
-            onAdd(novoEvento);
-            setNovoEvento({
-                title: '',
-                start: '', 
-                end: '',
-                desc: ''
-            })
-        }
-    }
-
-
-    return(
+            const formattedDate = startDate.toISOString();
         
-        <div lassName="adicionar p-3 rounded border border-white"> 
-            <h3>Adicionar Consulta</h3>
+
+            try {
+                const response = await fetch('http://localhost:3000/api/consultas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id_paciente: novoEvento.cpf,
+                        observacoesconsultas: novoEvento.observacoesconsultas,
+                        dataconsulta: formattedDate,
+                    }),
+                });
+    
+                if (response.ok) {
+                    alert('Evento adicionado com sucesso');
+                    const data = await response.json();
+                    onAdd(data);
+                    setNovoEvento({
+                        cpf: '',
+                        observacoesconsultas: '',
+                        dataconsulta: '',
+                    });
+                } else {
+                    alert('Erro ao adicionar evento');
+                }
+            } catch (error) {
+                alert('Erro na conexão com a API');
+            }
+        } else {
+            alert('Preencha todos os campos obrigatórios');
+        }
+    };
+    
+
+    return (
+        <div className="adicionar p-3 rounded border border-white">
             <Collapse in={expanded}>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group  controlId='fromBasicTitle'>
-                        <Form.Label>Título</Form.Label>
-                        <Form.Control type="text" placeholder="Digite um título" name="title" value={novoEvento.title} onChange={handleChange} />
+                    <Form.Group controlId="formBasicCpf">
+                        <Form.Label>CPF</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Digite o CPF"
+                            name="cpf"
+                            value={novoEvento.cpf}
+                            onChange={handleChange}
+                        />
                     </Form.Group>
                     <Row>
                         <Col xs={6}>
-                            <Form.Group controlId='formBasicStart'>
-                                <Form.Label>Início</Form.Label>
-                                <Form.Control type="datetime-local" name="start" value={novoEvento.start} onChange={handleChange}/>
-                            </Form.Group >
+                            <Form.Group controlId="formBasicStart">
+                                <Form.Label>Data da Consulta</Form.Label>
+                                <Form.Control
+                                    type="datetime-local"
+                                    name="dataconsulta"
+                                    value={novoEvento.dataconsulta}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
                         </Col>
-                        <Col xs ={6}>
-                            <Form.Group controlId='formBasicEnd'>
-                                <Form.Label>Fim</Form.Label>
-                                <Form.Control type="datetime-local" name="end" value={novoEvento.end} onChange={handleChange}/>
-                            </Form.Group >
+                        <Col xs={6}>
+                            <Form.Group controlId="formBasicObservacoes">
+                                <Form.Label>Observações</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Observações da consulta"
+                                    name="observacoesconsultas"
+                                    value={novoEvento.observacoesconsultas}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
                         </Col>
-                    </Row>  
-                    
-                        <div>
-                            <div>
-                                <Form.Group controlId="formBasicDesc">
-                                    <Form.Label>Descrição</Form.Label>
-                                    <Form.Control type="text" placeholder="Descrição" name="desc" value={novoEvento.desc} onChange={handleChange}></Form.Control>
-                                </Form.Group>
-                            </div>
-                        </div>
-                        <Button
-                        variant='success'
-                        type='submit'
-                        style={{marginTop: '20px', marginLeft: '10px', }}
-                        disabled={!novoEvento.title || !novoEvento.start || !novoEvento.end}
-                        >
-                            Salvar
-                        </Button>
+                    </Row>
+                    <Button
+                        variant="success"
+                        type="submit"
+                        style={{ marginTop: '20px', width: '150px' }}
+                        disabled={!novoEvento.cpf || !novoEvento.dataconsulta || !novoEvento.observacoesconsultas}
+                    >
+                        Salvar
+                    </Button>
                 </Form>
             </Collapse>
-           
+
             <Button
                 variant="primary"
                 type="button"
-                onClick={handleToggleExpanded} 
-                style={{marginTop: '10px', float: 'right'}}
-                >
-                {expanded ? <i className="bi bi-chevron-double-up"></i>: <i class="bi bi-chevron-double-down"></i>}
+                onClick={handleToggleExpanded}
+                style={{ marginTop: '10px', width: '100%' }}
+            >
+                Adicionar Evento
+                {expanded ? <i className="bi bi-chevron-double-up"></i> : <i className="bi bi-chevron-double-down"></i>}
             </Button>
-
-            
         </div>
-    )
+    );
 }
 
 export default Add;

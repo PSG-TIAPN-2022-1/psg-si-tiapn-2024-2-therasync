@@ -12,7 +12,6 @@ import {
   Legend
 } from 'chart.js';
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -44,37 +43,45 @@ const MyLineChart = () => {
     fetchCreditos();
   }, []);
 
-
+  // Função para agrupar os créditos por mês
   const agruparPorMes = (dados) => {
     const creditosPorMes = {};
 
-
+    // Inicializa o objeto com os 12 meses
     for (let i = 1; i <= 12; i++) {
       creditosPorMes[i] = 0;
     }
 
     dados.forEach(item => {
-      if (item.dataCredito !== '0000-00-00') {
-        const dataCredito = new Date(item.dataCredito);
-        const mes = dataCredito.getMonth() + 1; 
+      const dataCredito = new Date(item.datacredito); // Corrige para 'datacredito'
+      
+      // Verifica se a data é válida
+      if (!isNaN(dataCredito.getTime())) {
+        const mes = dataCredito.getMonth() + 1; // Meses começam de 0, então somamos 1
 
-        creditosPorMes[mes] += parseFloat(item.valor); 
+        // Verifica se o valor é válido e soma
+        const valorCredito = parseFloat(item.valor);
+        if (!isNaN(valorCredito)) {
+          creditosPorMes[mes] += valorCredito;
+        }
       }
     });
 
     return creditosPorMes;
   };
 
-
+  // Agrupa os dados de acordo com os meses
   const creditosAgrupados = agruparPorMes(dataApi);
 
- 
+  // Definir os rótulos (meses)
   const meses = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
   ];
+
+  // Obter os valores agrupados por mês
   const valores = Object.values(creditosAgrupados);
 
-
+  // Configuração dos dados para o gráfico
   const data = {
     labels: meses,
     datasets: [
@@ -90,7 +97,7 @@ const MyLineChart = () => {
     ]
   };
 
-
+  // Configuração das opções do gráfico
   const options = {
     responsive: true,
     plugins: {

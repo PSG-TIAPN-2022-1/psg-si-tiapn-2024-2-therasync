@@ -11,14 +11,21 @@ const FinancasSaidas = sequelize.define('financasSaidas', {
     nome: {
       type: DataTypes.STRING(15),
       allowNull: false
-    } ,
+    },
     valor: {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false
     },
-    dataDebito:{
+    datadebito:{
         type: DataTypes.DATE,
         allowNull: false,
+    },
+    recorrente: {
+      type: DataTypes.BOOLEAN
+    },
+    dataFimDebito:{
+      type: DataTypes.DATE,
+      allowNull: true,
     }
 },
 {

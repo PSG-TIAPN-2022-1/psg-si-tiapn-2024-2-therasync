@@ -29,23 +29,26 @@ function ModalAddDebitos() {
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [dataDebito, setDataDebito] = useState('');
+  const [recorrente, setRecorrente] = useState('false');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const data = {
       nome,
       valor,
       dataDebito,
+      recorrente,
     };
 
     sendFinancasDebito(data);
     setNome('');
     setValor('');
     setDataDebito('');
+    setRecorrente('false');
 
     handleClose();
   };
@@ -92,6 +95,34 @@ function ModalAddDebitos() {
                 onChange={(e) => setDataDebito(e.target.value)}
                 required
               />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="recorrente">
+              <Form.Label>
+                É recorrente? Caso sim, será debitado na mesma data todo mês
+              </Form.Label>
+              <div>
+                <Form.Check
+                  type="radio"
+                  label="Sim"
+                  name="recorrente"
+                  id="recorrente-sim"
+                  value="sim"
+                  checked={recorrente === "sim"}
+                  onChange={(e) => setRecorrente(e.target.value)}
+                  inline
+                />
+                <Form.Check
+                  type="radio"
+                  label="Não"
+                  name="recorrente"
+                  id="recorrente-nao"
+                  value="nao"
+                  checked={recorrente === "nao"}
+                  onChange={(e) => setRecorrente(e.target.value)}
+                  inline
+                />
+              </div>
             </Form.Group>
 
             <Button variant="primary" type="submit">

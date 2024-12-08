@@ -1,10 +1,14 @@
 import {Sequelize, QueryTypes} from 'sequelize';
 
-const sequelize = new Sequelize('therasync2', 'root', '', {
-    host: 'localhost',   
-    dialect: 'mysql',    
-    port: 3306         
-  });
+const sequelize = new Sequelize('postgresql://therasync_owner:chY8lTZDbVF5@ep-dawn-dew-a4syknso.us-east-1.aws.neon.tech/therasync?sslmode=require', {
+  dialect: 'mysql',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+});
 
 async function testConnection(){
    try {
@@ -15,5 +19,7 @@ async function testConnection(){
     console.error("Conexão não estabelecida",error)
    }
 }
+
+testConnection();
 
 export default sequelize

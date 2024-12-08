@@ -5,14 +5,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Debitos from '../components/debitos/debitos.jsx';
 import { Button } from 'react-bootstrap';
 import Ganhos from '../components/ganhos/ganhos.jsx';
-import Lucro from '../components/Lucro/lucro.jsx';
-import MediaConsulta from '../components/MediaConsulta/MediaConsulta.jsx';
+import Lucro from '../components/lucro/lucro.jsx';
+import MediaConsulta from '../components/mediaConsulta/MediaConsulta.jsx';
 import MyDoughnutChart from '../components/GraficoPizzaSaidas/Pizza.jsx';
 import MyLineChart from '../components/GraficoLinhas/linhas.jsx';
 import ListaFluxo from '../components/listaFluxo/listaFluxo.jsx';
 import ModalAddGanhos from '../components/ModalAddGanhos.jsx';
 import ModalAddGastos from '../components/ModalAddGastos.jsx';
+import FluxoConsultas from '../components/fluxoConsultas.jsx';
 import GraficoCreditos from '../components/GraficoPizzaGanhos/PizzaGanhos.jsx';
+import MyBarChart from '../components/GraficoBarras/barras.jsx';
+import { Container, Row, Col } from 'react-bootstrap';
+import { FcBarChart } from "react-icons/fc";
+import { FcOk } from "react-icons/fc";
+import { FcCancel } from "react-icons/fc";
+import { FcCurrencyExchange } from "react-icons/fc";
 
 const Dashboard = () => {
   const dataAtual = new Date();
@@ -100,6 +107,9 @@ const Dashboard = () => {
         </div>
 
       </div>
+
+      <p id="dash_titulo_container">Fluxo de consultas</p>
+      <FluxoConsultas periodo={periodo}></FluxoConsultas>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Importando useState
+import React, { useState , useEffect} from 'react'; // Importando useState
 import '../styles/lembretes.css';
 import { IoMdAdd } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
@@ -28,6 +28,41 @@ function Lembretes() {
     }
   };
 
+  const dataDeHoje = new Date();
+
+  const formatarData = (data) => {
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
+
+  useEffect(() => {
+      const fetchConsultas = async () => {
+          try {
+              const response = await fetch('http://localhost:3000/api/consultas');
+
+              if (!response.ok) {
+                  throw new Error(`Erro na resposta da API: ${response.status}`);
+              }
+
+              const data = await response.json();
+              setConsultas(data);
+          } catch (error) {
+              console.error("Erro ao buscar consultas:", error);
+          }
+      };
+      fetchConsultas();
+  }, []);
+
+  // Função para formatar a data e retornar apenas o horário
+  const formatarHorario = (dataConsulta) => {
+      const data = new Date(dataConsulta); // Cria um objeto Date a partir da string
+      return data.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Formata para HH:MM
+  };
+
+
   return (
     <>
       <button className="toggleButton" onClick={togglePanel}>
@@ -39,13 +74,14 @@ function Lembretes() {
             <p>Olá, {nome}</p>
             <p>{saudacao}!</p>
           </div>
-          <div className="consultasDia">
-            <h3>LEMBRETES</h3>
-            <div className="dados_consulta">
-              {/* Substituir com consultas reais */}
-              <p>10:00 - Cliente 1</p>
-              <p>14:00 - Cliente 2</p>
-            </div>
+          <h3>CONSULTAS</h3>
+          <div>
+                {consultas.filter(consulta => {
+                    const dataConsultaFormatada = formatarData(new Date(consulta.dataconsulta));
+                    return dataConsultaFormatada === formatarData(dataDeHoje);
+                }).map(consulta => (
+                    <h4 key={consulta.codconsulta}>{formatarHorario(new Date(consulta.dataconsulta))} - {consulta.nome}</h4>
+                ))}
           </div>
           <div className="Lembretes">
             <h3>ADICIONAR LEMBRETE</h3>

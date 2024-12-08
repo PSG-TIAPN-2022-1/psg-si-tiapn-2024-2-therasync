@@ -29,17 +29,22 @@ function ModalAddGanhos() {
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [dataEntrada, setDataEntrada] = useState('');
+  const [recorrente, setRecorrente] = useState(false);
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formattedDataEntrada = new Date(dataEntrada).toISOString();
     
     const data = {
       nome,
       valor,
-      dataEntrada,
+      dataEntrada: formattedDataEntrada,
+      recorrente,
     };
 
 
@@ -49,6 +54,7 @@ function ModalAddGanhos() {
     setNome('');
     setValor('');
     setDataEntrada('');
+    setRecorrente(false); 
 
     handleClose();
   };
@@ -96,6 +102,33 @@ function ModalAddGanhos() {
                 required
               />
             </Form.Group>
+
+            <Form.Group className="mb-3" controlId="recorrente">
+
+            <Form.Label>É recorrente? Caso sim, será contabilizado na mesma data todo mês</Form.Label>
+                <div>
+                  <Form.Check
+                    type="radio"
+                    label="Sim"
+                    name="recorrente"
+                    id="recorrente-sim"
+                    value="sim"
+                    checked={recorrente === "sim"}
+                    onChange={(e) => setRecorrente(e.target.value)}
+                    inline
+                  />
+                  <Form.Check
+                    type="radio"
+                    label="Não"
+                    name="recorrente"
+                    id="recorrente-nao"
+                    value="nao"
+                    checked={recorrente === "nao"}
+                    onChange={(e) => setRecorrente(e.target.value)}
+                    inline
+                  />
+                </div>
+              </Form.Group>
 
             <Button variant="primary" type="submit">
               Salvar

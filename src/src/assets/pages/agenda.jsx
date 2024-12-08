@@ -1,10 +1,12 @@
-import React from 'react'
-import Agendas from '../components/Agenda.jsx'
+import React from 'react';
+import Agendas from '../components/Agenda.jsx';
+import { FaRegCalendarAlt } from "react-icons/fa";
+
 const Agenda = () => {
   return (
    
     <div className='container'>
-      <p id='titulo_container'>Agenda</p>
+
       <Agendas></Agendas>
     </div>
   )

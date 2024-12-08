@@ -6,6 +6,7 @@ const LucroTotal = ({ mes, ano, dadosAtualizados }) => {
 
   const fetchLucro = async () => {
     try {
+      // Busca os dados de créditos e débitos
       const responseCreditos = await fetch('http://localhost:3000/api/financasCreditos');
       const responseDebitos = await fetch('http://localhost:3000/api/financasDebitos');
 
@@ -13,38 +14,46 @@ const LucroTotal = ({ mes, ano, dadosAtualizados }) => {
         throw new Error('Erro ao buscar os dados');
       }
 
+      // Converte as respostas para JSON
       const dataCreditos = await responseCreditos.json();
       const dataDebitos = await responseDebitos.json();
 
+      // Calcula o total de créditos no mês e ano especificados
       const totalCreditos = dataCreditos
         .filter(item => {
-          const data = new Date(item.dataCredito);
+          const dataCredito = new Date(item.datacredito); // Usando 'datacredito'
           return (
-            data.getMonth() === mes &&
-            data.getFullYear() === ano
+            dataCredito.getMonth() === mes &&
+            dataCredito.getFullYear() === ano &&
+            !isNaN(dataCredito.getTime()) && // Verifica se a data é válida
+            parseFloat(item.valor) > 0 // Garante que o valor seja positivo
           );
         })
-        .reduce((acc, item) => acc + parseFloat(item.valor), 0);
+        .reduce((acc, item) => acc + parseFloat(item.valor), 0); // Soma os valores dos créditos
 
+      // Calcula o total de débitos no mês e ano especificados
       const totalDebitos = dataDebitos
         .filter(item => {
-          const data = new Date(item.dataDebito);
+          const dataDebito = new Date(item.datadebito); // Usando 'datadebito'
           return (
-            data.getMonth() === mes &&
-            data.getFullYear() === ano
+            dataDebito.getMonth() === mes &&
+            dataDebito.getFullYear() === ano &&
+            !isNaN(dataDebito.getTime()) && // Verifica se a data é válida
+            parseFloat(item.valor) > 0 // Garante que o valor seja positivo
           );
         })
-        .reduce((acc, item) => acc + parseFloat(item.valor), 0);
+        .reduce((acc, item) => acc + parseFloat(item.valor), 0); // Soma os valores dos débitos
 
+      // Calcula o lucro total
       const lucro = totalCreditos - totalDebitos;
-      setLucroTotal(lucro);
+      setLucroTotal(lucro); // Atualiza o estado com o lucro
     } catch (error) {
-      console.error("Erro ao buscar dados:", error);
+      console.error("Erro ao buscar dados:", error); // Log de erro
     }
   };
 
   useEffect(() => {
-    fetchLucro();
+    fetchLucro(); // Recarrega os dados sempre que o mês, ano ou dados são atualizados
   }, [mes, ano, dadosAtualizados]);
 
   return (

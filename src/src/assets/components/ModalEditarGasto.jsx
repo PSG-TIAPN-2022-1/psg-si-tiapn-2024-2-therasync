@@ -30,6 +30,7 @@ function ModalEditDebitos({ gasto }) {
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [dataDebito, setDataDebito] = useState('');
+  const [recorrente, setRecorrente] = useState(false); // Estado para recorrência
 
   // Função para abrir o modal
   const handleShow = () => setShow(true);
@@ -43,6 +44,7 @@ function ModalEditDebitos({ gasto }) {
       setNome(gasto.nome);
       setValor(gasto.valor);
       setDataDebito(gasto.dataDebito);
+      setRecorrente(gasto.recorrente || false); // Define recorrente se existir
     }
   }, [gasto]); // O useEffect será disparado sempre que o gasto for alterado
 
@@ -54,6 +56,7 @@ function ModalEditDebitos({ gasto }) {
       nome,
       valor,
       dataDebito,
+      recorrente, // Inclui recorrência no objeto de atualização
     };
 
     // Atualiza o débito no banco de dados
@@ -63,6 +66,7 @@ function ModalEditDebitos({ gasto }) {
     setNome('');
     setValor('');
     setDataDebito('');
+    setRecorrente(false);
 
     // Fecha o modal
     handleClose();
@@ -123,6 +127,37 @@ function ModalEditDebitos({ gasto }) {
               />
             </div>
 
+            {/* Campo para recorrência */}
+            <div className="mb-3">
+              <label className="form-label">Recorrente</label>
+              <div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="recorrente"
+                    id="recorrenteSim"
+                    value="true"
+                    checked={recorrente === true}
+                    onChange={() => setRecorrente(true)}
+                  />
+                  <label className="form-check-label" htmlFor="recorrenteSim">Sim</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="recorrente"
+                    id="recorrenteNao"
+                    value="false"
+                    checked={recorrente === false}
+                    onChange={() => setRecorrente(false)}
+                  />
+                  <label className="form-check-label" htmlFor="recorrenteNao">Não</label>
+                </div>
+              </div>
+            </div>
+
             {/* Botões para fechar ou atualizar */}
             <div className="d-flex justify-content-end">
               <Button variant="secondary" onClick={handleClose}>Fechar</Button>
@@ -136,3 +171,4 @@ function ModalEditDebitos({ gasto }) {
 }
 
 export default ModalEditDebitos;
+

@@ -10,21 +10,19 @@ const EventoModal = ({evento, onClose, onDelete, onUpdate}) => {
         setEventoEditado({...eventoEditado, [name]: value})
     }
 
-    const handleStartDateChange = (e) =>{
+    const handleStartDateChange = (e) => {
         const startDate = new Date(e.target.value);
-        if(startDate <= eventoEditado.end){
-            setEventoEditado({...eventoEditado, start: startDate})
+        if (!isNaN(startDate) && startDate <= eventoEditado.end) {
+            setEventoEditado({ ...eventoEditado, start: startDate });
         }
-        
-    }
+    };
     
-    const handleEndDateChange = (e) =>{
+    const handleEndDateChange = (e) => {
         const endDate = new Date(e.target.value);
-        if(endDate <= eventoEditado.start){
-            setEventoEditado({...eventoEditado, end: endDate})
+        if (!isNaN(endDate) && endDate >= eventoEditado.start) {
+            setEventoEditado({ ...eventoEditado, end: endDate });
         }
-        
-    }
+    };
 
     const handleDelete = () => {
         onDelete(evento.id);
@@ -38,9 +36,9 @@ const EventoModal = ({evento, onClose, onDelete, onUpdate}) => {
 
     const adjustDate = (date) => {
         const adjustedDate = new Date(date);
-        adjustedDate.setHours(adjustedDate.getHours() - 3);
-        return adjustedDate.toISOString().slice(0,-8);
-    }
+        adjustedDate.setMinutes(adjustedDate.getMinutes() - adjustedDate.getTimezoneOffset());
+        return adjustedDate.toISOString().slice(0, -8);
+    };
 
     return(
     <Modal show={true} onHide={onClose}>
@@ -67,7 +65,7 @@ const EventoModal = ({evento, onClose, onDelete, onUpdate}) => {
                     </Form.Group>
 
                     <Form.Group controlId="formEnd">
-                        <Form.Label>Descrição</Form.Label>
+                        <Form.Label>Fim</Form.Label>
                         <Form.Control type="datetime-local" name='end' value={adjustDate(eventoEditado.end)} onChange={handleEndDateChange}/>
                     </Form.Group>
 

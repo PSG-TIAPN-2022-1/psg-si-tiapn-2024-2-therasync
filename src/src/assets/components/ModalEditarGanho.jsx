@@ -17,57 +17,50 @@ const updateFinancasEntrada = async (id, data) => {
       throw new Error('Erro ao atualizar o ganho');
     }
 
-    const result = await response.json();
-    console.log('Ganho atualizado com sucesso:', result);
+    return await response.json();
   } catch (error) {
     console.error('Erro ao atualizar ganho:', error);
+    throw error;
   }
 };
 
-function ModalEditGanhos({ ganho }) {
+function ModalEditGanhos({ ganho, atualizarGanhos }) {
   const [show, setShow] = useState(false);
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
-  const [dataCredito, setDataCredito] = useState('');
+  const [datacredito, setDatacredito] = useState('');
+  const [recorrente, setRecorrente] = useState('nao');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // Preencher os campos com os dados do ganho ao abrir o modal
   useEffect(() => {
     if (ganho) {
       setNome(ganho.nome);
       setValor(ganho.valor);
-      setDataCredito(ganho.dataCredito);
+      setDatacredito(ganho.datacredito || '');
+      setRecorrente(ganho.recorrente || 'nao');
     }
   }, [ganho]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
-      nome,
-      valor,
-      dataCredito,
-    };
+    const data = { nome, valor, datacredito, recorrente };
 
-    // Atualiza o ganho
-    updateFinancasEntrada(ganho.id, data);
-
-    // Limpa os campos após a submissão
-    setNome('');
-    setValor('');
-    setDataCredito('');
-
-    // Fecha o modal
-    handleClose();
+    try {
+      await updateFinancasEntrada(ganho.id, data);
+      alert('Ganho atualizado com sucesso!');
+      handleClose();
+    } catch (error) {
+      alert('Erro ao atualizar ganho. Verifique os dados.');
+    }
   };
 
   return (
     <>
-      {/* Botão para abrir o modal */}
       <Button variant="success" onClick={handleShow} style={{ width: '40px' }}>
-         <FaEdit />
+        <FaEdit />
       </Button>
 
       <Modal show={show} onHide={handleClose} animation={false}>
@@ -82,7 +75,6 @@ function ModalEditGanhos({ ganho }) {
                 type="text"
                 id="nome"
                 className="form-control"
-                placeholder="Nome do ganho"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 required
@@ -95,7 +87,6 @@ function ModalEditGanhos({ ganho }) {
                 type="number"
                 id="valor"
                 className="form-control"
-                placeholder="Valor do ganho"
                 value={valor}
                 onChange={(e) => setValor(e.target.value)}
                 required
@@ -103,15 +94,45 @@ function ModalEditGanhos({ ganho }) {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="dataCredito" className="form-label">Data de Crédito</label>
+              <label htmlFor="datacredito" className="form-label">Data de Crédito</label>
               <input
                 type="date"
-                id="dataCredito"
+                id="datacredito"
                 className="form-control"
-                value={dataCredito}
-                onChange={(e) => setDataCredito(e.target.value)}
+                value={datacredito}
+                onChange={(e) => setDatacredito(e.target.value)}
                 required
               />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">É recorrente?</label>
+              <div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="recorrente-sim"
+                    className="form-check-input"
+                    name="recorrente"
+                    value="sim"
+                    checked={recorrente === 'sim'}
+                    onChange={(e) => setRecorrente(e.target.value)}
+                  />
+                  <label htmlFor="recorrente-sim" className="form-check-label">Sim</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="recorrente-nao"
+                    className="form-check-input"
+                    name="recorrente"
+                    value="nao"
+                    checked={recorrente === 'nao'}
+                    onChange={(e) => setRecorrente(e.target.value)}
+                  />
+                  <label htmlFor="recorrente-nao" className="form-check-label">Não</label>
+                </div>
+              </div>
             </div>
 
             <div className="d-flex justify-content-end">
@@ -126,3 +147,4 @@ function ModalEditGanhos({ ganho }) {
 }
 
 export default ModalEditGanhos;
+

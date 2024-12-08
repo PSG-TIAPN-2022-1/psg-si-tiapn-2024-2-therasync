@@ -10,6 +10,7 @@ import { LuBrainCircuit } from "react-icons/lu";
 import {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { MdOutlineViewAgenda } from 'react-icons/md';
+import { IoMdCheckbox } from "react-icons/io";
 
 export default function Navbar() {
 
@@ -31,6 +32,12 @@ export default function Navbar() {
         <Link to="/agenda" className="list-item">
           <TfiAgenda className="icon" />
           <span className="item-label">Agenda</span>
+        </Link>
+      </li>
+      <li>
+        <Link to="/consultas" className="list-item">
+          <IoMdCheckbox className='icon'/>
+          <span className="item-label">Consultas</span>
         </Link>
       </li>
       <li>
