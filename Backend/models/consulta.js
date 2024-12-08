@@ -5,7 +5,7 @@ const Consulta = sequelize.define('consulta', {
     autoIncrement: true,
     primaryKey: true,
   },
-  id_paciente: {  // Alterado para refletir o nome correto da coluna
+  pacienteCpf: {  // Renomeado para evitar conflito
     type: DataTypes.CHAR(11),
     allowNull: false,
     references: {
@@ -41,7 +41,7 @@ const Consulta = sequelize.define('consulta', {
   timestamps: false,
 });
 
-// Ajustar o relacionamento
-Consulta.belongsTo(Paciente, { foreignKey: 'id_paciente' });
+// Ajustando a associação para usar o novo nome do atributo
+Consulta.belongsTo(Paciente, { foreignKey: 'pacienteCpf' });
 
 export default Consulta;
