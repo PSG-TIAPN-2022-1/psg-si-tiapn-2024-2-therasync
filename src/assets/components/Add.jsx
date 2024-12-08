@@ -120,7 +120,7 @@ function Add({ onAdd }) {
                 variant="primary"
                 type="button"
                 onClick={handleToggleExpanded}
-                style={{ marginTop: '10px', float: 'right' }}
+                style={{ marginTop: '10px', width: '100%' }}
             >
                 Adicionar Evento
                 {expanded ? <i className="bi bi-chevron-double-up"></i> : <i className="bi bi-chevron-double-down"></i>}

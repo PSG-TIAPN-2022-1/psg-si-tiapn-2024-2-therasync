@@ -47,6 +47,7 @@ app.get('/api/consultas', async (req, res) => {
   try {
     const consultas = await sequelize.query(
       `SELECT 
+         consulta.codconsulta,
          paciente.nome, 
          consulta.dataConsulta, 
          consulta.status, 
@@ -475,35 +476,64 @@ app.post('/api/consultas', async (req, res) => {
   }
 });
 
-// Rota PUT para atualizar uma consulta
-app.put('/api/consultas/:codconsulta', async (req, res) => {
-  const { codconsulta } = req.params; // Obtemos o ID da consulta a partir da URL
-  const { status, cancelada, valorpago, observacoesconsultas, dataconsulta } = req.body; // Dados enviados no corpo da requisição
+app.patch('api/consultas/valor/:codconsulta', async (req, res) => {
+  const { codconsulta } = req.params; 
+  const { valorpago } = req.body;    
+  
+  if (valorpago === undefined) {
+      return res.status(400).json({ error: 'O campo valorpago é obrigatório.' });
+  }
 
   try {
-    // Busca a consulta pelo ID fornecido
-    const consulta = await Consulta.findByPk(codconsulta);
+      
+      const consulta = await Consulta.findByPk(codconsulta);
 
-    if (!consulta) {
-      return res.status(404).json({ error: 'Consulta não encontrada.' });
-    }
+      
+      if (!consulta) {
+          return res.status(404).json({ error: 'Consulta não encontrada.' });
+      }
 
-    // Atualiza os campos fornecidos
-    consulta.status = status !== undefined ? status : consulta.status;
-    consulta.cancelada = cancelada !== undefined ? cancelada : consulta.cancelada;
-    consulta.valorpago = valorpago !== undefined ? valorpago : consulta.valorpago;
-    consulta.observacoesconsultas = observacoesconsultas !== undefined ? observacoesconsultas : consulta.observacoesconsultas;
-    consulta.dataconsulta = dataconsulta !== undefined ? dataconsulta : consulta.dataconsulta;
+      // Atualiza o campo valorpago da consulta
+      consulta.valorpago = valorpago;
+      await consulta.save();
 
-    // Salva as mudanças no banco de dados
-    await consulta.save();
-
-    res.json({ message: 'Consulta atualizada com sucesso!', consulta });
+      
+      res.status(200).json({
+          message: 'Consulta atualizada com sucesso.',
+          consulta,
+      });
   } catch (error) {
-    console.error('Erro ao atualizar a consulta:', error);
-    res.status(500).json({ error: 'Erro ao atualizar a consulta.' });
+      console.error('Erro ao atualizar consulta:', error);
+      res.status(500).json({ error: 'Erro ao atualizar consulta.' });
   }
 });
+
+app.patch('api/consultas/cancelar/:codconsulta', async (req, res) => {
+  const { codconsulta } = req.params; 
+  
+  try {
+      
+      const consulta = await Consulta.findByPk(codconsulta);
+
+      
+      if (!consulta) {
+          return res.status(404).json({ error: 'Consulta não encontrada.' });
+      }
+
+      // Atualiza o campo cancelada para true
+      consulta.cancelada = true;
+      await consulta.save();
+      
+      res.status(200).json({
+          message: 'Consulta cancelada com sucesso.',
+          consulta,
+      });
+  } catch (error) {
+      console.error('Erro ao atualizar consulta:', error);
+      res.status(500).json({ error: 'Erro ao atualizar consulta.' });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

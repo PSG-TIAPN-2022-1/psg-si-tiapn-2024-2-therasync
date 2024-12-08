@@ -118,7 +118,7 @@ const Clientes = () => {
       </div>
 
       <Dropdown>
-        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+        <Dropdown.Toggle variant="primary" id="dropdown-basic" style={{width: '200px' }}>
           Selecionar Opção
         </Dropdown.Toggle>
         <Dropdown.Menu>
@@ -130,7 +130,7 @@ const Clientes = () => {
         </Dropdown.Menu>
       </Dropdown>
 
-      <NovoCliente></NovoCliente>
+      <NovoCliente ></NovoCliente>
     </div>
 
       <div className="tabela_clientes">

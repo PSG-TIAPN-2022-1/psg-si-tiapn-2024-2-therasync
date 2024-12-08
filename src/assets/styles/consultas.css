@@ -44,29 +44,6 @@
   font-size: 16px; /* Tamanho da fonte */
 }
 
-/* Estilo para botões */
-.paciente-botao {
-  padding: 8px 12px; /* Espaçamento interno do botão */
-  border: none; /* Remove borda padrão */
-  border-radius: 4px; /* Bordas arredondadas do botão */
-  cursor: pointer; /* Cursor de mão ao passar o mouse */
-}
-
-/* Estilo para o botão de editar */
-.btn-success {
-  background-color: #28a745; /* Cor verde para botões de sucesso */
-  color: white; /* Cor do texto do botão */
-}
-
-.btn-danger {
-  background-color: #dc3545; /* Cor vermelha para botões de perigo */
-  color: white; /* Cor do texto do botão */
-}
-
-.btn-success:hover,
-.btn-danger:hover {
-  opacity: 0.9; /* Leve transparência ao passar o mouse */
-}
 
 /* Estilo para a seção de título de consultas feitas ou canceladas */
 h4 {

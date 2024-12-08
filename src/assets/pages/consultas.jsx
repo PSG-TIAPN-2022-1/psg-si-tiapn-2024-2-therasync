@@ -32,8 +32,8 @@ export default function Consultas() {
 
     // Função para formatar a data e retornar apenas o horário
     const formatarHorario = (dataConsulta) => {
-        const data = new Date(dataConsulta); 
-        return data.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); 
+        const data = new Date(dataConsulta);
+        return data.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     };
 
 
@@ -66,7 +66,7 @@ export default function Consultas() {
                                 </Button>
                             </td>
                             <td>
-                                <ModalConsultas buttonText="Realizada" consultaId={consulta} />
+                                <ModalConsultas buttonText="Realizada" data={consulta} />
                             </td>
                         </tr>
                     ))}
@@ -90,7 +90,6 @@ export default function Consultas() {
                         <th>Horário</th>
                         <th>Nome</th>
                         <th>Valor Pago</th>
-                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,13 +98,10 @@ export default function Consultas() {
                             consultaFeita ? consulta.status : consulta.cancelada
                         )
                         .map((consulta) => (
-                            <tr key={consulta.id} className="pacienteFC-item">
+                            <tr key={consulta.codconsulta} className="pacienteFC-item">
                                 <td className="FC-dados">{formatarHorario(consulta.dataconsulta)}</td>
                                 <td className="FC-dados">{consulta.nome}</td>
                                 <td className="FC-dados">R$ {consulta.valorpago}</td>
-                                <td>
-                                <ModalConsultas buttonText="Editar" props={consulta} />
-                                </td>
                             </tr>
                         ))}
                 </tbody>

@@ -69,7 +69,7 @@ function NovoCliente() {
   
   return (
     <>
-      <Button variant="success" onClick={handleShow}>
+      <Button variant="success" onClick={handleShow} style={{width: '200px' }}>
         Cadastrar Cliente
       </Button>
 
