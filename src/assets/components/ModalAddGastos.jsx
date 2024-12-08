@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { parseISO, isValid, lastDayOfMonth, addYears } from 'date-fns'; // Importando funções necessárias
 
 const sendFinancasDebito = async (data) => {
   try {
@@ -14,7 +15,7 @@ const sendFinancasDebito = async (data) => {
     });
 
     if (!response.ok) {
-      throw new Error('Erro na resposta', error);
+      throw new Error('Erro na resposta');
     }
 
     const result = await response.json();
@@ -37,11 +38,23 @@ function ModalAddDebitos() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Calcular dataFimDebito com base em recorrente
+    let dataFimDebito;
+    if (recorrente === 'sim') {
+      // Se recorrente for sim, define uma data muito distante
+      dataFimDebito = addYears(new Date(), 30).toISOString(); // 30 anos a partir de agora
+    } else {
+      // Se não for recorrente, define como o último dia do mês da data de débito
+      const lastDay = lastDayOfMonth(parseISO(dataDebito));
+      dataFimDebito = lastDay.toISOString();
+    }
+
     const data = {
       nome,
       valor,
       dataDebito,
-      recorrente,
+      recorrente: recorrente === 'sim', // Converter string para booleano
+      dataFimDebito,
     };
 
     sendFinancasDebito(data);
@@ -141,3 +154,4 @@ function ModalAddDebitos() {
 }
 
 export default ModalAddDebitos;
+

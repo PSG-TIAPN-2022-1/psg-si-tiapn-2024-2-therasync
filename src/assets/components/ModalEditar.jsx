@@ -7,8 +7,7 @@ import { FaEdit } from "react-icons/fa";
 function ModalEditar(props) {
   const { cliente } = props;
 
-
-  const [status, setStatus] = useState(cliente?.status || '');//adicionar opção de mudar status
+  const status = cliente.status; // Assume que o status é booleano
   const [nome, setNome] = useState(cliente?.nome || '');
   const [email, setEmail] = useState(cliente?.email || '');
   const [idade, setIdade] = useState(cliente?.idade || '');
@@ -16,6 +15,7 @@ function ModalEditar(props) {
   const [naturalidade, setNaturalidade] = useState(cliente?.naturalidade || '');
   const [frequenciaPagamento, setFrequenciaPagamento] = useState(cliente?.frequenciaPagamento || '');
   const [nomeResponsavel, setNomeResponsavel] = useState(cliente?.nomeResponsavel || '');
+  const [statusCliente, setStatusCliente] = useState(status); // Estado para o status do cliente
   
   const [clienteEditado, setClienteEditado] = useState({});
   const [show, setShow] = useState(false);
@@ -32,12 +32,11 @@ function ModalEditar(props) {
       naturalidade,
       frequenciaPagamento,
       nomeResponsavel,
-      status,
+      status: statusCliente, // Usa o novo estado para o status
     };
 
     setClienteEditado(novoCliente);
   };
-
 
   useEffect(() => {
     const fetchClientes = async () => {
@@ -67,8 +66,7 @@ function ModalEditar(props) {
     if (Object.keys(clienteEditado).length > 0) {
       fetchClientes();
     }
-  }, [clienteEditado]); 
-
+  }, [clienteEditado]);
 
   return (
     <>
@@ -164,30 +162,24 @@ function ModalEditar(props) {
               />
             </Form.Group>
 
-                       {/* Radio Buttons para o status */}
-                       <Form.Group className="mb-3" controlId="formStatus">
+            {/* Radio buttons para status */}
+            <Form.Group className="mb-3">
               <Form.Label>Status</Form.Label>
-              <div className="d-flex">
-                <Form.Check
+              <div>
+                <Form.Check 
                   type="radio"
                   label="Ativo"
-                  name="status"
-                  value='true'
-                  checked={status === 'ativo'}
-                  onChange={(e) => setStatus(e.target.value)}
-                  className="me-3"
+                  checked={statusCliente === true}
+                  onChange={() => setStatusCliente(true)} 
                 />
-                <Form.Check
+                <Form.Check 
                   type="radio"
                   label="Inativo"
-                  name="status"
-                  value='false'
-                  checked={status === 'inativo'}
-                  onChange={(e) => setStatus(e.target.value)}
+                  checked={statusCliente === false}
+                  onChange={() => setStatusCliente(false)} 
                 />
               </div>
             </Form.Group>
-
           </Form>
         </Modal.Body>
         <Modal.Footer>

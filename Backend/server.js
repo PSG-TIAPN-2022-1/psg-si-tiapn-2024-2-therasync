@@ -416,8 +416,9 @@ app.put('/api/ganhos/:id', async (req, res) => {
 });
 
 app.post('/api/financasDebitos', async (req, res) => {
-  const { nome, valor, dataDebito, recorrente } = req.body;
+  const { nome, valor, dataDebito, recorrente, dataFimDebito } = req.body;
 
+  // Verificar se todos os campos obrigatórios estão presentes
   if (!nome || !valor || !dataDebito || recorrente === undefined) {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
   }
@@ -429,23 +430,29 @@ app.post('/api/financasDebitos', async (req, res) => {
   }
   const dataDebitoISO = dataDebitoFormatada.toISOString();
 
-  try {
-    // Inserir débito no banco usando sequelize.query
-    const [results, metadata] = await sequelize.query(
-      `
-      INSERT INTO FinancasSaidas (nome, valor, datadebito, recorrente) 
-      VALUES (:nome, :valor, :dataDebito, :recorrente)
-      RETURNING *;
-      `,
-      {
-        replacements: { nome, valor, dataDebito: dataDebitoISO, recorrente },
-        type: sequelize.QueryTypes.INSERT,
-      }
-    );
+  // Opcional: Validar e formatar dataFimDebito se fornecido
+  let dataFimDebitoISO = null;
+  if (dataFimDebito) {
+    const dataFimFormatada = parseISO(dataFimDebito);
+    if (!isValid(dataFimFormatada)) {
+      return res.status(400).json({ error: 'Formato de dataFimDebito inválido' });
+    }
+    dataFimDebitoISO = dataFimFormatada.toISOString();
+  }
 
-    return res.status(201).json({ message: 'Débito salvo com sucesso', data: results[0] });
+  try {
+    // Criar um novo registro de débito no banco de dados
+    const novoDebito = await FinancasSaidas.create({
+      nome,
+      valor,
+      datadebito: dataDebitoISO,
+      recorrente,
+      dataFimDebito: dataFimDebitoISO, // Salvar dataFimDebito se estiver presente
+    });
+
+    return res.status(201).json({ message: 'Débito salvo com sucesso', data: novoDebito });
   } catch (error) {
-    console.error('Erro ao salvar o débito:', error);
+    console.error('Erro ao salvar o débito:', error.message);
     return res.status(500).json({ error: 'Erro ao salvar o débito no servidor' });
   }
 });
@@ -508,29 +515,38 @@ app.patch('api/consultas/valor/:codconsulta', async (req, res) => {
   }
 });
 
-app.patch('api/consultas/cancelar/:codconsulta', async (req, res) => {
-  const { codconsulta } = req.params; 
-  
+app.patch('/api/consultas/cancelar/:codconsulta', async (req, res) => {
+  const { codconsulta } = req.params;
+
   try {
-      
+      // Verifica se o ID da consulta é válido
+      if (!codconsulta || isNaN(codconsulta)) {
+          return res.status(400).json({ error: 'ID da consulta inválido.' });
+      }
+
+      // Busca a consulta pelo ID
       const consulta = await Consulta.findByPk(codconsulta);
 
-      
       if (!consulta) {
           return res.status(404).json({ error: 'Consulta não encontrada.' });
       }
 
-      // Atualiza o campo cancelada para true
+      // Verifica se a consulta já está cancelada
+      if (consulta.cancelada) {
+          return res.status(400).json({ error: 'Consulta já está cancelada.' });
+      }
+
+      // Atualiza o campo "cancelada" para true
       consulta.cancelada = true;
       await consulta.save();
-      
+
       res.status(200).json({
           message: 'Consulta cancelada com sucesso.',
           consulta,
       });
   } catch (error) {
-      console.error('Erro ao atualizar consulta:', error);
-      res.status(500).json({ error: 'Erro ao atualizar consulta.' });
+      console.error('Erro ao atualizar consulta:', error.message || error);
+      res.status(500).json({ error: 'Erro interno ao tentar cancelar consulta.' });
   }
 });
 
