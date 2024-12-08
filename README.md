@@ -467,6 +467,21 @@ Legenda:
 
 
 <li><a href="docs/7-Conclusão.md"> Conclusão</a></li>
+
+
+# Conclusão
+
+<p>O projeto TheraSync atingiu resultados dentro do esperado, o sistema é capaz de integrar todas informações que o cliente utiliza em um só lugar, com uma interface simplificado</p>
+<h2>Resultados Obtidos:</h2>
+<h3>Dashboard</h3>
+<p>Lista e forcene insights que ajudarão o cliente a gerir suas finanças.</p>
+<h3>Clientes</h3>
+<p>Lista os clientes e suas informações.</p>
+<h3>Consultas</h3>
+<p>Lista consultas e suas informações</p>
+<h2>Próximos passos</h2>
+<p>O sistema é funcional, porém, necessita de refinamentos, para otimizar a interpretação e manipulação de informações presentes no banco de dados.</p>
+
 <li><a href="docs/8-Referências.md"> Referências</a></li>
 
 Organização Pan-Americana da Saúde. Saúde mental deve estar no topo da agenda política pós-COVID-19, diz relatório da OPAS. Acesso em 25/08/2024. <a href="https://www.paho.org/pt/noticias/9-6-2023-saude-mental-deve-estar-no-topo-da-agenda-politica-pos-covid-19-diz-relatorio-da#:~:text=relat%C3%B3rio%20da%20OPAS-,Sa%C3%BAde%20mental%20deve%20estar%20no%20topo%20da%20agenda%20pol%C3%ADtica%20p%C3%B3s,19%2C%20diz%20relat%C3%B3rio%20da%20OPAS&text=O%20documento%20destaca%20que%20a,regi%C3%A3o%2C%20foi%20exacerbada%20pela%20pandemia.">Link </a><br>
