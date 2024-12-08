@@ -151,7 +151,7 @@ const Clientes = () => {
 
                 {clientesFiltrados.map((cliente, index) => (
                 <tr key={index}>
-                  <td>{cliente.status === 1 ? "Ativo" : "Inativo"}</td>
+                  <td>{cliente.status === true ? "Ativo" : "Inativo"}</td>
                   <td>{cliente.nome}</td>
                   <td className='thIdade'>{calcularIdade(cliente.idade) || "—"}</td>
                   <td>{formatarData(cliente.ultimaConsulta)}</td>

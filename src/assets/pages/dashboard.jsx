@@ -109,7 +109,7 @@ const Dashboard = () => {
       </div>
 
       <p id="dash_titulo_container">Fluxo de consultas</p>
-      <FluxoConsultas></FluxoConsultas>
+      <FluxoConsultas periodo={periodo}></FluxoConsultas>
     </div>
   );
 };

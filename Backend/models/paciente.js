@@ -1,46 +1,47 @@
-import {DataTypes} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
+
 const Paciente = sequelize.define('paciente', {
-    cpf:{
-        type: DataTypes.STRING(11),
+    cpf: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
     },
-    nome:{
+    nome: {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
-    email:{
+    email: {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
-    idade:{
+    idade: {
         type: DataTypes.DATE,
     },
-    sobre:{type: DataTypes.STRING(500),
+    sobre: {
+        type: DataTypes.STRING(500),
         allowNull: false,
     },
-    naturalidade:{
+    naturalidade: {
         type: DataTypes.STRING(32),
         allowNull: false,
     },
-    frequenciapagamento:{
+    frequenciaPagamento: {
         type: DataTypes.STRING(7),
         allowNull: false,
     },
-    nomeresponsavel: {
+    nomeResponsavel: {
         type: DataTypes.STRING(50),
         allowNull: true,
     },
-    valorporconsulta: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+    status: {  // Nova coluna status
+        type: DataTypes.BOOLEAN,
+        defaultValue: true, // Valor padrão
+        allowNull: false, // Permitir null se necessário
     }
-
-},
-{
+}, {
     tableName: 'paciente',
     timestamps: false
-}
-)
+});
+
 export default Paciente;
