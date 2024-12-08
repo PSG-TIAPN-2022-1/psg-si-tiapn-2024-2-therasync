@@ -302,7 +302,7 @@ app.delete('/api/financasSaidas/:id', async (req, res) => {
 
 
 app.put('/api/gastos/:id', async (req, res) => {
-  const gastoId = req.params.id;  // Obtendo o ID do gasto da URL
+  const gastoId = req.params.id; 
   console.log('ID do gasto recebido:', gastoId);
   
   const { nome, valor, dataDebito } = req.body;
@@ -334,6 +334,9 @@ app.put('/api/gastos/:id', async (req, res) => {
     res.status(500).json({ message: 'Erro ao atualizar gasto', error });
   }
 });
+
+
+
 
 
 //Autenticação login e validação
@@ -384,15 +387,15 @@ app.post('/api/users/register', async (req, res) => {
 
 
 
-app.put('/api/ganhos/:id', async (req, res) => {
-  const ganhoId = req.params.id;  
+app.put('/api/financasCreditos/:id', async (req, res) => {
+  const ganhoId = req.params.id;
   console.log('ID do ganho recebido:', ganhoId);
-  console.log('Corpo da requisição:', req.body);  // Adicione esse log para verificar os dados recebidos
+  console.log('Corpo da requisição:', req.body);
 
-  const { nome, valor, dataCredito } = req.body;
+  const { nome, valor, datacredito } = req.body; // Use 'datacredito'
 
   // Validar se os campos obrigatórios estão presentes
-  if (!nome || !valor || !dataCredito) {
+  if (!nome || !valor || !datacredito) {
     return res.status(400).json({ message: 'Campos obrigatórios não preenchidos' });
   }
 
@@ -405,7 +408,7 @@ app.put('/api/ganhos/:id', async (req, res) => {
     await ganho.update({
       nome,
       valor,
-      dataCredito,
+      datacredito, // Atualize o ganho com 'datacredito'
     });
 
     res.status(200).json({ message: 'Ganho atualizado com sucesso', ganho });
@@ -508,32 +511,52 @@ app.patch('api/consultas/valor/:codconsulta', async (req, res) => {
   }
 });
 
-app.patch('api/consultas/cancelar/:codconsulta', async (req, res) => {
-  const { codconsulta } = req.params; 
-  
+app.patch('/api/consultas', async (req, res) => {
+  const { id } = req.body; // Supondo que o ID seja enviado no corpo da requisição
+
   try {
-      
-      const consulta = await Consulta.findByPk(codconsulta);
+    // Encontrando a consulta pelo ID
+    const consulta = await Consulta.findOne({ where: { codconsulta: id } });
 
-      
-      if (!consulta) {
-          return res.status(404).json({ error: 'Consulta não encontrada.' });
-      }
+    if (!consulta) {
+      return res.status(404).json({ message: 'Consulta não encontrada' });
+    }
 
-      // Atualiza o campo cancelada para true
-      consulta.cancelada = true;
-      await consulta.save();
-      
-      res.status(200).json({
-          message: 'Consulta cancelada com sucesso.',
-          consulta,
-      });
+    consulta.cancelada = true;
+    await consulta.save();
+
+    res.status(200).json({ message: 'Consulta cancelada com sucesso' });
   } catch (error) {
-      console.error('Erro ao atualizar consulta:', error);
-      res.status(500).json({ error: 'Erro ao atualizar consulta.' });
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao cancelar consulta', error: error.message });
   }
 });
 
+app.patch('/api/consultas/atualizar', async (req, res) => {
+  const { codconsulta, status, valorpago } = req.body;
+
+  if (!codconsulta || status === undefined || valorpago === undefined) {
+    return res.status(400).json({ message: 'Dados insuficientes' });
+  }
+
+  try {
+    const consulta = await Consulta.findOne({ where: { codconsulta: codconsulta } });
+
+    if (!consulta) {
+      return res.status(404).json({ message: 'Consulta não encontrada' });
+    }
+
+    consulta.status = status;
+    consulta.valorpago = valorpago;
+
+    await consulta.save();
+
+    res.json({ message: 'Consulta atualizada com sucesso', consulta });
+  } catch (error) {
+    console.error('Erro ao atualizar consulta:', error);
+    res.status(500).json({ message: 'Erro ao atualizar consulta' });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

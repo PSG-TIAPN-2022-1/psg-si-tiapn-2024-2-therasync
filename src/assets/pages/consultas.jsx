@@ -13,7 +13,7 @@ export default function Consultas() {
                 const response = await fetch("http://localhost:3000/api/consultas");
 
                 if (!response.ok) {
-                    throw new Error(`Erro na resposta da API: ${response.status}`);
+                    throw new Error("Erro na resposta da API: ${response.status}");
                 }
 
                 const data = await response.json();
@@ -35,6 +35,27 @@ export default function Consultas() {
         const data = new Date(dataConsulta);
         return data.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     };
+
+    const handleButtonClick = async (consultaId) => {
+        try {
+          const response = await fetch('http://localhost:3000/api/consultas', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: consultaId }),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Falha ao cancelar consulta');
+          }
+      
+          const result = await response.json();
+          console.log(result.message);
+        } catch (error) {
+          console.error('Erro ao cancelar consulta:', error);
+        }
+      };
 
 
     return (
@@ -58,9 +79,9 @@ export default function Consultas() {
                             <td className="FC-dados">{consulta.nome}</td>
                             <td>
                                 <Button
-                                    style={{ width: "100px", backgroundColor: "#bd0c0c" }}
+                                    style={{ width: "100px", backgroundColor: "#bd0c0c", border: 'none' }}
                                     className="paciente-botao"
-                                    onClick={() => handleButtonClick(consulta.id)}
+                                    onClick={() => handleButtonClick(consulta.codconsulta)} // Passando 'codconsulta' corretamente
                                 >
                                     Cancelar
                                 </Button>
