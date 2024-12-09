@@ -540,29 +540,40 @@ app.patch('/api/consultas', async (req, res) => {
   }
 });
 
-app.patch('/api/consultas/atualizar', async (req, res) => {
-  const { codconsulta, status, valorpago } = req.body;
 
-  if (!codconsulta || status === undefined || valorpago === undefined) {
-    return res.status(400).json({ message: 'Dados insuficientes' });
-  }
-
+// Método PUT para atualizar uma consulta
+app.put('/api/consulta/:id', async (req, res) => {
   try {
-    const consulta = await Consulta.findOne({ where: { codconsulta: codconsulta } });
+    const { id } = req.params; 
+    const {
+      pacienteCpf,
+      observacoesconsultas,
+      dataconsulta,
+      status,
+      cancelada,
+      valorpago,
+    } = req.body;
+    // Verifica se a consulta existe no banco
+    const consulta = await Consulta.findByPk(id);
 
     if (!consulta) {
       return res.status(404).json({ message: 'Consulta não encontrada' });
     }
 
-    consulta.status = status;
-    consulta.valorpago = valorpago;
+    
+    await consulta.update({
+      pacienteCpf,
+      observacoesconsultas,
+      dataconsulta,
+      status,
+      cancelada,
+      valorpago,
+    });
 
-    await consulta.save();
-
-    res.json({ message: 'Consulta atualizada com sucesso', consulta });
+    res.status(200).json(consulta);
   } catch (error) {
-      console.error('Erro ao atualizar consulta:', error);
-      res.status(500).json({ error: 'Erro ao atualizar consulta.' });
+    console.error('Erro ao atualizar consulta:', error);
+    res.status(500).json({ message: 'Erro ao atualizar consulta', error });
   }
 });
 

@@ -1,3 +1,7 @@
+import { DataTypes } from 'sequelize';
+import sequelize from '../db.js';
+import Paciente from './paciente.js';
+
 const Consulta = sequelize.define('consulta', {
   codconsulta: {
     type: DataTypes.INTEGER,
@@ -5,7 +9,7 @@ const Consulta = sequelize.define('consulta', {
     autoIncrement: true,
     primaryKey: true,
   },
-  pacienteCpf: {  // Renomeado para evitar conflito
+  id_paciente: { // Nome ajustado para refletir o banco
     type: DataTypes.CHAR(11),
     allowNull: false,
     references: {
@@ -41,7 +45,8 @@ const Consulta = sequelize.define('consulta', {
   timestamps: false,
 });
 
-// Ajustando a associação para usar o novo nome do atributo
-Consulta.belongsTo(Paciente, { foreignKey: 'pacienteCpf' });
+// Atualizando a associação
+Consulta.belongsTo(Paciente, { foreignKey: 'id_paciente' });
 
 export default Consulta;
+

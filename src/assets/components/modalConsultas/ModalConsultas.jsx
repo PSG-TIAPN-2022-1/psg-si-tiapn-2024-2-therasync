@@ -3,46 +3,45 @@ import { Button, Modal, Form } from "react-bootstrap";
 
 const ModalConsultas = ({ buttonText, data }) => {
   const [show, setShow] = useState(false);
-<<<<<<< HEAD
-  const [valorPago, setValorPago] = useState(""); 
-=======
-  const [valorPago, setValorPago] = useState(0);
+  const [valorPago, setValorPago] = useState(data.valorpago || 0); // Valor inicial vindo dos dados
   const [error, setError] = useState("");
->>>>>>> f4178cdec14c580da75974b10e7534389b5a1e7e
 
   const handleShow = () => setShow(true);
-  const handleClose = async () => {
-    if (valorPago <= 0) {
-      setError("O valor pago deve ser maior que zero.");
-      return;
-    }
+  const handleClose = () => setShow(false);
+
+  const atualizarConsulta = async () => {
+    const url = `http://localhost:3000/api/consulta/${data.codconsulta}`; // Substitua pela URL correta da sua API
+
+    // Atualiza apenas os campos necessários, mas envia todos os dados
+    const dadosAtualizados = {
+      pacienteCpf: data.pacienteCpf,
+      observacoesconsultas: data.observacoesconsultas,
+      dataconsulta: data.dataconsulta,
+      status: true, // Campo alterado
+      cancelada: data.cancelada,
+      valorpago: parseFloat(valorPago), // Campo alterado
+    };
 
     try {
-      const response = await fetch("http://localhost:3000/api/consultas/atualizar", {
-        method: "PATCH",
+      const resposta = await fetch(url, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          codconsulta: data.codconsulta,
-          status: true, 
-          valorpago: valorPago,
-        }),
+        body: JSON.stringify(dadosAtualizados),
       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao atualizar consulta");
+      if (!resposta.ok) {
+        throw new Error(`Erro ao atualizar consulta: ${resposta.status}`);
       }
 
-      const result = await response.json();
-      console.log(result.message);
-
-      // Fechar o modal e limpar o campo de erro
-      setShow(false);
-      setError("");
-    } catch (error) {
-      setError("Erro ao salvar o pagamento.");
-      console.error("Erro:", error);
+      const dados = await resposta.json();
+      console.log("Consulta atualizada com sucesso:", dados);
+      setShow(false); // Fecha o modal ao concluir
+      return dados;
+    } catch (erro) {
+      console.error("Erro no fetch:", erro);
+      setError("Não foi possível atualizar a consulta.");
     }
   };
 
@@ -52,7 +51,7 @@ const ModalConsultas = ({ buttonText, data }) => {
         {buttonText}
       </Button>
 
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Pagamento da Consulta</Modal.Title>
         </Modal.Header>
@@ -73,10 +72,10 @@ const ModalConsultas = ({ buttonText, data }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>
+          <Button variant="secondary" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={atualizarConsulta}>
             Salvar
           </Button>
         </Modal.Footer>
