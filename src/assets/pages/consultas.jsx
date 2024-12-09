@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/consultas.css";
 import { Button } from "react-bootstrap";
 import ModalConsultas from "../components/modalConsultas/ModalConsultas";
+import ModalCancelarConsulta from "../components/ModalCancelarConsulta";
 
 export default function Consultas() {
     const [consultas, setConsultas] = useState([]);
@@ -36,7 +37,7 @@ export default function Consultas() {
         return data.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     };
 
-    const handleButtonClick = async (consultaId) => {
+    const handleButtonClick = async (data) => {
         try {
           const response = await fetch('http://localhost:3000/api/consultas', {
             method: 'PATCH',
@@ -78,13 +79,7 @@ export default function Consultas() {
                             <td className="paciente-dados">{formatarHorario(consulta.dataconsulta)}</td>
                             <td className="FC-dados">{consulta.nome}</td>
                             <td>
-                                <Button
-                                    style={{ width: "100px", backgroundColor: "#bd0c0c", border: 'none' }}
-                                    className="paciente-botao"
-                                    onClick={() => handleButtonClick(consulta.codconsulta)} // Passando 'codconsulta' corretamente
-                                >
-                                    Cancelar
-                                </Button>
+                                <ModalCancelarConsulta data={consulta} buttonText={"cancelada"}></ModalCancelarConsulta>
                             </td>
                             <td>
                                 <ModalConsultas buttonText="Realizada" data={consulta} />
@@ -96,10 +91,10 @@ export default function Consultas() {
 
             {/* Botões separados */}
             <div className="Botões-FC">
-                <Button className="btn btn-success" onClick={() => setConsultaFeita(true)}>
+                <Button className="btn btn-success" onClick={() => setConsultaFeita(true)} style={{ width: "100px"}}>
                     Feitas
                 </Button>
-                <Button className="btn btn-danger" onClick={() => setConsultaFeita(false)}>
+                <Button className="btn btn-danger" onClick={() => setConsultaFeita(false)} style={{ width: "100px"}}>
                     Canceladas
                 </Button>
             </div>
@@ -111,6 +106,7 @@ export default function Consultas() {
                         <th>Horário</th>
                         <th>Nome</th>
                         <th>Valor Pago</th>
+                        <th>Editar Valor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,6 +119,11 @@ export default function Consultas() {
                                 <td className="FC-dados">{formatarHorario(consulta.dataconsulta)}</td>
                                 <td className="FC-dados">{consulta.nome}</td>
                                 <td className="FC-dados">R$ {consulta.valorpago}</td>
+                                <td>
+                                    {!consulta.cancelada && ( // Verifica se a consulta não está cancelada
+                                        <ModalConsultas buttonText="Editar" data={consulta} />
+                                    )}
+                                </td>
                             </tr>
                         ))}
                 </tbody>

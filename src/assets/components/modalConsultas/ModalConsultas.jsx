@@ -47,7 +47,7 @@ const ModalConsultas = ({ buttonText, data }) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" onClick={handleShow} style={{ width: "100px"}}>
         {buttonText}
       </Button>
 
