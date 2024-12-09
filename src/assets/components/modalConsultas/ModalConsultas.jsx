@@ -9,6 +9,7 @@ const ModalConsultas = ({ buttonText, data }) => {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
+  /* Rota para definir valor e consulta feita */
   const atualizarConsulta = async () => {
     const url = `http://localhost:3000/api/consulta/${data.codconsulta}`; // Substitua pela URL correta da sua API
 
@@ -37,11 +38,49 @@ const ModalConsultas = ({ buttonText, data }) => {
 
       const dados = await resposta.json();
       console.log("Consulta atualizada com sucesso:", dados);
+
+      // Após atualizar a consulta, cria um ganho
+      await sendFinancasEntrada();
+
       setShow(false); // Fecha o modal ao concluir
       return dados;
     } catch (erro) {
       console.error("Erro no fetch:", erro);
       setError("Não foi possível atualizar a consulta.");
+    }
+  };
+
+  /* Rota para criar ganho */
+  const sendFinancasEntrada = async () => {
+    const nome = data.nome;
+    const valor = parseFloat(valorPago);
+    const dataEntrada = data.dataconsulta;
+    const recorrente = false;
+
+    const ganho =  {
+      nome,
+      valor,
+      dataEntrada,
+      recorrente,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/api/financasCreditos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ganho),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Erro ao salvar os dados');
+      }
+  
+      const result = await response.json();
+      console.log('Dados salvos com sucesso:', result);
+    } catch (error) {
+      console.error('Erro ao enviar dados:', error);
     }
   };
 
@@ -85,3 +124,4 @@ const ModalConsultas = ({ buttonText, data }) => {
 };
 
 export default ModalConsultas;
+
